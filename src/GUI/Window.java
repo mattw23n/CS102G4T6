@@ -18,8 +18,9 @@ public class Window extends JFrame {
         // setLayout(null);
     }
     private JLabel createCardLabel (String imagePath){
-        JLabel label = new JLabel(new ImageIcon(imagePath));
-        // label.setIcon(icon);
+        ImageIcon icon = new ImageIcon(imagePath);
+        JLabel label = new JLabel(icon);
+        label.setIcon(icon);
 
         // Attach mouse listener to the card label
         // label.addMouseListener(new MouseAdapter() {
