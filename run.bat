@@ -1,1 +1,1 @@
-java -cp classes Main
+java -cp classes Application
