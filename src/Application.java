@@ -32,11 +32,6 @@ public class Application {
             System.out.println(d1.dealCard().toString());
         }
     }
-
-    public static void main(String[] args) {
-        initialize();
-        
-    }
     public static void runGUI (){
         // SwingUtilities.invokeLater(() -> {
             Window mainWindow = new Window();
@@ -44,6 +39,8 @@ public class Application {
         // });
     }
     public static void main(String[] args) {
+        initialize();
         runGUI();
+        
     }
 }
