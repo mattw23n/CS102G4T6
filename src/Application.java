@@ -5,6 +5,11 @@ import java.util.*;
 import java.util.Collections;
 
 
+
+import javax.swing.SwingUtilities;
+
+import GUI.Window;
+
 public class Application {
 
     public static void initialize(){
@@ -31,5 +36,14 @@ public class Application {
     public static void main(String[] args) {
         initialize();
         
+    }
+    public static void runGUI (){
+        // SwingUtilities.invokeLater(() -> {
+            Window mainWindow = new Window();
+            mainWindow.setVisible(true);
+        // });
+    }
+    public static void main(String[] args) {
+        runGUI();
     }
 }
