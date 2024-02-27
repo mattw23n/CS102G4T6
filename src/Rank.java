@@ -74,7 +74,11 @@ public class Rank implements Comparable {
     */
    public final static Rank KING = new Rank( "King", "k" );
     
-   
+   private final static java.util.List VALUES_NUMBER_LIST =
+      Collections.unmodifiableList( 
+         Arrays.asList( new Rank[] { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
+                                     EIGHT, NINE, TEN      } ) );
+
    private final static java.util.List VALUES_KING_HIGH =
       Collections.unmodifiableList( 
          Arrays.asList( new Rank[] { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
@@ -90,6 +94,9 @@ public class Rank implements Comparable {
    */
    public final static java.util.List VALUES =
       Collections.unmodifiableList( VALUES_KING_HIGH );
+   
+   
+   public final static java.util.List VALUES_NUMBER = Collections.unmodifiableList(VALUES_NUMBER_LIST);
    
    
    // Constructor - declared private as only the predefined values should
