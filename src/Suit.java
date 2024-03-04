@@ -28,6 +28,10 @@ public final class Suit implements Comparable {
     * The suit spades.
     */
    public final static Suit SPADES = new Suit( "Spades", "s" );
+   /**
+    * The suit joker.
+    */
+   public final static Suit JOKER = new Suit( "Joker", "x" );
    
    
   /**
@@ -35,7 +39,7 @@ public final class Suit implements Comparable {
    */
    public final static java.util.List VALUES = 
       Collections.unmodifiableList( 
-         Arrays.asList( new Suit[] { CLUBS, DIAMONDS, HEARTS, SPADES } ) );
+         Arrays.asList( new Suit[] { CLUBS, DIAMONDS, HEARTS, SPADES, JOKER } ) );
    
    
    // Constructor - declared private as only the predefined values should
