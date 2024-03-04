@@ -1,10 +1,6 @@
 //Compile.bat and Run.bat runs this file
 
 import java.util.List;
-import java.util.*;
-import java.util.Collections;
-
-
 
 import javax.swing.SwingUtilities;
 
@@ -33,10 +29,11 @@ public class Application {
         }
     }
     public static void runGUI (){
-        // SwingUtilities.invokeLater(() -> {
-            Window mainWindow = new Window();
-            mainWindow.setVisible(true);
-        // });
+        SwingUtilities.invokeLater(() -> {
+            // Window mainWindow = new Window();
+            Window.showWindow();
+            // mainWindow.setVisible(true);
+        });
     }
     public static void main(String[] args) {
         // initialize();
