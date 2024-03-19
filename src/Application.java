@@ -4,7 +4,7 @@ import java.util.List;
 
 import javax.swing.SwingUtilities;
 
-import GUI.Window;
+import GUI.MainWindow;
 
 public class Application {
 
@@ -28,11 +28,10 @@ public class Application {
             System.out.println(d1.dealCard().toString());
         }
     }
+    //Initialize GUI Window
     public static void runGUI (){
         SwingUtilities.invokeLater(() -> {
-            // Window mainWindow = new Window();
-            Window.showWindow();
-            // mainWindow.setVisible(true);
+            MainWindow.showWindow();
         });
     }
     public static void main(String[] args) {
