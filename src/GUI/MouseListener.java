@@ -9,7 +9,7 @@ public class MouseListener extends MouseAdapter {
     public MouseListener(String name) {
         this.name = name;
     }
-
+    
     @Override
     public void mouseClicked(MouseEvent e) {
         // Handle mouse click event
