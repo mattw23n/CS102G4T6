@@ -13,20 +13,28 @@ public class IntermediatePanel extends JPanel {
     public IntermediatePanel() {
         setLayout(new BorderLayout());
 
+        // Create GridBagLayout
+        GridBagLayout GridBagLayoutGrid = new GridBagLayout();
+        GridBagConstraints GridConstraints = new GridBagConstraints();
+
+        JPanel contentPanel = new JPanel();
+        contentPanel.setLayout(GridBagLayoutGrid);
+
         // Create components for IntermediatePanel
-        JLabel titleLabel = new JLabel("Intermediate");
+        JLabel titleLabel = new JLabel("Round 1");
         titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
         add(titleLabel, BorderLayout.NORTH);
 
-        JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-
         // Add content to IntermediatePanel
-        JLabel descriptionLabel = new JLabel("Description of Intermediate");
-        contentPanel.add(descriptionLabel);
+        JLabel descriptionLabel = new JLabel("Pass on to next player");
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 30;
+        contentPanel.add(descriptionLabel, GridConstraints);
 
         nextButton = new JButton("Next");
-        contentPanel.add(nextButton);
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 50;
+        contentPanel.add(nextButton, GridConstraints);
 
         add(contentPanel, BorderLayout.CENTER);
     }

@@ -15,20 +15,30 @@ public class RoundOnePanel extends JPanel{
     public RoundOnePanel() {
         setLayout(new BorderLayout());
 
+        // Create GridBagLayout
+        GridBagLayout GridBagLayoutGrid = new GridBagLayout();
+        GridBagConstraints GridConstraints = new GridBagConstraints();
+
         // Create components for RoundOnePanel
         JLabel titleLabel = new JLabel("Round One");
         titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
         add(titleLabel, BorderLayout.NORTH);
-
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(new GridBagLayout());
+        contentPanel.setLayout(GridBagLayoutGrid);
+        // GridConstraints.fill = GridConstraints.HORIZONTAL;
 
         // Add content to RoundOnePanel
         JLabel descriptionLabel = new JLabel("Description of Round One");
-        contentPanel.add(descriptionLabel);
+        GridConstraints.weightx = 0.5;
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 0;
+        contentPanel.add(descriptionLabel, GridConstraints);
 
         nextButton = new JButton("Next");
-        contentPanel.add(nextButton);
+        GridConstraints.weightx = 0.5;
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 10;
+        contentPanel.add(nextButton, GridConstraints);
         
         //Listener for "Next" Button
         add(contentPanel, BorderLayout.CENTER);
@@ -47,6 +57,8 @@ public class RoundOnePanel extends JPanel{
 
         // Create and display multiple images
         JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 40;
 
         //Testing Multiple Images
         for (int i = 1; i <= 4; i++) {
@@ -60,7 +72,7 @@ public class RoundOnePanel extends JPanel{
             // Add the image label to the panel
             imagePanel.add(imageLabel);
         }
-        contentPanel.add(imagePanel);
+        contentPanel.add(imagePanel, GridConstraints);
     }
     private static void setImage (JLabel label, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);

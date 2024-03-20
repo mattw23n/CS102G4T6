@@ -28,7 +28,7 @@ public class MainWindow{
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new FlowLayout());
+        buttonPanel.setLayout(new GridBagLayout());
 
         // Create a start button
         JButton startButton = new Button("Start");
@@ -45,6 +45,6 @@ public class MainWindow{
         // Set frame size and make it visible
         frame.setSize(800, 600); // Adjust size as needed
         frame.setVisible(true);
-                 
+                
     }
 }
