@@ -60,7 +60,7 @@ public class Rank implements Comparable {
    /**
     * The rank ten.
     */
-   public final static Rank TEN = new Rank( "Ten", "t" );
+   public final static Rank TEN = new Rank( "Ten", "10" );
    /**
     * The rank jack.
     */
