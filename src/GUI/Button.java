@@ -6,4 +6,6 @@ public class Button extends JButton {
     public Button(String buttonText) {
         super(buttonText);
     }
+
+    // public Button()
 }
