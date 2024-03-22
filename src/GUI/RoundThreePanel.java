@@ -5,10 +5,10 @@ import java.awt.event.ActionListener;
 import java.awt.*;
 import javax.swing.*;
 
-public class RoundOnePanel extends JPanel{
+public class RoundThreePanel extends JPanel {
     // private JButton nextButton;
-
-    public RoundOnePanel() {
+    
+    public RoundThreePanel() {
         setLayout(new BorderLayout());
 
         // Colours Used (Can change later)
@@ -20,30 +20,23 @@ public class RoundOnePanel extends JPanel{
         GridBagConstraints GridConstraints = new GridBagConstraints();
 
         // Create components for RoundOnePanel
-        JLabel titleLabel = new JLabel("Round One");
+        JLabel titleLabel = new JLabel("Round Three");
         titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
         titleLabel.setForeground(textColor);
-        setBackground(background);
         add(titleLabel, BorderLayout.NORTH);
         JPanel contentPanel = new JPanel();
+        setBackground(background);
         contentPanel.setLayout(GridBagLayoutGrid);
         contentPanel.setBackground(background);
 
         // Add content to RoundOnePanel
-        JLabel descriptionLabel = new JLabel("Round One");
+        JLabel descriptionLabel = new JLabel("Description of Round Three");
         descriptionLabel.setForeground(textColor);
         descriptionLabel.setFont(new Font("Arial", Font.BOLD, 24));
         GridConstraints.weightx = 0.5;
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 0;
         contentPanel.add(descriptionLabel, GridConstraints);
-
-        JLabel instructionLabel = new JLabel("Select 2 cards");
-        instructionLabel.setForeground(textColor);
-        instructionLabel.setFont(new Font("Arial", Font.BOLD, 16));
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 1;
-        contentPanel.add(instructionLabel, GridConstraints);
 
         JLabel pointLabel = new JLabel("Score");
         pointLabel.setForeground(textColor);
@@ -104,7 +97,7 @@ public class RoundOnePanel extends JPanel{
                 if (parent instanceof GamePanel) {
                     GamePanel gamePanel = (GamePanel) parent;
                     // Switch to IntermediatePanel
-                    gamePanel.switchToPanel("Intermediate");
+                    gamePanel.switchToPanel("Turn");
                 }
             }
         });
@@ -115,7 +108,7 @@ public class RoundOnePanel extends JPanel{
         // imagePanel.setBorder(BorderFactory.createEmptyBorder());
 
         //Testing Multiple Images
-        for (int i = 1; i <= 7; i++) {
+        for (int i = 1; i <= 5; i++) {
             JLabel imageLabel = new JLabel();
             imageLabel.setBackground(background);
             // Set a unique identifier for each image label

@@ -14,12 +14,16 @@ public class GamePanel extends JPanel {
         RoundOnePanel roundOnePanel = new RoundOnePanel();
         IntermediatePanel intermediatePanel = new IntermediatePanel();
         TurnPanel turnPanel = new TurnPanel();
-        // RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
+        RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
+        RoundThreePanel roundThreePanel = new RoundThreePanel();
+        EndGamePanel endGamePanel = new EndGamePanel();
 
         add(roundOnePanel, "RoundOne");
         add(intermediatePanel, "Intermediate");
         add(turnPanel, "Turn");
-        // add(roundTwoPanel, "RoundTwo");
+        add(roundTwoPanel, "RoundTwo");
+        // add(roundThreePanel, "RoundThree");
+        add(endGamePanel, "EndGame");
 
         // Show the initial scene (e.g., RoundOne)
         cardLayout.show(this, "RoundOne");
