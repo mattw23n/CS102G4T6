@@ -10,7 +10,7 @@ import GUI.Window;
 
 public class Application {
 
-    public static Deck initialize_numbers(){
+    public static Deck initializeNumbers(){
         //initializing deck of 52
         Deck d1 = new Deck();
         Rank.setKingHigh();
@@ -37,7 +37,7 @@ public class Application {
         return false;
     }
 
-    public static Deck initialize_whole(){
+    public static Deck initializeWhole(){
         //initializing deck of 52
         Deck d1 = new Deck();
         Rank.setKingHigh();
@@ -55,51 +55,46 @@ public class Application {
         return d1;
     }
     
-    public static void DealRange(Deck d1, Hand hand){
+    public static void dealRange(Deck d1, Hand hand){
         for(int i = 0; i < 6; i++){
             hand.addCard(d1.dealCard());
         }
 
     }
 
-    public static void DealCard(Deck d1, Hand hand){
+    public static void dealCard(Deck d1, Hand hand){
         hand.addCard(d1.dealCard());
     }
 
-    public static Card StringtoCard(String target){
-        Map<String, Card> map = new HashMap<>();
+    // public static Card stringToCard(String target){
+    //     Map<String, Card> map = new HashMap<>();
 
-        Rank.setKingHigh();
-        List r = Rank.VALUES;
-        List s = Suit.VALUES;
+    //     Rank.setKingHigh();
+    //     List r = Rank.VALUES;
+    //     List s = Suit.VALUES;
 
-        //adding cards to deck
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < r.size(); j++){
-                Card temp = new Card((Suit)s.get(i), (Rank)r.get(j), null);
-                // System.out.println(temp.toString());
-                map.put(temp.toString(), temp);
-            }
-        }
+    //     //adding cards to deck
+    //     for(int i = 0; i < 4; i++){
+    //         for(int j = 0; j < r.size(); j++){
+    //             Card temp = new Card((Suit)s.get(i), (Rank)r.get(j), null);
+    //             // System.out.println(temp.toString());
+    //             map.put(temp.toString(), temp);
+    //         }
+    //     }
         
-        //System.out.println(map);
+    //     //System.out.println(map);
 
-        Set keys = map.keySet();
-        Iterator keys_iterator = keys.iterator();
-        while(keys_iterator.hasNext()){
-            String current = (String) keys_iterator.next();
-            if(current.equals(target)){
-                return map.get(current);
-            }
-        }
+    //     Set keys = map.keySet();
+    //     Iterator keys_iterator = keys.iterator();
+    //     while(keys_iterator.hasNext()){
+    //         String current = (String) keys_iterator.next();
+    //         if(current.equals(target)){
+    //             return map.get(current);
+    //         }
+    //     }
 
-        return null;
-    }
-
-    public static boolean isKing(Card card){
-        return card.getRank() == Rank.VALUES.get(12);
-
-    }
+    //     return null;
+    // }
 
     public static void runGUI (){
         // SwingUtilities.invokeLater(() -> {
@@ -108,39 +103,35 @@ public class Application {
         // });
     }
 
-    public static void doRound(ArrayList<Player> players, Deck RangeDeck, Deck AllDeck, int round_count){
-        //one round of the game
-
+    //Runs one round of the game
+    public static void doRound(ArrayList<Player> players, Deck rangeDeck, Deck allDeck, int roundCount){
+        
         Scanner scan = new Scanner(System.in);
 
         for(Player p : players){
 
-            //each player has a turn
+            //Show player's hand
             Hand hand = p.getHand();
-            String playerId = "Player " + p.getPlayerID() + "'s Hand";
-            System.out.printf("=================%s=================\n", playerId);
-            System.out.println(hand.toString());
-            System.out.println("=================================================");
+            p.playerHandToString();
 
             //select upper bound and lower bound
             //upper and lower bound will be removed from hand afterwards
             p.chooseRange();
 
             //make bet
-            int temp = p.makeBet();
-            if(temp < 0){
+            int bet = p.makeBet();
+            if(bet < 0){
                 System.out.println("You are OUT!!!");
                 continue;
             }
-            p.setBet(temp);
+            p.setBet(bet);
             
             //draw card from deck and add to hand
-            DealCard(AllDeck, hand);
+            dealCard(allDeck, hand);
             Card newest = hand.getCard(hand.getNumberOfCards() - 1);
-            System.out.println("\nYOU GOT " + newest);
+            // System.out.println("\nYOU GOT " + newest);
 
             //calculate points
-
             boolean isNonWild = false;
 
             do {
@@ -160,9 +151,9 @@ public class Application {
                     }else{
                         System.out.print("Choose range card to swap:");
                         String input2 = scan.nextLine();
-                        Card cardToSwap = p.StringtoCard(input2);
+                        Card cardToSwap = Player.stringToCard(input2);
 
-                        DealCard(RangeDeck, hand);
+                        dealCard(rangeDeck, hand);
                         Card swapped = hand.getCard(hand.getNumberOfCards() - 1);
                         p.processJack(hand, cardToSwap, swapped);
                     }
@@ -170,7 +161,7 @@ public class Application {
                     //call process wildcard
                     //remove the last card from the player's deck
                     hand.removeCard(newest);
-                    DealCard(AllDeck, hand);
+                    dealCard(allDeck, hand);
                 }else{
 
                     int add = p.calculatePoints(hand, newest);
@@ -212,10 +203,10 @@ public class Application {
 
     public static void main(String[] args) {
         //initializing deck of only range cards
-        Deck RangeDeck = initialize_numbers();
+        Deck rangeDeck = initializeNumbers();
 
         //initialize deck of all cards
-        Deck AllDeck = initialize_whole();
+        Deck allDeck = initializeWhole();
 
         // //initialize players
         Player p1 = new Player(1, 5, new PlayerHand());
@@ -231,12 +222,12 @@ public class Application {
 
         //initialize each players hand
         for(Player p : players){
-            DealRange(RangeDeck, p.getHand());
+            dealRange(rangeDeck, p.getHand());
         }
         
         //run game 3 times
         for(int i = 0 ; i < 3; i++){
-            doRound(players, RangeDeck, AllDeck, i + 1);
+            doRound(players, rangeDeck, allDeck, i + 1);
         }
         
         //find out the winner
