@@ -112,7 +112,6 @@ public class Application {
         //one round of the game
 
         Scanner scan = new Scanner(System.in);
-        boolean isfirstRound = (round_count == 1) ? true : false;
 
         for(Player p : players){
 
@@ -125,10 +124,10 @@ public class Application {
 
             //select upper bound and lower bound
             //upper and lower bound will be removed from hand afterwards
-            ArrayList<Card> range = p.chooseRange();
+            p.chooseRange();
 
             //make bet
-            int temp = p.makeBet(isfirstRound);
+            int temp = p.makeBet();
             if(temp < 0){
                 System.out.println("You are OUT!!!");
                 continue;
@@ -141,8 +140,6 @@ public class Application {
             System.out.println("\nYOU GOT " + newest);
 
             //calculate points
-            //Wildcard processing still messy, problem with looping n everything
-            //Still cannot figure out Jack logic
 
             boolean isNonWild = false;
 
@@ -161,9 +158,8 @@ public class Application {
                         p.processWildCard(hand, newest);
 
                     }else{
-                        Scanner sc = new Scanner(System.in);
                         System.out.print("Choose range card to swap:");
-                        String input2 = sc.nextLine();
+                        String input2 = scan.nextLine();
                         Card cardToSwap = p.StringtoCard(input2);
 
                         DealCard(RangeDeck, hand);
@@ -201,9 +197,6 @@ public class Application {
             }
                 
 
-
-            // int add = p.calculatePoints(hand, newest, p, isWildCard(newest), range, AllDeck);
-            // p.setPoints(add);
             System.out.println("Your Current Points: " + p.getPoints());
 
             

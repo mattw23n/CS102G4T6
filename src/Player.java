@@ -46,8 +46,7 @@ public class Player {
         return null;
     }
 
-    public ArrayList<Card> chooseRange() {
-        ArrayList<Card> range = new ArrayList<>();
+    public void chooseRange() {
 
         Scanner sc = new Scanner(System.in);
         try {
@@ -167,7 +166,7 @@ public class Player {
         this.lowerBound= lower;
     }
 
-    public int makeBet(boolean isFirstRound) { 
+    public int makeBet() { 
          
         // Set min bet 
         int minBet = 1; 
@@ -177,10 +176,6 @@ public class Player {
             return -1;
         }
 
-        if (isFirstRound) { 
-            maxBet = 4; 
-        } 
- 
         // Initialise bet 
         int bet = 0; 
          
