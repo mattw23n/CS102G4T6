@@ -3,10 +3,10 @@ package GUI.Panel;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -15,11 +15,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 public class IntermediatePanel extends JPanel {
     private JButton nextButton;
     private Scoreboard scoreBoard;
+    private Player nextPlayer;
 
     public IntermediatePanel() {
         initialize();

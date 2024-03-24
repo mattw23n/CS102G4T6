@@ -1,12 +1,17 @@
 //Compile.bat and Run.bat runs this file
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 
 import javax.swing.SwingUtilities;
 
-import org.w3c.dom.ranges.Range;
-
-import GUI.Window;
+import GUI.MainWindow;
 
 public class Application {
 
@@ -65,7 +70,7 @@ public class Application {
     public static void DealCard(Deck d1, Hand hand){
         hand.addCard(d1.dealCard());
     }
-
+    //NOT USED?
     public static Card StringtoCard(String target){
         Map<String, Card> map = new HashMap<>();
 
@@ -95,17 +100,17 @@ public class Application {
 
         return null;
     }
-
+    //USed?
     public static boolean isKing(Card card){
         return card.getRank() == Rank.VALUES.get(12);
 
     }
 
     public static void runGUI (){
-        // SwingUtilities.invokeLater(() -> {
-            Window mainWindow = new Window();
-            mainWindow.setVisible(true);
-        // });
+        SwingUtilities.invokeLater(() -> {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.showWindow();;
+        });
     }
 
     public static void doRound(ArrayList<Player> players, Deck RangeDeck, Deck AllDeck, int round_count){
@@ -208,9 +213,11 @@ public class Application {
             System.out.println("\n=================================================\n");
         }
     }
-
-
     public static void main(String[] args) {
+        runGUI();
+        // gameLogic();
+    }
+    public static void gameLogic(){
         //initializing deck of only range cards
         Deck RangeDeck = initialize_numbers();
 
@@ -234,11 +241,14 @@ public class Application {
             DealRange(RangeDeck, p.getHand());
         }
         
+        /////
+
         //run game 3 times
         for(int i = 0 ; i < 3; i++){
             doRound(players, RangeDeck, AllDeck, i + 1);
         }
         
+        ////
         //find out the winner
         Collections.sort(players, new PlayerComparator());
         ArrayList<Player> winner = new ArrayList<>();
