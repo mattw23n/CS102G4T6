@@ -12,6 +12,14 @@ import java.util.Set;
 import javax.swing.SwingUtilities;
 
 import GUI.MainWindow;
+import components.Card;
+import components.Deck;
+import components.Hand;
+import components.Player;
+import components.PlayerComparator;
+import components.PlayerHand;
+import components.Rank;
+import components.Suit;
 
 public class Application {
 

@@ -1,12 +1,13 @@
 package GUI.Panel;
 
+import components.Player;
+
 public class GameState {
-    private bool isRound;
+    private boolean isRound;
     private int round;
     private Player currPlayer;
-    public GameState(bool isRound, int turn, int round, Player currPlayer){
+    public GameState(boolean isRound, int round, Player currPlayer){
         this.isRound = isRound;
-        this.turn = turn;
         this.round = round;
         this.currPlayer = currPlayer;
     }
@@ -23,11 +24,11 @@ public class GameState {
         this.currPlayer = currPlayer;
     }
 
-    public bool getIsRound() {
+    public boolean getIsRound() {
         return isRound;
     }
 
-    public void setIsRound(bool isRound) {
+    public void setIsRound(boolean isRound) {
         this.isRound = isRound;
     }
     

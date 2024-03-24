@@ -5,6 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JPanel;
+
+import components.Deck;
+import components.Hand;
+import components.Player;
+import components.PlayerHand;
+import components.Rank;
+import components.Suit;
+import components.Card;
 public class GamePanel extends JPanel {
     private CardLayout cardLayout;
     private ArrayList<Player> playersList;
@@ -14,7 +22,7 @@ public class GamePanel extends JPanel {
         
         cardLayout = new CardLayout();
         setLayout(cardLayout);
-        GameState gameState = new GameState(true, 1, players[0]);
+        GameState gameState = new GameState(true, 1, playersList.get(0));
         
         // Create and add each scene panel to the GamePanel
         RoundOnePanel roundOnePanel = new RoundOnePanel();
@@ -50,13 +58,13 @@ public class GamePanel extends JPanel {
         Player p4 = new Player(4, 5, new PlayerHand());
 
         playersList = new ArrayList<>();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
+        playersList.add(p1);
+        playersList.add(p2);
+        playersList.add(p3);
+        playersList.add(p4);
 
         //initialize each players hand
-        for(Player p : players){
+        for(Player p : playersList){
             dealRange(rangeDeck, p.getHand());
         }
     }

@@ -16,6 +16,8 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import components.Player;
+
 public class IntermediatePanel extends JPanel {
     private JButton nextButton;
     private Scoreboard scoreBoard;
