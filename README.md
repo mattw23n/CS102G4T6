@@ -20,7 +20,6 @@ In Between++ is a thrilling card game where 4 players strategize, bet, and calcu
 - Jack : Swap one of the range cards for a new range card.
 - Queen : Extend the lower bound by 2.
 - King : Extend the upper bound by 2.
-- Joker : Subtract 2 points from the player's bet.
 - After drawing a Wild Card, draw another card from the deck.
 - If a player draws 3 Wild Cards in a row, their bet is forfeited, and they lose 1 point.
 
