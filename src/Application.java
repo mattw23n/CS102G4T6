@@ -4,6 +4,8 @@ import java.util.*;
 
 import javax.swing.SwingUtilities;
 
+import org.w3c.dom.ranges.Range;
+
 import GUI.Window;
 
 public class Application {
@@ -126,7 +128,12 @@ public class Application {
             ArrayList<Card> range = p.chooseRange();
 
             //make bet
-            p.setBet( p.makeBet(isfirstRound));
+            int temp = p.makeBet(isfirstRound);
+            if(temp < 0){
+                System.out.println("You are OUT!!!");
+                continue;
+            }
+            p.setBet(temp);
             
             //draw card from deck and add to hand
             DealCard(AllDeck, hand);
@@ -136,12 +143,70 @@ public class Application {
             //calculate points
             //Wildcard processing still messy, problem with looping n everything
             //Still cannot figure out Jack logic
-            int add = p.calculatePoints(hand, newest, p, isWildCard(newest), range, AllDeck);
-            p.setPoints(add);
+
+            boolean isNonWild = false;
+
+            do {
+                if(isWildCard(newest)){
+                    p.incrementWildcardCount();
+
+                    //check if wildcard count >= 3
+                    if (p.getWildcardCount() >= 3) { 
+                        int currPoints = p.getPoints(); 
+                        p.setPoints(currPoints - 1); 
+                    }
+                    
+                    //if not jack
+                    if(newest.getRank().getSymbol() != "j"){
+                        p.processWildCard(hand, newest);
+
+                    }else{
+                        Scanner sc = new Scanner(System.in);
+                        System.out.print("Choose range card to swap:");
+                        String input2 = sc.nextLine();
+                        Card cardToSwap = p.StringtoCard(input2);
+
+                        DealCard(RangeDeck, hand);
+                        Card swapped = hand.getCard(hand.getNumberOfCards() - 1);
+                        p.processJack(hand, cardToSwap, swapped);
+                    }
+                    
+                    //call process wildcard
+                    //remove the last card from the player's deck
+                    hand.removeCard(newest);
+                    DealCard(AllDeck, hand);
+                }else{
+
+                    int add = p.calculatePoints(hand, newest);
+                    p.setPoints(add);
+                    
+                    isNonWild = true;
+                    //remove the last card from the player's deck
+                    hand.removeCard(newest);
+                    break;
+                    //calculate points
+                }
+
+                newest = hand.getCard(hand.getNumberOfCards() - 1);
+                
+            } while (isWildCard(newest));
+
+            if(!isNonWild){
+                System.out.println("upper" + p.getUpper() + "lower" + p.getLower());
+                int add = p.calculatePoints(hand, newest);
+                p.setPoints(add);
+                
+                //remove the last card from the player's deck
+                hand.removeCard(newest);
+            }
+                
+
+
+            // int add = p.calculatePoints(hand, newest, p, isWildCard(newest), range, AllDeck);
+            // p.setPoints(add);
             System.out.println("Your Current Points: " + p.getPoints());
 
-            //remove the last card from the player's deck
-            hand.removeCard(newest);
+            
             System.out.println("\n=================YOUR CURRENT HAND=================\n" + hand);
 
             //move to next player
@@ -180,12 +245,23 @@ public class Application {
         for(int i = 0 ; i < 3; i++){
             doRound(players, RangeDeck, AllDeck, i + 1);
         }
-
         
         //find out the winner
         Collections.sort(players, new PlayerComparator());
+        ArrayList<Player> winner = new ArrayList<>();
+        winner.add(players.get(0));
+
+        int max_points = players.get(0).getPoints();
+        for(int i = 1; i < players.size(); i++){
+            if(players.get(i).getPoints() == max_points){
+                winner.add(players.get(i));
+            }
+        }
+
+        for(Player pw : winner){
+            System.out.println("Player " + pw.getPlayerID() + " is the winner!!");
+        }
         
-        System.out.println("Player " + players.getFirst().getPlayerID() + " is the winner!!");
 
         for(Player p : players){
             System.out.println("Player " + p.getPlayerID() + ": " + p.getPoints());
