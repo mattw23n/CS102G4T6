@@ -2,13 +2,13 @@
 import java.util.*;
 
 public class Player {
-    int playerID;    
-    int points;
-    Hand handCards = new PlayerHand();
-    int upperBound;
-    int lowerBound;
-    int bet;
-    int WildCardCount;
+    private int playerID;    
+    private int points;
+    private Hand handCards = new PlayerHand();
+    private int upperBound;
+    private int lowerBound;
+    private int bet;
+    private int WildCardCount;
 
     public Player(int playerID, int points, Hand handCards) {
         this.playerID = playerID;
@@ -46,8 +46,7 @@ public class Player {
         return null;
     }
 
-    public ArrayList<Card> chooseRange() {
-        ArrayList<Card> range = new ArrayList<>();
+    public void chooseRange() {
 
         Scanner sc = new Scanner(System.in);
         try {
@@ -159,16 +158,24 @@ public class Player {
         return lowerBound;
     }
 
-    public int makeBet(boolean isFirstRound) { 
+    public void setUpper(int upper){
+        this.upperBound= upper;
+    }
+
+    public void setLower(int lower){
+        this.lowerBound= lower;
+    }
+
+    public int makeBet() { 
          
         // Set min bet 
         int minBet = 1; 
          
         int maxBet = this.getPoints() - 1; 
-        if (isFirstRound) { 
-            maxBet = 4; 
-        } 
- 
+        if(maxBet <= 0){
+            return -1;
+        }
+
         // Initialise bet 
         int bet = 0; 
          
@@ -223,26 +230,15 @@ public class Player {
         return false;
     }
 
-    public int calculatePoints(Hand h, Card c, Player p, boolean isWildCard, ArrayList<Card> range, Deck d) {
+    public int calculatePoints(Hand h, Card c) {
 
         // Needs Wildcard attribute in Player
 
-        // If it's the 3rd wildcard onwards, deduct a point
-        if (isWildCard && p.getWildcardCount() > 2) {
-            p.incrementWildcardCount();
-            return p.getBet() * -1;
-            
-        }
-
-
-        if (isWildCard) {
-            processWildCard(c, p, h, d, range);
-            return p.getPoints();
-        }
+        System.out.println("YOU GOT" + c.toString());
 
         int points = 0;
-        int lower = p.getLower();
-        int upper = p.getUpper();
+        int lower = this.getLower();
+        int upper = this.getUpper();
 
         //set the current number after drawing a card
         int current;
@@ -254,73 +250,102 @@ public class Player {
 
         //point logic
         if (current == upper || current == lower) {
-            points = p.getBet() * 2;
+            points = this.getBet() * 2;
             System.out.println("Right on the dot!");
 
         } else if (current > lower && current < upper) {
-            points = p.getBet() * 1;
+            points = this.getBet() * 1;
             System.out.println("In between!");
 
         } else {
-            points = p.getBet() * -1;
+            points = this.getBet() * -1;
             System.out.println("Good luck next time!");
         }
-        return p.getPoints() + points;
+        return this.getPoints() + points;
     }
 
-    public void processWildCard(Card c, Player p, Hand h, Deck d, ArrayList<Card> range) {
-        Scanner sc = new Scanner(System.in);
+    public void processWildCard(Hand h, Card c) {
+
+        // // If it's the 3rd wildcard onwards, deduct a point
+        // if (p.getWildcardCount() > 2) {
+        //     p.incrementWildcardCount();
+        //     p.setPoints(p.getPoints() - 1);
+            
+        // }
 
         // If queen, extend lower bound
         if (c.getRank().getSymbol() == "q") {
-            int lower = p.getLower();
+            int lower = this.getLower();
             lower -= 2;
             if (lower < 1) {
                 lower = 1;
             }
-            lowerBound = lower;
-        
+            this.setLower(lower);
+
         // If king, extend upper bound
         } else if (c.getRank().getSymbol() == "k") {
-            int upper = p.getUpper();
+            int upper = this.getUpper();
             upper += 2;
             if (upper > 10) {
                 upper = 10;
             }
-            upperBound = upper;
-
-        // If jack, run ProcessJack function
-        }else if(c.getRank().getSymbol() == "j"){
-
-            System.out.println("you got a jack!");
-
-            // System.out.print("Choose your swapped card:");
-            // String swapped = sc.nextLine();
-
-            // //remove swapped card from range
-            // Card temp = StringtoCard(swapped);
-            // for(Card ca : range){
-            //     if(ca.isSameAs(temp)){
-            //         range.remove(ca);
-            //     }
-            // }
-
-            // //get new card
-            // Card newer = d.dealCard();
-            // range.add(newer);
-
-            // int new_
-
-
-            
-
+            this.setUpper(upper);
 
 
         // If joker, minus (2 * bet) points
         } else {
-            int points = p.getBet() * -2;
-            p.setPoints(p.getPoints() + points);
+            int points = this.getBet() * -2;
+            this.setPoints(this.getPoints() + points);
         }
+
+    }
+
+    public void processJack(Hand h, Card cardToSwap, Card swapped) {
+
+        // Swaps the selected bound card for a new bound card
+        int current;
+        if (cardToSwap.getRank().getSymbol().equals("a")) {
+            current = 1;
+        } else {
+            current = Integer.parseInt(cardToSwap.getRank().getSymbol());
+        }
+
+        
+               
+        int swapped_card;
+        if (swapped.getRank().getSymbol().equals("a")) {
+            swapped_card = 1;
+        } else {
+            swapped_card = Integer.parseInt(swapped.getRank().getSymbol());
+        }
+
+        if(current == upperBound){
+            if(swapped_card < this.getLower()){
+                upperBound = lowerBound;
+                this.setLower(swapped_card);
+            }else{
+                this.setUpper(swapped_card);
+            }
+
+            
+        }else{
+            if(swapped_card > this.getUpper()){
+                lowerBound = upperBound;
+                this.setUpper(swapped_card);
+            }else{
+                this.setLower(swapped_card);
+            }
+
+        }
+
+        if(swapped_card > this.getUpper() || swapped_card > this.getLower()){
+            this.setUpper(swapped_card);
+        }else if(swapped_card < this.getLower() ){
+            this.setLower(swapped_card);
+        }
+
+        //check if it is upper or lower
+
 
     }
 }
