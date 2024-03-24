@@ -1,12 +1,28 @@
-package GUI;
+package GUI.Panel;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.Font;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.*;
-import javax.swing.*;
+
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+
+import GUI.Listener.MouseListener;
 
 public class TurnPanel extends JPanel {
     private JButton nextButton;
+    private Scoreboard scoreBoard;
 
     public TurnPanel() {
         setLayout(new BorderLayout());
@@ -15,15 +31,21 @@ public class TurnPanel extends JPanel {
         Color background = new Color(98, 171, 55);
         Color textColor = new Color(244, 250, 255);
 
+        // Panel creation
+        JPanel mainPanel = new JPanel();
+        BoxLayout boxLayout = new BoxLayout(mainPanel, BoxLayout.Y_AXIS);
+        mainPanel.setLayout(boxLayout);
+        mainPanel.setBackground(background);
+        
         // Create GridBagLayout
         GridBagLayout GridBagLayoutGrid = new GridBagLayout();
         GridBagConstraints GridConstraints = new GridBagConstraints();
 
         // Create components for RoundOnePanel
-        JLabel titleLabel = new JLabel("Player X's Turn");
-        titleLabel.setForeground(textColor);
-        titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        add(titleLabel, BorderLayout.NORTH);
+        // JLabel titleLabel = new JLabel("Player X's Turn");
+        // titleLabel.setForeground(textColor);
+        // titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
+        // add(titleLabel, BorderLayout.NORTH);
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(background);
         contentPanel.setLayout(GridBagLayoutGrid);
@@ -31,41 +53,48 @@ public class TurnPanel extends JPanel {
 
         // Add content to RoundOnePanel
         JLabel descriptionLabel = new JLabel("Player X's Turn");
+        descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
         GridConstraints.weightx = 0.5;
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 0;
         contentPanel.add(descriptionLabel, GridConstraints);
 
-        JLabel pointLabel = new JLabel("Score");
-        pointLabel.setForeground(textColor);
-        GridConstraints.gridx = 5;
-        GridConstraints.gridy = 0;
-        contentPanel.add(pointLabel, GridConstraints);
+        scoreBoard = new Scoreboard();
+        scoreBoard.setBackground(background);
 
-        JLabel p1PointsLabel = new JLabel("Player 1: ");
-        p1PointsLabel.setForeground(textColor);
-        GridConstraints.gridx = 4;
-        GridConstraints.gridy = 2;
-        contentPanel.add(p1PointsLabel, GridConstraints);
+        mainPanel.add(scoreBoard);
+        mainPanel.add(contentPanel);
 
-        JLabel p2PointsLabel = new JLabel("Player 2: ");
-        p2PointsLabel.setForeground(textColor);
-        GridConstraints.gridx = 6;
-        GridConstraints.gridy = 2;
-        contentPanel.add(p2PointsLabel, GridConstraints);
+        // JLabel pointLabel = new JLabel("Score");
+        // pointLabel.setForeground(textColor);
+        // GridConstraints.gridx = 5;
+        // GridConstraints.gridy = 0;
+        // contentPanel.add(pointLabel, GridConstraints);
 
-        JLabel p3PointsLabel = new JLabel("Player 3: ");
-        p3PointsLabel.setForeground(textColor);
-        GridConstraints.gridx = 4;
-        GridConstraints.gridy = 3;
-        contentPanel.add(p3PointsLabel, GridConstraints);
+        // JLabel p1PointsLabel = new JLabel("Player 1: ");
+        // p1PointsLabel.setForeground(textColor);
+        // GridConstraints.gridx = 4;
+        // GridConstraints.gridy = 2;
+        // contentPanel.add(p1PointsLabel, GridConstraints);
 
-        JLabel p4PointsLabel = new JLabel("Player 4: ");
-        p4PointsLabel.setForeground(textColor);
-        GridConstraints.gridx = 6;
-        GridConstraints.gridy = 3;
-        contentPanel.add(p4PointsLabel, GridConstraints);
+        // JLabel p2PointsLabel = new JLabel("Player 2: ");
+        // p2PointsLabel.setForeground(textColor);
+        // GridConstraints.gridx = 6;
+        // GridConstraints.gridy = 2;
+        // contentPanel.add(p2PointsLabel, GridConstraints);
+
+        // JLabel p3PointsLabel = new JLabel("Player 3: ");
+        // p3PointsLabel.setForeground(textColor);
+        // GridConstraints.gridx = 4;
+        // GridConstraints.gridy = 3;
+        // contentPanel.add(p3PointsLabel, GridConstraints);
+
+        // JLabel p4PointsLabel = new JLabel("Player 4: ");
+        // p4PointsLabel.setForeground(textColor);
+        // GridConstraints.gridx = 6;
+        // GridConstraints.gridy = 3;
+        // contentPanel.add(p4PointsLabel, GridConstraints);
 
         // Create and display multiple images
         JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
@@ -99,12 +128,12 @@ public class TurnPanel extends JPanel {
         nextButton.setBorder(null);
 
         GridConstraints.weightx = 0.5;
-        GridConstraints.gridx = 3;
-        GridConstraints.gridy = 5;
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 4;
         contentPanel.add(nextButton, GridConstraints);
 
         //Listener for "Next" Button
-        add(contentPanel, BorderLayout.CENTER);
+        add(mainPanel, BorderLayout.CENTER);
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -113,7 +142,7 @@ public class TurnPanel extends JPanel {
                 if (parent instanceof GamePanel) {
                     GamePanel gamePanel = (GamePanel) parent;
                     // Switch to IntermediatePanel
-                    gamePanel.switchToPanel("Intermediate");
+                    gamePanel.switchToPanel("Scoreboard");
                 }
             }
         });

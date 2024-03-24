@@ -1,4 +1,6 @@
-package GUI;
+package GUI.Listener;
+
+import GUI.Panel.GamePanel;
 
 public class NextListener implements MouseListener{
     @Override
@@ -8,5 +10,6 @@ public class NextListener implements MouseListener{
         // Create a GamePanel and add it to the main window
         GamePanel gamePanel = new GamePanel();
         switchToScreen(gamePanel);
+        
     }
 }

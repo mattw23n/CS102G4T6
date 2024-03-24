@@ -31,8 +31,9 @@ public class Application {
     }
     //Initialize GUI Window
     public static void runGUI (){
+        MainWindow mainWindow = new MainWindow();
         SwingUtilities.invokeLater(() -> {
-            MainWindow.showWindow();
+            mainWindow.showWindow();
         });
     }
     public static void main(String[] args) {

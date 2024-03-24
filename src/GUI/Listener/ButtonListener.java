@@ -1,10 +1,12 @@
-package GUI;
+package GUI.Listener;
 
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import GUI.Panel.GamePanel;
 
 public class ButtonListener implements MouseListener{
     private JFrame frame;

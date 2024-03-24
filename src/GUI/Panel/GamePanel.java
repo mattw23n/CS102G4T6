@@ -1,4 +1,4 @@
-package GUI;
+package GUI.Panel;
 
 import java.awt.CardLayout;
 
@@ -15,11 +15,13 @@ public class GamePanel extends JPanel {
         IntermediatePanel intermediatePanel = new IntermediatePanel();
         TurnPanel turnPanel = new TurnPanel();
         // RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
+        DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
 
         add(roundOnePanel, "RoundOne");
         add(intermediatePanel, "Intermediate");
         add(turnPanel, "Turn");
         // add(roundTwoPanel, "RoundTwo");
+        add(displayScoresPanel, "Scoreboard");
 
         // Show the initial scene (e.g., RoundOne)
         cardLayout.show(this, "RoundOne");
