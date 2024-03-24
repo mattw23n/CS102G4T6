@@ -66,7 +66,6 @@ public class Player {
                    lowerBound = Integer.parseInt(lower.getRank().getSymbol());
                 }
             }
-            range.add(lower);
             System.out.println(lowerBound);
 
             //UPPER BOUND
@@ -86,7 +85,6 @@ public class Player {
                 }
 
             }
-            range.add(upper);
             System.out.println(upperBound);
             
             // System.out.println("player" + range);
@@ -111,7 +109,6 @@ public class Player {
             } finally {
                 System.out.println();
             }
-        return range;
     }
 
     public int getWildcardCount(){
