@@ -18,7 +18,7 @@ import java.util.*;
  */
 public abstract class Hand implements Comparable {
     
-   private java.util.List hand = new ArrayList(); 
+   private java.util.List hand = new ArrayList<>(); 
 
 
   /**
@@ -109,7 +109,16 @@ public abstract class Hand implements Comparable {
    * @return <code>true</code> if the card is present in the hand.
    */
    public boolean containsCard( Card card ) {
-      return false;
+      boolean found = false;
+      for(int i = 0; i < hand.size(); i++){
+         Card temp = (Card) hand.get(i);
+         if(card.isSameAs(temp)){
+            found = true;
+            break;
+         }
+      }
+
+      return found;
    }
 
 
@@ -119,7 +128,14 @@ public abstract class Hand implements Comparable {
    * @return position index of card if found, or <code>-1</code> if not found.
    */
    public int findCard( Card card ) {
-      return hand.indexOf( card );
+      for(int index = 0; index < hand.size(); index++){
+         Card temp = (Card) hand.get(index);
+         if(card.isSameAs(temp)){
+            return index;
+         }
+      }
+
+      return -1;
    }
   
   
