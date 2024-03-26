@@ -85,8 +85,13 @@ public class Rank implements Comparable {
 
    private final static java.util.List VALUES_KING_HIGH =
       Collections.unmodifiableList( 
+<<<<<<< Updated upstream
          Arrays.asList( new Rank[] { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
                                      EIGHT, NINE, TEN, JACK, QUEEN, KING, JOKER } ) );
+=======
+         Arrays.asList( new Rank[] { ACE, JACK, JACK, JACK, JACK, JACK, JACK, JACK, JACK, JACK, JACK, JACK, JACK, JACK, JACK, QUEEN, QUEEN, QUEEN, QUEEN, QUEEN, QUEEN, QUEEN, KING, KING, KING, KING, KING, KING, TWO, THREE, FOUR, FIVE, SIX, SEVEN,
+                                     EIGHT, NINE, TEN, JACK, QUEEN, KING      } ) );
+>>>>>>> Stashed changes
    
    private final static java.util.List VALUES_ACE_HIGH =
       Collections.unmodifiableList( 
