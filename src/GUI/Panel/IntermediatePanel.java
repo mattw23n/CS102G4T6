@@ -22,8 +22,10 @@ public class IntermediatePanel extends JPanel {
     private JButton nextButton;
     private Scoreboard scoreBoard;
     private Player nextPlayer;
+    private GameState gameState;
 
-    public IntermediatePanel() {
+    public IntermediatePanel(GameState gameState) {
+        this.gameState = gameState;
         initialize();
     }
     private void initialize(){
@@ -121,8 +123,8 @@ public class IntermediatePanel extends JPanel {
                 Container parent = getParent();
                 if (parent instanceof GamePanel) {
                     GamePanel gamePanel = (GamePanel) parent;
-                    // Switch to TurnPanel
-                    gamePanel.switchToPanel("Turn");
+                    // Switch to IntermediatePanel
+                    gamePanel.switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
                 }
             }
         });

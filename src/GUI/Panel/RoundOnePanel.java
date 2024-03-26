@@ -125,10 +125,16 @@ public class RoundOnePanel extends JPanel{
                 System.out.println(gameState.toString());
                 if (gameState.isPickingState()) {
                     // Handle picking cards state
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to IntermediatePanel
+                        gamePanel.switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
+                    }
                     // For example:
                     descriptionLabel.setText("Round 1 Player " + gameState.getCurrPlayer().toString() + ": Pick 2 Cards");
                     // Update other UI components or game logic for picking cards
-        
+                    
                     // Switch to the next state (choosing to bet) for the same player
                     gameState.setPickingState(false);
                     gameState.setBettingState(true);
@@ -137,9 +143,20 @@ public class RoundOnePanel extends JPanel{
                     // For example:
                     descriptionLabel.setText("Round 1 Player " + gameState.getCurrPlayer().toString() + ": Choose to Bet or Not");
                     // Update other UI components or game logic for betting
-                    gameState.moveToNextPlayer();
                     printHand(imagePanel);
-                    // Switch back to picking cards state for the next player
+                    // Switch back to intermediate state for the next player
+                    gameState.setPickingState(false);
+                    gameState.setBettingState(false);
+                    // switchToScreen
+                } else if ((!gameState.isPickingState()) && (!gameState.isBettingState())) {
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to IntermediatePanel
+                        gamePanel.switchToPanel("Intermediate");
+                    }
+                    // Switch back to picking state for the next player
+                    gameState.moveToNextPlayer();
                     gameState.setPickingState(true);
                     gameState.setBettingState(false);
                 }

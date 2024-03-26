@@ -30,14 +30,14 @@ public class GamePanel extends JPanel {
         // Create and add each scene panel to the GamePanel
         // RoundPanel roundPanel = new roundPanel(gameState);
         // RoundOnePanel roundOnePanel = new RoundOnePanel();
-        // IntermediatePanel intermediatePanel = new IntermediatePanel();
+        IntermediatePanel intermediatePanel = new IntermediatePanel(gameState);
         // TurnPanel turnPanel = new TurnPanel();
         // RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
         DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
 
         // add(roundPanel, "round");
         // add(roundOnePanel, "RoundOne");
-        // add(intermediatePanel, "Intermediate");
+        add(intermediatePanel, "Intermediate");
         // add(turnPanel, "Turn");
         // add(roundTwoPanel, "RoundTwo");
         add(displayScoresPanel, "Scoreboard");
