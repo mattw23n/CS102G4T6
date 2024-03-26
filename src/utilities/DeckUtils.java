@@ -1,7 +1,22 @@
-import java.util.*;
+package utilities;
+/*
+ * DeckUtils.java
+ * 
+ * DeckUtils consists of different utility functions that 
+ * manipulate/instantiate a deck of cards
+ */
 
-public class DeckUtils {
-    
+import java.util.*;
+import components.Card;
+import components.Deck;
+import components.Hand;
+import components.Rank;
+import components.Suit;
+
+public final class DeckUtils {
+
+    private DeckUtils(){
+    }
     //initializes a deck of only number cards
     public static Deck initializeNumbers(){
         //initializing deck of 52

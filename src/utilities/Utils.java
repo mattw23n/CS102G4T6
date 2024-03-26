@@ -1,24 +1,35 @@
+package utilities;
+/*
+ * Utils.java
+ * 
+ * Utils contains utility functions which deals with card inputs/output
+ */
+
 import java.util.*;
+import components.Card;
+import components.Deck;
+import components.Hand;
+import components.Player;
+import components.Rank;
+import components.Suit;
 
-public class Utils {
+public final class Utils {
 
-    //wild card check
-    public static boolean isWildCard(Card card){
-        for(int i = 10; i < 13; i++){
-            if(Rank.VALUES.get(i) == card.getRank()){
-                return true;
-            }
-        }
-
-        return false;
+    private Utils(){
     }
     
-    //get card value as string, ace is 1
+    //Get card value as string, ace is 1
     public static String getCardValue(Card card){
         return card.getRank().getSymbol();
     }
 
-    //get card value as int, ace is 1
+    //Wild card check
+    public static boolean isWildCard(Card card){
+
+        return "q".equals(getCardValue(card)) || "k".equals(getCardValue(card)) || "j".equals(getCardValue(card));
+    }
+
+    //Get card value as int, ace is 1
     public static int getCardValueInt(Card card){
         if ("a".equals(getCardValue(card))) {
             return 1;
@@ -27,7 +38,7 @@ public class Utils {
         }
     }
 
-    //string input to card object output
+    //String input to card object output
     public static Card stringToCard(String target){
         Map<String, Card> map = new HashMap<>();
 
@@ -43,7 +54,6 @@ public class Utils {
             }
         }
         
-        //System.out.println(map);
 
         Set keys = map.keySet();
         Iterator keysIterator = keys.iterator();
@@ -57,7 +67,7 @@ public class Utils {
         return null;
     }
 
-    //return points based on range & bet
+    //Return points based on range & bet
     public static int calculatePoints(Player p, Card card) {
 
         int points = 0;
@@ -83,7 +93,7 @@ public class Utils {
         return p.getPoints() + points;
     }
 
-    //set upper or lower based on wildcard
+    //Set upper or lower based on wildcard
     public static void processWildCard(Player p, Card card) {
 
         // If queen, extend lower bound
@@ -107,7 +117,7 @@ public class Utils {
         }
     }
 
-    //swap range card for a new card
+    //Swap range card for a new card
     public static void processJack(Player p, Card cardToSwap, Card swapped) {
 
         // Swaps the selected bound card for a new bound card
@@ -140,7 +150,7 @@ public class Utils {
         System.out.println("upper " + upperBound + "lower " + lowerBound);
     }
 
-    //process wild cards and regular cards
+    //Process wild cards and regular cards
     public static void pointsProcessing(Player p, Deck allDeck, Deck rangeDeck){
         Hand hand = p.getHand();
         Card newest = hand.getCard(hand.getNumberOfCards() - 1);
@@ -188,7 +198,6 @@ public class Utils {
 
             //not a wildcard
             }else{
-
                 hand.removeCard(newest);
                 int updatedPoints = calculatePoints(p, newest);
                 p.setPoints(updatedPoints);
@@ -196,7 +205,6 @@ public class Utils {
                 isNonWild = true;
 
                 break;
-                //calculate points
             }
 
             newest = hand.getCard(hand.getNumberOfCards() - 1);

@@ -1,5 +1,14 @@
+package components;
+/*
+ * Player.java
+ * 
+ * Player initializes a Player object with the main purpose of 
+ * manipulating Player attributes
+ * 
+ */
 
 import java.util.*;
+import utilities.Utils;
 
 public class Player {
     private int playerID;    
@@ -35,20 +44,20 @@ public class Player {
             System.out.print("Choose card for lower bound of range:");
             Card lower = Utils.stringToCard(sc.nextLine());
            
-            if (this.handCards.containsCard(lower)) {
-                lowerBound = Utils.getCardValueInt(lower);
-            }
-
-            System.out.println(lowerBound);
-
             //UPPER BOUND
             System.out.print("Choose card for upper bound of range:");
             Card upper = Utils.stringToCard(sc.nextLine());
 
-            if (this.handCards.containsCard(upper)) {
-                upperBound = Utils.getCardValueInt(upper);
+            //Sorts upper and lower automatically
+            if (this.handCards.containsCard(upper) && this.handCards.containsCard(lower)) {
+                int lowerTemp = Utils.getCardValueInt(lower);
+                int upperTemp = Utils.getCardValueInt(upper);
+
+                upperBound = Math.max(lowerTemp, upperTemp);
+                lowerBound = Math.min(lowerTemp, upperTemp);
             }
 
+            System.out.println(lowerBound);
             System.out.println(upperBound);
 
             //remove the range cards

@@ -1,15 +1,28 @@
-//Compile.bat and Run.bat runs this file
+/*
+ * Application.java
+ * 
+ * CS102 G4 T6 - InBetween++
+ * 
+ * InBetween++ is a modification to the classic card game of InBetween,
+ * where players bet that the cards they'll draw will be in between the range.
+ * However, this version implements wildcards which can dramatically alter the game.
+ * 
+ */
 
 import java.util.*;
-
 import javax.swing.SwingUtilities;
-
 import org.w3c.dom.ranges.Range;
-
 import GUI.Window;
+import components.Deck;
+import components.Hand;
+import components.Player;
+import components.PlayerComparator;
+import components.PlayerHand;
+import utilities.DeckUtils;
+import utilities.Utils;
 
 public class Application {
-    
+
     public static void runGUI (){
         // SwingUtilities.invokeLater(() -> {
             Window mainWindow = new Window();
