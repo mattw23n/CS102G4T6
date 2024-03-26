@@ -121,7 +121,7 @@ public class Application {
         });
     }
 
-    public static void doRound(ArrayList<Player> players, Deck RangeDeck, Deck AllDeck, int round_count){
+    public static void doRound(ArrayList<Player> players, Deck RangeDeck, Deck AllDeck, int roundCount) {
         //one round of the game
 
         Scanner scan = new Scanner(System.in);

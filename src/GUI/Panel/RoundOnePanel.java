@@ -10,12 +10,15 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.BorderFactory;
 
 import GUI.Listener.MouseListener;
 import components.Card;
@@ -57,7 +60,7 @@ public class RoundOnePanel extends JPanel{
 
 
         // Add content to RoundOnePanel
-        JLabel descriptionLabel = new JLabel("Round 1 Player " + gameState.getCurrPlayer() +": Pick 2 Cards");
+        JLabel descriptionLabel = new JLabel("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer() +": Pick 2 Cards");
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
         GridConstraints.weightx = 0.1;
@@ -90,16 +93,17 @@ public class RoundOnePanel extends JPanel{
         imagePanel.setBackground(background);
         // imagePanel.setBorder(BorderFactory.createEmptyBorder());
 
-        Hand playerHand = currPlayer.getHand();
-        for (int i = 0; i < playerHand.getNumberOfCards(); i++){
-            Card card = playerHand.getCard(i);
-            JLabel cardImage = new JLabel();
-            // cardImage.setBackground(background);
-            cardImage.setName(card.toString());
-            setImage(cardImage, "images/"+ card.toString() +".gif");
-            cardImage.addMouseListener(new MouseListener(cardImage.getName()));
-            imagePanel.add(cardImage);
-        }
+        // Hand playerHand = currPlayer.getHand();
+        // for (int i = 0; i < playerHand.getNumberOfCards(); i++){
+        //     Card card = playerHand.getCard(i);
+        //     JLabel cardImage = new JLabel();
+        //     // cardImage.setBackground(background);
+        //     cardImage.setName(card.toString());
+        //     setImage(cardImage, "images/"+ card.toString() +".gif");
+        //     cardImage.addMouseListener(new MouseListener(cardImage.getName()));
+        //     imagePanel.add(cardImage);
+        // }
+        printHand(imagePanel);
                 
         //Listener for "Next" Button
         // add(mainPanel, BorderLayout.CENTER);
@@ -132,7 +136,7 @@ public class RoundOnePanel extends JPanel{
                         gamePanel.switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
                     }
                     // For example:
-                    descriptionLabel.setText("Round 1 Player " + gameState.getCurrPlayer().toString() + ": Pick 2 Cards");
+                    descriptionLabel.setText("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer().toString() + ": Pick 2 Cards");
                     // Update other UI components or game logic for picking cards
                     
                     // Switch to the next state (choosing to bet) for the same player
@@ -140,23 +144,31 @@ public class RoundOnePanel extends JPanel{
                     gameState.setBettingState(true);
                 } else if (gameState.isBettingState()) {
                     // Handle betting state
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to IntermediatePanel
+                        gamePanel.switchToPanel("Turn");
+                    }
+                    // gameState.moveToNextPlayer();
                     // For example:
-                    descriptionLabel.setText("Round 1 Player " + gameState.getCurrPlayer().toString() + ": Choose to Bet or Not");
+                    // descriptionLabel.setText("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer().toString() + ": Choose to Bet or Not");
                     // Update other UI components or game logic for betting
-                    printHand(imagePanel);
+                    // printHand(imagePanel);
+                    gameState.moveToNextPlayer();
                     // Switch back to intermediate state for the next player
                     gameState.setPickingState(false);
                     gameState.setBettingState(false);
                     // switchToScreen
                 } else if ((!gameState.isPickingState()) && (!gameState.isBettingState())) {
-                    Container parent = getParent();
-                    if (parent instanceof GamePanel) {
-                        GamePanel gamePanel = (GamePanel) parent;
-                        // Switch to IntermediatePanel
-                        gamePanel.switchToPanel("Intermediate");
-                    }
+                    // Container parent = getParent();
+                    // if (parent instanceof GamePanel) {
+                    //     GamePanel gamePanel = (GamePanel) parent;
+                    //     // Switch to IntermediatePanel
+                    //     gamePanel.switchToPanel("Intermediate");
+                    // }
                     // Switch back to picking state for the next player
-                    gameState.moveToNextPlayer();
+                    // gameState.moveToNextPlayer();
                     gameState.setPickingState(true);
                     gameState.setBettingState(false);
                 }
@@ -189,6 +201,7 @@ public class RoundOnePanel extends JPanel{
         imagePanel.removeAll();
         imagePanel.revalidate();
         imagePanel.repaint();
+        currPlayer = gameState.getCurrPlayer();
         Hand playerHand = currPlayer.getHand();
         for (int i = 0; i < playerHand.getNumberOfCards(); i++){
             Card card = playerHand.getCard(i);
@@ -196,7 +209,16 @@ public class RoundOnePanel extends JPanel{
             // cardImage.setBackground(background);
             cardImage.setName(card.toString());
             setImage(cardImage, "images/"+ card.toString() +".gif");
-            cardImage.addMouseListener(new MouseListener(cardImage.getName()));
+            cardImage.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mousePressed(MouseEvent arg) {
+                    cardImage.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+                }
+                @Override
+                public void mouseReleased(MouseEvent arg) {
+                    cardImage.setBorder(BorderFactory.createLineBorder(Color.white, 3));
+                }
+            });
             imagePanel.add(cardImage);
         }
         imagePanel.revalidate();

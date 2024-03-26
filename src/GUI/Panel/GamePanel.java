@@ -31,14 +31,14 @@ public class GamePanel extends JPanel {
         // RoundPanel roundPanel = new roundPanel(gameState);
         // RoundOnePanel roundOnePanel = new RoundOnePanel();
         IntermediatePanel intermediatePanel = new IntermediatePanel(gameState);
-        // TurnPanel turnPanel = new TurnPanel();
+        TurnPanel turnPanel = new TurnPanel(gameState);
         // RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
         DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
 
         // add(roundPanel, "round");
         // add(roundOnePanel, "RoundOne");
         add(intermediatePanel, "Intermediate");
-        // add(turnPanel, "Turn");
+        add(turnPanel, "Turn");
         // add(roundTwoPanel, "RoundTwo");
         add(displayScoresPanel, "Scoreboard");
 
@@ -177,7 +177,8 @@ public class GamePanel extends JPanel {
         for(Player p : playersList){
             dealRange(rangeDeck, p.getHand());
         }
-        this.gameState = new GameState(playersList, allDeck, rangeDeck);
+        int roundCount = 1;
+        this.gameState = new GameState(playersList, allDeck, rangeDeck, roundCount);
     }
     public static Deck initializeNumbers(){
         //initializing deck of 52

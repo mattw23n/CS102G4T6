@@ -12,14 +12,16 @@ public class GameState {
     private Deck rangeDeck;
     private boolean isPickingState;
     private boolean isBettingState;
+    private int round;
 
-    public GameState(ArrayList<Player> playersList, Deck allDeck, Deck rangeDeck){
+    public GameState(ArrayList<Player> playersList, Deck allDeck, Deck rangeDeck, int round){
         this.playersList = playersList;
         this.currPlayer = playersList.get(0);
         this.allDeck = allDeck;
         this.rangeDeck = rangeDeck;
         this.isPickingState = true;
         this.isBettingState = false;
+        this.round = 1;
     }
     public ArrayList<Player> getPlayersList() {
         return playersList;
@@ -67,5 +69,11 @@ public class GameState {
         return "Current Player: " + currPlayer.toString() +
             "\nPicking State: " + isPickingState +
             "\nBetting State: " + isBettingState;
+    }
+    public int getRound() {
+        return round;
+    }
+    public void nextRound() {
+        this.round++;
     }
 }
