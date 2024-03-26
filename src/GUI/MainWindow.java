@@ -36,11 +36,18 @@ public class MainWindow{
         mainPanel.setLayout(new GridLayout(2, 1));
 
         // Create a title label and add it to the main panel
-        JLabel titleLabel = new JLabel("Card Game Application");
-        titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        titleLabel.setForeground(textColor);
-        titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        mainPanel.add(titleLabel, null);
+        // JLabel titleLabel = new JLabel("Card Game Application");
+        // titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        // titleLabel.setForeground(textColor);
+        // titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        // mainPanel.add(titleLabel, null);
+
+        ImageIcon titleIcon = new ImageIcon("images/title.png");
+        Image titleIconeImage = titleIcon.getImage();
+        Image scaledTitleImage = titleIconeImage.getScaledInstance(500, 300, java.awt.Image.SCALE_SMOOTH);
+        titleIcon = new ImageIcon(scaledTitleImage);
+        JLabel title = new JLabel(titleIcon);
+        mainPanel.add(title, null);
 
         // Create a panel for the buttons
         JPanel buttonPanel = new JPanel();
