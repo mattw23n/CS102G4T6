@@ -3,70 +3,181 @@ package GUI.Panel;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import javax.swing.JPanel;
 
+import components.Card;
 import components.Deck;
 import components.Hand;
 import components.Player;
 import components.PlayerHand;
 import components.Rank;
 import components.Suit;
-import components.Card;
 public class GamePanel extends JPanel {
     private CardLayout cardLayout;
-    private ArrayList<Player> playersList;
+    private GameState gameState;
 
     public GamePanel() {
         initialise();
-        
         cardLayout = new CardLayout();
         setLayout(cardLayout);
-        GameState gameState = new GameState(true, 1, playersList.get(0));
-        
+        ArrayList<Player> playersList = gameState.getPlayersList();
+        doRound();
+        // for (int i = 0; i < playersList.size(); i++){
+        //     doRound(i);
+        // }
         // Create and add each scene panel to the GamePanel
-        RoundOnePanel roundOnePanel = new RoundOnePanel();
-        IntermediatePanel intermediatePanel = new IntermediatePanel();
-        TurnPanel turnPanel = new TurnPanel();
+        // RoundPanel roundPanel = new roundPanel(gameState);
+        // RoundOnePanel roundOnePanel = new RoundOnePanel();
+        // IntermediatePanel intermediatePanel = new IntermediatePanel();
+        // TurnPanel turnPanel = new TurnPanel();
         // RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
         DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
 
-
-        add(roundOnePanel, "RoundOne");
-        add(intermediatePanel, "Intermediate");
-        add(turnPanel, "Turn");
+        // add(roundPanel, "round");
+        // add(roundOnePanel, "RoundOne");
+        // add(intermediatePanel, "Intermediate");
+        // add(turnPanel, "Turn");
         // add(roundTwoPanel, "RoundTwo");
         add(displayScoresPanel, "Scoreboard");
 
         // Show the initial scene (e.g., RoundOne)
-        cardLayout.show(this, "RoundOne");
+        // cardLayout.show(this, "RoundOne0");
+        switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
+    }
+    public void doRound() {
+        ArrayList<Player> players = gameState.getPlayersList();
+        // Scanner scan = new Scanner(System.in);
+        for(Player p : players){
+            Deck allDeck = gameState.getAllDeck();
+            Deck rangeDeck = gameState.getRangeDeck();
+            //each player has a turn
+            Hand hand = p.getHand();
+            String playerId = "Player " + p.getPlayerID() + "'s Hand";
+            System.out.printf("=================%s=================\n", playerId);
+            System.out.println(hand.toString());
+            System.out.println("=================================================");
+            
+            RoundOnePanel roundOnePanel = new RoundOnePanel(gameState);
+            add(roundOnePanel, "P"+p.getPlayerID() + "Picking");
+
+        //     //select upper bound and lower bound
+        //     //upper and lower bound will be removed from hand afterwards
+        //     p.chooseRange();
+
+        //     //make bet
+        //     int temp = p.makeBet();
+        //     if(temp < 0){
+        //         System.out.println("You are OUT!!!");
+        //         continue;
+        //     }
+        //     p.setBet(temp);
+            
+        //     //draw card from deck and add to hand
+        //     dealCard(allDeck, hand);
+        //     Card newest = hand.getCard(hand.getNumberOfCards() - 1);
+        //     System.out.println("\nYOU GOT " + newest);
+
+        //     //calculate points
+
+        //     boolean isNonWild = false;
+
+        //     do {
+        //         if(isWildCard(newest)){
+        //             p.incrementWildcardCount();
+
+        //             //check if wildcard count >= 3
+        //             if (p.getWildcardCount() >= 3) { 
+        //                 int currPoints = p.getPoints(); 
+        //                 p.setPoints(currPoints - 1); 
+        //             }
+                    
+        //             //if not jack
+        //             if(newest.getRank().getSymbol() != "j"){
+        //                 p.processWildCard(hand, newest);
+
+        //             }else{
+        //                 System.out.print("Choose range card to swap:");
+        //                 String input2 = scan.nextLine();
+        //                 Card cardToSwap = p.StringtoCard(input2);
+
+        //                 dealCard(rangeDeck, hand);
+        //                 Card swapped = hand.getCard(hand.getNumberOfCards() - 1);
+        //                 p.processJack(hand, cardToSwap, swapped);
+        //             }
+                    
+        //             //call process wildcard
+        //             //remove the last card from the player's deck
+        //             hand.removeCard(newest);
+        //             dealCard(allDeck, hand);
+        //         }else{
+
+        //             int add = p.calculatePoints(hand, newest);
+        //             p.setPoints(add);
+                    
+        //             isNonWild = true;
+        //             //remove the last card from the player's deck
+        //             hand.removeCard(newest);
+        //             break;
+        //             //calculate points
+        //         }
+
+        //         newest = hand.getCard(hand.getNumberOfCards() - 1);
+                
+        //     } while (isWildCard(newest));
+
+        //     if(!isNonWild){
+        //         System.out.println("upper" + p.getUpper() + "lower" + p.getLower());
+        //         int add = p.calculatePoints(hand, newest);
+        //         p.setPoints(add);
+                
+        //         //remove the last card from the player's deck
+        //         hand.removeCard(newest);
+        //     }
+                
+
+        //     System.out.println("Your Current Points: " + p.getPoints());
+
+            
+        //     System.out.println("\n=================YOUR CURRENT HAND=================\n" + hand);
+
+        //     //move to next player
+        //     System.out.println("\n=================================================\n");
+        //     System.out.println("PLEASE PASS TO THE NEXT PLAYER");
+        //     System.out.println("\n=================================================\n");
+        }
+    }
+    public static boolean isWildCard(Card card){
+        for(int i = 10; i < 13; i++){
+            if(Rank.VALUES.get(i) == card.getRank())
+                return true;
+        }
+
+        return false;
     }
     public void switchToPanel(String panelName) {
         cardLayout.show(this, panelName);
     }
     private void initialise(){
-        //initializing deck of only range cards
         Deck rangeDeck = initializeNumbers();
-
-        //initialize deck of all cards
         Deck allDeck = initializeWhole();
 
-        // //initialize players
         Player p1 = new Player(1, 5, new PlayerHand());
         Player p2 = new Player(2, 5, new PlayerHand());
         Player p3 = new Player(3, 5, new PlayerHand());
         Player p4 = new Player(4, 5, new PlayerHand());
 
-        playersList = new ArrayList<>();
+        ArrayList<Player> playersList = new ArrayList<>();
         playersList.add(p1);
         playersList.add(p2);
         playersList.add(p3);
         playersList.add(p4);
 
-        //initialize each players hand
         for(Player p : playersList){
             dealRange(rangeDeck, p.getHand());
         }
+        this.gameState = new GameState(playersList, allDeck, rangeDeck);
     }
     public static Deck initializeNumbers(){
         //initializing deck of 52

@@ -1,6 +1,12 @@
 package components;
 // pls feel free to cmiiw....................................
-import java.util.*;
+import java.util.HashMap;
+import java.util.InputMismatchException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
 
 public class Player {
     private int playerID;    
@@ -345,5 +351,8 @@ public class Player {
         //check if it is upper or lower
 
 
+    }
+    public String toString(){
+        return Integer.toString(playerID);
     }
 }

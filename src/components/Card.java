@@ -92,7 +92,8 @@ public class Card implements Comparable {
    * @return the name of the card.
    */
    public String toString() {
-      return rankValue.toString() + " of " + suitValue.toString();
+      return rankValue.getSymbol() + suitValue.getSymbol();
+      // return rankValue.toString() + " of " + suitValue.toString();
    }
   
   
