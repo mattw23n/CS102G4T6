@@ -121,30 +121,42 @@ public final class Utils {
     public static void processJack(Player p, Card cardToSwap, Card swapped) {
 
         // Swaps the selected bound card for a new bound card
-        int toSwapCard = getCardValueInt(cardToSwap);
         int swappedCard = getCardValueInt(swapped);
 
         int upperBound = p.getUpper();
         int lowerBound = p.getLower();
 
+        Card originalUpper = p.getOriginalUpper();
+        Card originalLower = p.getOriginalLower();
+
         //Adjust upper and lower bound accordingly
-        if(toSwapCard == upperBound){
+        if(cardToSwap.isSameAs(originalUpper)){
             if(swappedCard < lowerBound){
+
+                p.setOriginalUpper(originalLower);
                 p.setUpper(lowerBound);
+
+                p.setOriginalLower(swapped);
                 p.setLower(swappedCard);
+
             }else{
+                p.setOriginalUpper(swapped);
                 p.setUpper(swappedCard);
             }
 
-            
         }else{
             if(swappedCard > upperBound){
+
+                p.setOriginalLower(originalUpper);
                 p.setLower(upperBound);
+
+                p.setOriginalUpper(swapped);
                 p.setUpper(swappedCard);
+
             }else{
+                p.setOriginalLower(swapped);
                 p.setLower(swappedCard);
             }
-
         }
 
         System.out.println("upper " + upperBound + "lower " + lowerBound);

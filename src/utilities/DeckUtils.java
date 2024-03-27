@@ -17,7 +17,8 @@ public final class DeckUtils {
 
     private DeckUtils(){
     }
-    //initializes a deck of only number cards
+
+    //Initializes a deck of only number cards
     public static Deck initializeNumbers(){
         //initializing deck of 52
         Deck d1 = new Deck();
@@ -36,7 +37,7 @@ public final class DeckUtils {
         return d1;
     }
 
-    //initializes a deck of 52
+    //Initializes a deck of 52
     public static Deck initializeWhole(){
         //initializing deck of 52
         Deck d1 = new Deck();
@@ -55,7 +56,7 @@ public final class DeckUtils {
         return d1;
     }
 
-    //deals 6 cards for the start of the game
+    //Deals 6 cards for the start of the game
     public static void dealRange(Deck deck, Hand hand, int numOfCards){
         for(int i = 0; i < numOfCards; i++){
             hand.addCard(deck.dealCard());
@@ -63,7 +64,7 @@ public final class DeckUtils {
 
     }
 
-    //deals a card from a deck of 52
+    //Deals a card from a deck of 52
     public static void dealCard(Deck deck, Hand hand){
         hand.addCard(deck.dealCard());
         Card newest = hand.getCard(hand.getNumberOfCards() - 1);
