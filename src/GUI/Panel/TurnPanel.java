@@ -188,6 +188,7 @@ public class TurnPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                gameState.moveToNextPlayer();
                 // Get the parent GamePanel
                 Container parent = getParent();
                 if (parent instanceof GamePanel) {

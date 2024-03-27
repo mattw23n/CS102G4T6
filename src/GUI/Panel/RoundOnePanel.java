@@ -34,9 +34,9 @@ public class RoundOnePanel extends JPanel{
     private Player currPlayer;
     private int[] numOfClickedCards = {0};
 
-    public RoundOnePanel(GameState gameState) {
+    public RoundOnePanel(GameState gameState, Player currPlayer) {
         this.gameState = gameState;
-        this.currPlayer = gameState.getCurrPlayer();
+        this.currPlayer = currPlayer;
         initialise();
     }
     private void initialise(){
@@ -63,7 +63,7 @@ public class RoundOnePanel extends JPanel{
 
 
         // Add content to RoundOnePanel
-        JLabel descriptionLabel = new JLabel("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer() +": Pick 2 Cards");
+        JLabel descriptionLabel = new JLabel("Round " + gameState.getRound() + " Player " + currPlayer.getPlayerID() +": Pick 2 Cards");
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
         GridConstraints.weightx = 0.1;
@@ -94,36 +94,7 @@ public class RoundOnePanel extends JPanel{
         // Create and display multiple images
         JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
         imagePanel.setBackground(background);
-        
-        // imagePanel.setBorder(BorderFactory.createEmptyBorder());
-
-        // Hand playerHand = currPlayer.getHand();
-        // for (int i = 0; i < playerHand.getNumberOfCards(); i++){
-        //     Card card = playerHand.getCard(i);
-        //     JLabel cardImage = new JLabel();
-        //     // cardImage.setBackground(background);
-        //     cardImage.setName(card.toString());
-        //     setImage(cardImage, "images/"+ card.toString() +".gif");
-        //     cardImage.addMouseListener(new MouseListener(cardImage.getName()));
-        //     imagePanel.add(cardImage);
-        // }
-        printHand(imagePanel, contentPanel);
-                
-        //Listener for "Next" Button
-        // add(mainPanel, BorderLayout.CENTER);
-        // nextButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         // Get the parent GamePanel
-        //         Container parent = getParent();
-        //         if (parent instanceof GamePanel) {
-        //             GamePanel gamePanel = (GamePanel) parent;
-        //             // Switch to IntermediatePanel
-        //             gamePanel.switchToPanel("Intermediate");
-        //             scoreBoard.updateScore(1, 5);
-        //         }
-        //     }
-        // });
+        printHand(imagePanel, contentPanel, currPlayer);
 
         add(mainPanel, BorderLayout.CENTER);
         nextButton.addActionListener(new ActionListener() {
@@ -141,83 +112,50 @@ public class RoundOnePanel extends JPanel{
                     scoreboard
             */
             public void actionPerformed(ActionEvent e) {
-                //LOGIC TEST
                 System.out.println(gameState.toString());
-                if (gameState.isPickingState()) {
-                    // Handle picking cards state
-                    Container parent = getParent();
-                    if (parent instanceof GamePanel) {
-                        GamePanel gamePanel = (GamePanel) parent;
-                        // Switch to IntermediatePanel
-                        gamePanel.switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
-                    }
-                    // For example:
-                    descriptionLabel.setText("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer().toString() + ": Pick 2 Cards");
-                    // Update other UI components or game logic for picking cards
-                    
-                    // Switch to the next state (choosing to bet) for the same player
-                    gameState.setPickingState(false);
-                    gameState.setBettingState(true);
-                } else if (gameState.isBettingState()) {
-                    // Handle betting state
+                //Move from Picking -> Betting
+                // if (gameState.isPickingState()) {
+                    //Set up text and image for next round
+                    descriptionLabel.setText("Round " + gameState.getRound() + " Player " + currPlayer.getPlayerID() + ": Pick 2 Cards");
+                    printHand(imagePanel, contentPanel, currPlayer);
+                    //Move to betting state
                     Container parent = getParent();
                     if (parent instanceof GamePanel) {
                         GamePanel gamePanel = (GamePanel) parent;
                         // Switch to IntermediatePanel
                         gamePanel.switchToPanel("Turn");
                     }
-                    // gameState.moveToNextPlayer();
-                    // For example:
-                    // descriptionLabel.setText("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer().toString() + ": Choose to Bet or Not");
-                    // Update other UI components or game logic for betting
-                    // printHand(imagePanel);
-                    gameState.moveToNextPlayer();
-                    // Switch back to intermediate state for the next player
-                    gameState.setPickingState(false);
-                    gameState.setBettingState(false);
-                    // switchToScreen
-                } else if ((!gameState.isPickingState()) && (!gameState.isBettingState())) {
-                    // Container parent = getParent();
-                    // if (parent instanceof GamePanel) {
-                    //     GamePanel gamePanel = (GamePanel) parent;
-                    //     // Switch to IntermediatePanel
-                    //     gamePanel.switchToPanel("Intermediate");
-                    // }
-                    // Switch back to picking state for the next player
-                    // gameState.moveToNextPlayer();
-                    gameState.setPickingState(true);
-                    gameState.setBettingState(false);
-                }
-                //Working
-                // gameState.moveToNextPlayer();
-                // descriptionLabel.setText("Round 1 Player" + gameState.getCurrPlayer().toString() + ": Pick 2 Cards");
+                    // Switch to the next state (choosing to bet) for the same player
+                    // gameState.setPickingState(false);
+                    // gameState.setBettingState(true);
+                // }
+                //Move from Betting -> Intermediate 
+                // else if (gameState.isBettingState()) {
+                    
+                //     gameState.moveToNextPlayer();
+                //     // Switch to intermediate state for the next player
+                //     gameState.setPickingState(true);
+                //     gameState.setBettingState(false);
+                //     Container parent = getParent();
+                //     if (parent instanceof GamePanel) {
+                //         GamePanel gamePanel = (GamePanel) parent;
+                //         // Switch to IntermediatePanel
+                //         gamePanel.switchToPanel("Intermediate");
+                //     }
+                // }
                 repaint();
                 revalidate();
             }
         });
-        
-        //Testing Multiple Images
-        // for (int i = 1; i <= 4; i++) {
-        //     JLabel imageLabel = new JLabel();
-        //     imageLabel.setBackground(background);
-        //     // Set a unique identifier for each image label
-        //     imageLabel.setName("Image" + i);
-        //     // Set the image (using a relative path)
-        //     setImage(imageLabel, "images/" + i + "c.gif"); // Adjust image file names
-        //     // Add a mouse listener to each image label
-        //     imageLabel.addMouseListener(new MouseListener(imageLabel.getName())); // Attach the mouse listener
-        //     // Add the image label to the panel
-        //     imagePanel.add(imageLabel);
-        // }
+
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 2;
         contentPanel.add(imagePanel, GridConstraints);
     }
-    private void printHand(JPanel imagePanel, JPanel contentPanel){
+    private void printHand(JPanel imagePanel, JPanel contentPanel, Player currPlayer){
         imagePanel.removeAll();
         imagePanel.revalidate();
         imagePanel.repaint();
-        currPlayer = gameState.getCurrPlayer();
         Hand playerHand = currPlayer.getHand();
         numOfClickedCards[0] = 0;   // Reset the number of clicked cards
 

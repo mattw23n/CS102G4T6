@@ -23,6 +23,7 @@ public class GamePanel extends JPanel {
         cardLayout = new CardLayout();
         setLayout(cardLayout);
         ArrayList<Player> playersList = gameState.getPlayersList();
+        initialisePanels(playersList);
         doRound();
         // for (int i = 0; i < playersList.size(); i++){
         //     doRound(i);
@@ -30,7 +31,7 @@ public class GamePanel extends JPanel {
         // Create and add each scene panel to the GamePanel
         // RoundPanel roundPanel = new roundPanel(gameState);
         // RoundOnePanel roundOnePanel = new RoundOnePanel();
-        IntermediatePanel intermediatePanel = new IntermediatePanel(gameState);
+        IntermediatePanel intermediatePanel = new IntermediatePanel(gameState );
         TurnPanel turnPanel = new TurnPanel(gameState);
         // RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
         DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
@@ -46,6 +47,14 @@ public class GamePanel extends JPanel {
         // cardLayout.show(this, "RoundOne0");
         switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
     }
+    public void initialisePanels(ArrayList<Player> playersList){
+        for (int i = 0; i < playersList.size(); i++){
+            Player player = playersList.get(i);
+            RoundOnePanel roundOnePanel = new RoundOnePanel(gameState, player);
+            System.out.println("---"+ player.toString() +" Time pass here---");
+            add(roundOnePanel, "P"+ player.getPlayerID() + "Picking");
+        }
+    }
     public void doRound() {
         ArrayList<Player> players = gameState.getPlayersList();
         // Scanner scan = new Scanner(System.in);
@@ -59,8 +68,8 @@ public class GamePanel extends JPanel {
             System.out.println(hand.toString());
             System.out.println("=================================================");
             
-            RoundOnePanel roundOnePanel = new RoundOnePanel(gameState);
-            add(roundOnePanel, "P"+p.getPlayerID() + "Picking");
+            // RoundOnePanel roundOnePanel = new RoundOnePanel(gameState);
+            // add(roundOnePanel, "P"+p.getPlayerID() + "Picking");
 
         //     //select upper bound and lower bound
         //     //upper and lower bound will be removed from hand afterwards

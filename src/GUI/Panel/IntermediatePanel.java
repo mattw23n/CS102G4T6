@@ -69,39 +69,7 @@ public class IntermediatePanel extends JPanel {
 
         mainPanel.add(scoreBoard);
         mainPanel.add(contentPanel);
-
-        // JLabel pointLabel = new JLabel("Score");
-        // pointLabel.setForeground(textColor);
-        // GridConstraints.gridx = 5;
-        // GridConstraints.gridy = 0;
-        // contentPanel.add(pointLabel, GridConstraints);
-
-        // JLabel p1PointsLabel = new JLabel("Player 1: ");
-        // p1PointsLabel.setForeground(textColor);
-        // GridConstraints.gridx = 4;
-        // GridConstraints.gridy = 2;
-        // contentPanel.add(p1PointsLabel, GridConstraints);
-
-        // JLabel p2PointsLabel = new JLabel("Player 2: ");
-        // p2PointsLabel.setForeground(textColor);
-        // GridConstraints.gridx = 6;
-        // GridConstraints.gridy = 2;
-        // contentPanel.add(p2PointsLabel, GridConstraints);
-
-        // JLabel p3PointsLabel = new JLabel("Player 3: ");
-        // p3PointsLabel.setForeground(textColor);
-        // GridConstraints.gridx = 4;
-        // GridConstraints.gridy = 3;
-        // contentPanel.add(p3PointsLabel, GridConstraints);
-
-        // JLabel p4PointsLabel = new JLabel("Player 4: ");
-        // p4PointsLabel.setForeground(textColor);
-        // GridConstraints.gridx = 6;
-        // GridConstraints.gridy = 3;
-        // contentPanel.add(p4PointsLabel, GridConstraints);
-
-        // nextButton = new JButton("Next");
-
+        
         // Set image as "next" button
         ImageIcon nextIcon = new ImageIcon("images/next.png");
         Image nextIconImage = nextIcon.getImage();
