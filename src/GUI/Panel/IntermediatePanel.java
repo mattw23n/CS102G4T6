@@ -32,7 +32,7 @@ public class IntermediatePanel extends JPanel {
         setLayout(new BorderLayout());
 
         // Colours Used (Can change later)
-        Color background = new Color(98, 171, 55);
+        Color background = new Color(27, 109, 50);
         Color textColor = new Color(244, 250, 255);
         
         // Panel creation

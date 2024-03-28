@@ -23,7 +23,7 @@ public class MainWindow{
     private final JFrame frame;
     public MainWindow(){
         // Colours Used (Can change later)
-        Color background = new Color(98, 171, 55);
+        Color background = new Color(27, 109, 50);
         Color textColor = new Color(244, 250, 255);
 
         // Create a JFrame
@@ -44,7 +44,7 @@ public class MainWindow{
 
         ImageIcon titleIcon = new ImageIcon("images/title.png");
         Image titleIconeImage = titleIcon.getImage();
-        Image scaledTitleImage = titleIconeImage.getScaledInstance(500, 300, java.awt.Image.SCALE_SMOOTH);
+        Image scaledTitleImage = titleIconeImage.getScaledInstance(600, 400, java.awt.Image.SCALE_SMOOTH);
         titleIcon = new ImageIcon(scaledTitleImage);
         JLabel title = new JLabel(titleIcon);
         mainPanel.add(title, null);
@@ -58,7 +58,7 @@ public class MainWindow{
         // JButton startButton = new Button("Start");
 
         // Set image as "start" button
-        ImageIcon startIcon = new ImageIcon("images/start2.png");
+        ImageIcon startIcon = new ImageIcon("images/start.png");
         Image startIconImage = startIcon.getImage();
         Image scaledImage = startIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
         startIcon = new ImageIcon(scaledImage);

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import components.Deck;
 import components.Player;
+import components.Card;
 
 public class GameState {
     private ArrayList<Player> playersList;
@@ -13,8 +14,9 @@ public class GameState {
     private boolean isPickingState;
     private boolean isBettingState;
     private int round;
+    private ArrayList<Card> selectedCards;
 
-    public GameState(ArrayList<Player> playersList, Deck allDeck, Deck rangeDeck, int round){
+    public GameState(ArrayList<Player> playersList, Deck allDeck, Deck rangeDeck, int round, ArrayList<Card> selectedCards){
         this.playersList = playersList;
         this.currPlayer = playersList.get(0);
         this.allDeck = allDeck;
@@ -22,6 +24,7 @@ public class GameState {
         this.isPickingState = true;
         this.isBettingState = false;
         this.round = 1;
+        this.selectedCards = selectedCards;
     }
     public ArrayList<Player> getPlayersList() {
         return playersList;
@@ -75,5 +78,11 @@ public class GameState {
     }
     public void nextRound() {
         this.round++;
+    }
+    public ArrayList<Card> getSelectedCards() {
+        return selectedCards;
+    }
+    public void setSelectedCards(ArrayList<Card> selectedCards) {
+        this.selectedCards = selectedCards;
     }
 }

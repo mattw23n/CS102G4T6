@@ -26,17 +26,22 @@ import javax.swing.SwingConstants;
 import javax.swing.text.MaskFormatter;
 
 import GUI.Listener.MouseListener;
+import components.Card;
 import components.Player;
+import components.Deck;
+import components.Hand;
 
 public class TurnPanel extends JPanel {
     private JButton nextButton;
     private Scoreboard scoreBoard;
     private GameState gameState;
     private Player currPlayer;
+    private ArrayList<Card> selectedCards;
 
     public TurnPanel(GameState gameState) {
         this.gameState = gameState;
         this.currPlayer = gameState.getCurrPlayer();
+        this.selectedCards = gameState.getSelectedCards();
         initialise();
     }
 
@@ -44,7 +49,7 @@ public class TurnPanel extends JPanel {
         setLayout(new BorderLayout());
 
         // Colours Used (Can change later)
-        Color background = new Color(98, 171, 55);
+        Color background = new Color(27, 109, 50);
         Color textColor = new Color(244, 250, 255);
 
         // Panel creation
@@ -64,6 +69,7 @@ public class TurnPanel extends JPanel {
         // GridConstraints.fill = GridConstraints.HORIZONTAL;
 
         // Add content to Turn Panel
+        System.out.println("current player = " + gameState.getCurrPlayer());
         JLabel descriptionLabel = new JLabel("Player " + gameState.getCurrPlayer() + "'s Turn");
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
@@ -81,22 +87,47 @@ public class TurnPanel extends JPanel {
         // Create and display multiple images
         JPanel imagePanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
         imagePanel.setBackground(background);
+
+        System.out.println("selected = " + selectedCards.toString());
+
+        // for (Card card : gameState.getSelectedCards()) {
+        //     System.out.println("card = " + gameState.getSelectedCards());
+        //     JLabel imageLabel = new JLabel();
+        //     imageLabel.setName(card.toString());
+        //     // System.out.println("card = " + card.toString());
+        //     ImageIcon cardimg = card.getCardImage();
+        //     // System.out.println("cardimg = " + cardimg);
+        //     imageLabel.setIcon(cardimg);
+        //     // imageLabel.addMouseListener(new MouseListener(imageLabel.getName()));
+        //     imagePanel.add(imageLabel);
+        // }
+
+        // draw card from deck and add to hand
+        // Hand playerHand = currPlayer.getHand();
+        // Deck.dealCard(allDeck, hand);
+        //     dealCard(allDeck, hand);
+        //     Card newest = hand.getCard(hand.getNumberOfCards() - 1);
+        //     System.out.println("\nYOU GOT " + newest);
+
+
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 3;
+        imagePanel.setVisible(true);
+        contentPanel.add(imagePanel, GridConstraints);
 
         //Testing Multiple Images
-        for (int i = 0; i <= 3; i++) {
-            JLabel imageLabel = new JLabel();
-            // Set a unique identifier for each image label
-            imageLabel.setName("Image" + i);
-            // Set the image (using a relative path)
-            setImage(imageLabel, "images/" + i + "c.gif"); // Adjust image file names
-            // Add a mouse listener to each image label
-            imageLabel.addMouseListener(new MouseListener(imageLabel.getName())); // Attach the mouse listener
-            // Add the image label to the panel
-            imagePanel.add(imageLabel);
-        }
-        contentPanel.add(imagePanel, GridConstraints);
+        // for (int i = 0; i <= 3; i++) {
+        //     JLabel imageLabel = new JLabel();
+        //     // Set a unique identifier for each image label
+        //     imageLabel.setName("Image" + i);
+        //     // Set the image (using a relative path)
+        //     setImage(imageLabel, "images/" + i + "c.gif"); // Adjust image file names
+        //     // Add a mouse listener to each image label
+        //     imageLabel.addMouseListener(new MouseListener(imageLabel.getName())); // Attach the mouse listener
+        //     // Add the image label to the panel
+        //     imagePanel.add(imageLabel);
+        // }
+        
 
         // Betting label
         JLabel betLabel = new JLabel("Make your bet");
@@ -188,14 +219,26 @@ public class TurnPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameState.moveToNextPlayer();
-                // Get the parent GamePanel
-                Container parent = getParent();
-                if (parent instanceof GamePanel) {
-                    GamePanel gamePanel = (GamePanel) parent;
-                    // Switch to IntermediatePanel
-                    gamePanel.switchToPanel("Intermediate");
+                betField.setText(null);
+                if (gameState.getRound() != 3) {
+                    gameState.moveToNextPlayer();
+                    // Get the parent GamePanel
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to IntermediatePanel
+                        gamePanel.switchToPanel("Intermediate");
+                    }
+                } else {
+                    // Get the parent GamePanel
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to IntermediatePanel
+                        gamePanel.switchToPanel("Scoreboard");
+                    }
                 }
+                
             }
         });
     }

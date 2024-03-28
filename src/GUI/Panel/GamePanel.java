@@ -23,7 +23,8 @@ public class GamePanel extends JPanel {
         cardLayout = new CardLayout();
         setLayout(cardLayout);
         ArrayList<Player> playersList = gameState.getPlayersList();
-        initialisePanels(playersList);
+        ArrayList<Card> selectedCards = gameState.getSelectedCards();
+        initialisePanels(playersList, selectedCards);
         doRound();
         // for (int i = 0; i < playersList.size(); i++){
         //     doRound(i);
@@ -47,7 +48,7 @@ public class GamePanel extends JPanel {
         // cardLayout.show(this, "RoundOne0");
         switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
     }
-    public void initialisePanels(ArrayList<Player> playersList){
+    public void initialisePanels(ArrayList<Player> playersList, ArrayList<Card> selectedCards){
         for (int i = 0; i < playersList.size(); i++){
             Player player = playersList.get(i);
             RoundOnePanel roundOnePanel = new RoundOnePanel(gameState, player);
@@ -187,7 +188,8 @@ public class GamePanel extends JPanel {
             dealRange(rangeDeck, p.getHand());
         }
         int roundCount = 1;
-        this.gameState = new GameState(playersList, allDeck, rangeDeck, roundCount);
+        ArrayList<Card> selectedCards = new ArrayList<>();
+        this.gameState = new GameState(playersList, allDeck, rangeDeck, roundCount, selectedCards);
     }
     public static Deck initializeNumbers(){
         //initializing deck of 52
