@@ -1,236 +1,117 @@
-//Compile.bat and Run.bat runs this file
+/*
+ * Application.java
+ * 
+ * CS102 G4 T6 - InBetween++
+ * 
+ * InBetween++ is a modification to the classic card game of InBetween,
+ * where players bet that the cards they'll draw will be in between the range.
+ * However, this version implements wildcards which can dramatically alter the game.
+ * 
+ */
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.Set;
-
+import java.util.*;
 import javax.swing.SwingUtilities;
-
-import GUI.MainWindow;
-import components.Card;
+import org.w3c.dom.ranges.Range;
+import GUI.Window;
 import components.Deck;
 import components.Hand;
 import components.Player;
 import components.PlayerComparator;
 import components.PlayerHand;
-import components.Rank;
-import components.Suit;
+import utilities.DeckUtils;
+import utilities.Utils;
 
 public class Application {
 
-    public static Deck initialize_numbers(){
-        //initializing deck of 52
-        Deck d1 = new Deck();
-        Rank.setKingHigh();
-        List r = Rank.VALUES_NUMBER;
-        List s = Suit.VALUES;
-
-        //adding cards to deck
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < r.size(); j++){
-                d1.addCard(new Card((Suit)s.get(i), (Rank)r.get(j), null));
-            }
-        }
-        
-        d1.shuffle();
-        return d1;
+    public static void runGUI (){
+        // SwingUtilities.invokeLater(() -> {
+            Window mainWindow = new Window();
+            mainWindow.setVisible(true);
+        // });
     }
 
-    public static boolean isWildCard(Card card){
-        for(int i = 10; i < 13; i++){
-            if(Rank.VALUES.get(i) == card.getRank())
-                return true;
-        }
-
-        return false;
-    }
-
-    public static Deck initialize_whole(){
-        //initializing deck of 52
-        Deck d1 = new Deck();
-        Rank.setKingHigh();
-        List r = Rank.VALUES;
-        List s = Suit.VALUES;
-
-        //adding cards to deck
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < r.size(); j++){
-                d1.addCard(new Card((Suit)s.get(i), (Rank)r.get(j), null));
+    //check if round should end early
+    public static boolean endRound(ArrayList<Player> players){
+        int isOutCount = 0;
+        for(Player p : players){
+            if(p.isOut()){
+                isOutCount++;
             }
         }
-        
-        d1.shuffle();
-        return d1;
+
+        return isOutCount >= players.size() - 1;
     }
     
-    public static void DealRange(Deck d1, Hand hand){
-        for(int i = 0; i < 6; i++){
-            hand.addCard(d1.dealCard());
-        }
+    //Runs one round of the game
+    public static boolean doRound(ArrayList<Player> players, Deck rangeDeck, Deck allDeck, int roundCount){
 
-    }
-
-    public static void DealCard(Deck d1, Hand hand){
-        hand.addCard(d1.dealCard());
-    }
-    //NOT USED?
-    public static Card StringtoCard(String target){
-        Map<String, Card> map = new HashMap<>();
-
-        Rank.setKingHigh();
-        List r = Rank.VALUES;
-        List s = Suit.VALUES;
-
-        //adding cards to deck
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < r.size(); j++){
-                Card temp = new Card((Suit)s.get(i), (Rank)r.get(j), null);
-                // System.out.println(temp.toString());
-                map.put(temp.toString(), temp);
-            }
-        }
+        System.out.println("\n=================================================\n");
+        System.out.println("==================ROUND " + roundCount + " START====================");
+        System.out.println("\n=================================================\n");
         
-        //System.out.println(map);
-
-        Set keys = map.keySet();
-        Iterator keys_iterator = keys.iterator();
-        while(keys_iterator.hasNext()){
-            String current = (String) keys_iterator.next();
-            if(current.equals(target)){
-                return map.get(current);
-            }
-        }
-
-        return null;
-    }
-    //USed?
-    public static boolean isKing(Card card){
-        return card.getRank() == Rank.VALUES.get(12);
-
-    }
-
-    public static void runGUI (){
-        SwingUtilities.invokeLater(() -> {
-            MainWindow mainWindow = new MainWindow();
-            mainWindow.showWindow();;
-        });
-    }
-
-    public static void doRound(ArrayList<Player> players, Deck RangeDeck, Deck AllDeck, int roundCount) {
-        //one round of the game
-
         Scanner scan = new Scanner(System.in);
 
         for(Player p : players){
 
-            //each player has a turn
+            //skip player if no money
+            if(p.isOut()){
+                System.out.println("player " + p.getPlayerID() + "is skipped!");
+                continue;
+            }
+
+            //Show player's hand
             Hand hand = p.getHand();
-            String playerId = "Player " + p.getPlayerID() + "'s Hand";
-            System.out.printf("=================%s=================\n", playerId);
-            System.out.println(hand.toString());
-            System.out.println("=================================================");
+            p.playerHandToString();
 
             //select upper bound and lower bound
             //upper and lower bound will be removed from hand afterwards
             p.chooseRange();
 
-            //make bet
-            int temp = p.makeBet();
-            if(temp < 0){
+            //make bet and check points
+            int bet = p.makeBet();
+            if(bet < 0){
                 System.out.println("You are OUT!!!");
+                p.setOut(true);
                 continue;
             }
-            p.setBet(temp);
+            p.setBet(bet);
             
             //draw card from deck and add to hand
-            DealCard(AllDeck, hand);
-            Card newest = hand.getCard(hand.getNumberOfCards() - 1);
-            System.out.println("\nYOU GOT " + newest);
+            DeckUtils.dealCard(allDeck, hand);
 
-            //calculate points
-
-            boolean isNonWild = false;
-
-            do {
-                if(isWildCard(newest)){
-                    p.incrementWildcardCount();
-
-                    //check if wildcard count >= 3
-                    if (p.getWildcardCount() >= 3) { 
-                        int currPoints = p.getPoints(); 
-                        p.setPoints(currPoints - 1); 
-                    }
-                    
-                    //if not jack
-                    if(newest.getRank().getSymbol() != "j"){
-                        p.processWildCard(hand, newest);
-
-                    }else{
-                        System.out.print("Choose range card to swap:");
-                        String input2 = scan.nextLine();
-                        Card cardToSwap = p.StringtoCard(input2);
-
-                        DealCard(RangeDeck, hand);
-                        Card swapped = hand.getCard(hand.getNumberOfCards() - 1);
-                        p.processJack(hand, cardToSwap, swapped);
-                    }
-                    
-                    //call process wildcard
-                    //remove the last card from the player's deck
-                    hand.removeCard(newest);
-                    DealCard(AllDeck, hand);
-                }else{
-
-                    int add = p.calculatePoints(hand, newest);
-                    p.setPoints(add);
-                    
-                    isNonWild = true;
-                    //remove the last card from the player's deck
-                    hand.removeCard(newest);
-                    break;
-                    //calculate points
-                }
-
-                newest = hand.getCard(hand.getNumberOfCards() - 1);
-                
-            } while (isWildCard(newest));
-
-            if(!isNonWild){
-                System.out.println("upper" + p.getUpper() + "lower" + p.getLower());
-                int add = p.calculatePoints(hand, newest);
-                p.setPoints(add);
-                
-                //remove the last card from the player's deck
-                hand.removeCard(newest);
-            }
-                
-
+            Utils.pointsProcessing(p, allDeck, rangeDeck);
+            
             System.out.println("Your Current Points: " + p.getPoints());
 
-            
-            System.out.println("\n=================YOUR CURRENT HAND=================\n" + hand);
+            //check points
+            if(p.getPoints() <= 1){
+                System.out.println("You are OUT!!!");
+                p.setOut(true);
+            }
+
+            //display hand after change
+            p.playerHandToString();
 
             //move to next player
             System.out.println("\n=================================================\n");
             System.out.println("PLEASE PASS TO THE NEXT PLAYER");
             System.out.println("\n=================================================\n");
+
         }
+
+        System.out.println("\n=================================================\n");
+        System.out.println("==================ROUND " + roundCount + " END====================");
+        System.out.println("\n=================================================\n");
+
+        return endRound(players);
     }
+
     public static void main(String[] args) {
-        runGUI();
-        // gameLogic();
-    }
-    public static void gameLogic(){
         //initializing deck of only range cards
-        Deck RangeDeck = initialize_numbers();
+        Deck rangeDeck = DeckUtils.initializeNumbers();
 
         //initialize deck of all cards
-        Deck AllDeck = initialize_whole();
+        Deck allDeck = DeckUtils.initializeWhole();
 
         // //initialize players
         Player p1 = new Player(1, 5, new PlayerHand());
@@ -246,34 +127,38 @@ public class Application {
 
         //initialize each players hand
         for(Player p : players){
-            DealRange(RangeDeck, p.getHand());
+            DeckUtils.dealRange(rangeDeck, p.getHand(), 6);
         }
         
-        /////
-
         //run game 3 times
         for(int i = 0 ; i < 3; i++){
-            doRound(players, RangeDeck, AllDeck, i + 1);
+            boolean endEarly = doRound(players, rangeDeck, allDeck, i + 1);
+
+            //end early check
+            if(endEarly){
+                System.out.println("Round ended at Round" + i + 1);
+                break;
+            }
         }
         
-        ////
         //find out the winner
         Collections.sort(players, new PlayerComparator());
         ArrayList<Player> winner = new ArrayList<>();
         winner.add(players.get(0));
 
-        int max_points = players.get(0).getPoints();
-        for(int i = 1; i < players.size(); i++){
-            if(players.get(i).getPoints() == max_points){
-                winner.add(players.get(i));
+        int maxPoints = players.get(0).getPoints();
+        for(Player p : players){
+            if(p.getPoints() == maxPoints && !winner.contains(p)){
+                winner.add(p);
             }
         }
 
+        //winner
         for(Player pw : winner){
             System.out.println("Player " + pw.getPlayerID() + " is the winner!!");
         }
         
-
+        //participant
         for(Player p : players){
             System.out.println("Player " + p.getPlayerID() + ": " + p.getPoints());
         }
