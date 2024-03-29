@@ -1,21 +1,14 @@
 package GUI;
 
 import java.awt.Color;
-import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.WindowListener;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectOutputStream;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 
 import GUI.Listener.ButtonListener;
 
@@ -34,14 +27,7 @@ public class MainWindow{
         JPanel mainPanel = new JPanel();
         mainPanel.setBackground(background);
         mainPanel.setLayout(new GridLayout(2, 1));
-
-        // Create a title label and add it to the main panel
-        // JLabel titleLabel = new JLabel("Card Game Application");
-        // titleLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        // titleLabel.setForeground(textColor);
-        // titleLabel.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        // mainPanel.add(titleLabel, null);
-
+        
         ImageIcon titleIcon = new ImageIcon("images/title.png");
         Image titleIconeImage = titleIcon.getImage();
         Image scaledTitleImage = titleIconeImage.getScaledInstance(600, 400, java.awt.Image.SCALE_SMOOTH);

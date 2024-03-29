@@ -11,8 +11,7 @@
 
 import java.util.*;
 import javax.swing.SwingUtilities;
-import org.w3c.dom.ranges.Range;
-import GUI.Window;
+import GUI.MainWindow;
 import components.Deck;
 import components.Hand;
 import components.Player;
@@ -24,10 +23,10 @@ import utilities.Utils;
 public class Application {
 
     public static void runGUI (){
-        // SwingUtilities.invokeLater(() -> {
-            Window mainWindow = new Window();
-            mainWindow.setVisible(true);
-        // });
+        SwingUtilities.invokeLater(() -> {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.showWindow();
+        });
     }
 
     //check if round should end early
@@ -107,63 +106,64 @@ public class Application {
     }
 
     public static void main(String[] args) {
-        //initializing deck of only range cards
-        Deck rangeDeck = DeckUtils.initializeNumbers();
+        runGUI();
+        // //initializing deck of only range cards
+        // Deck rangeDeck = DeckUtils.initializeNumbers();
 
-        //initialize deck of all cards
-        Deck allDeck = DeckUtils.initializeWhole();
+        // //initialize deck of all cards
+        // Deck allDeck = DeckUtils.initializeWhole();
 
-        // //initialize players
-        Player p1 = new Player(1, 5, new PlayerHand());
-        Player p2 = new Player(2, 5, new PlayerHand());
-        Player p3 = new Player(3, 5, new PlayerHand());
-        Player p4 = new Player(4, 5, new PlayerHand());
+        // // //initialize players
+        // Player p1 = new Player(1, 5, new PlayerHand());
+        // Player p2 = new Player(2, 5, new PlayerHand());
+        // Player p3 = new Player(3, 5, new PlayerHand());
+        // Player p4 = new Player(4, 5, new PlayerHand());
 
-        ArrayList<Player> players = new ArrayList<>();
-        players.add(p1);
-        players.add(p2);
-        players.add(p3);
-        players.add(p4);
+        // ArrayList<Player> players = new ArrayList<>();
+        // players.add(p1);
+        // players.add(p2);
+        // players.add(p3);
+        // players.add(p4);
 
-        //initialize each players hand
-        for(Player p : players){
-            DeckUtils.dealRange(rangeDeck, p.getHand(), 6);
-        }
+        // //initialize each players hand
+        // for(Player p : players){
+        //     DeckUtils.dealRange(rangeDeck, p.getHand(), 6);
+        // }
         
-        //run game 3 times
-        for(int i = 0 ; i < 3; i++){
-            boolean endEarly = doRound(players, rangeDeck, allDeck, i + 1);
+        // //run game 3 times
+        // for(int i = 0 ; i < 3; i++){
+        //     boolean endEarly = doRound(players, rangeDeck, allDeck, i + 1);
 
-            //end early check
-            if(endEarly){
-                System.out.println("Round ended at Round" + i + 1);
-                break;
-            }
-        }
+        //     //end early check
+        //     if(endEarly){
+        //         System.out.println("Round ended at Round" + i + 1);
+        //         break;
+        //     }
+        // }
         
-        //find out the winner
-        Collections.sort(players, new PlayerComparator());
-        ArrayList<Player> winner = new ArrayList<>();
-        winner.add(players.get(0));
+        // //find out the winner
+        // Collections.sort(players, new PlayerComparator());
+        // ArrayList<Player> winner = new ArrayList<>();
+        // winner.add(players.get(0));
 
-        int maxPoints = players.get(0).getPoints();
-        for(Player p : players){
-            if(p.getPoints() == maxPoints && !winner.contains(p)){
-                winner.add(p);
-            }
-        }
+        // int maxPoints = players.get(0).getPoints();
+        // for(Player p : players){
+        //     if(p.getPoints() == maxPoints && !winner.contains(p)){
+        //         winner.add(p);
+        //     }
+        // }
 
-        //winner
-        for(Player pw : winner){
-            System.out.println("Player " + pw.getPlayerID() + " is the winner!!");
-        }
+        // //winner
+        // for(Player pw : winner){
+        //     System.out.println("Player " + pw.getPlayerID() + " is the winner!!");
+        // }
         
-        //participant
-        for(Player p : players){
-            System.out.println("Player " + p.getPlayerID() + ": " + p.getPoints());
-        }
+        // //participant
+        // for(Player p : players){
+        //     System.out.println("Player " + p.getPlayerID() + ": " + p.getPoints());
+        // }
 
-        System.out.println("Thank you for playing!");
+        // System.out.println("Thank you for playing!");
 
     }
 }

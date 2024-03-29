@@ -53,9 +53,7 @@ public class GameState {
     }
     @Override
     public String toString() {
-        return "Current Player: " + currPlayer.toString() +
-            "\nPicking State: " + isPickingState +
-            "\nBetting State: " + isBettingState;
+        return "Current Player: " + currPlayer.toString();
     }
     public int getRound() {
         return round;
