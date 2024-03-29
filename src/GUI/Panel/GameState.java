@@ -11,8 +11,6 @@ public class GameState {
     private Player currPlayer;
     private Deck allDeck;
     private Deck rangeDeck;
-    private boolean isPickingState;
-    private boolean isBettingState;
     private int round;
     private ArrayList<Card> selectedCards;
 
@@ -21,8 +19,6 @@ public class GameState {
         this.currPlayer = playersList.get(0);
         this.allDeck = allDeck;
         this.rangeDeck = rangeDeck;
-        this.isPickingState = true;
-        this.isBettingState = false;
         this.round = 1;
         this.selectedCards = selectedCards;
     }
@@ -55,18 +51,6 @@ public class GameState {
     public void setRangeDeck(Deck rangeDeck) {
         this.rangeDeck = rangeDeck;
     }
-    public boolean isBettingState() {
-        return isBettingState;
-    }
-    public void setBettingState(boolean isBettingState) {
-        this.isBettingState = isBettingState;
-    }
-    public boolean isPickingState() {
-        return isPickingState;
-    }
-    public void setPickingState(boolean isPickingState) {
-        this.isPickingState = isPickingState;
-    }
     @Override
     public String toString() {
         return "Current Player: " + currPlayer.toString() +
@@ -76,11 +60,17 @@ public class GameState {
     public int getRound() {
         return round;
     }
+    public void setRound(int round){
+        this.round = round;
+    }
     public void nextRound() {
         this.round++;
     }
     public ArrayList<Card> getSelectedCards() {
         return selectedCards;
+    }
+    public void clearSelectedCards(){
+        this.selectedCards.clear();
     }
     public void setSelectedCards(ArrayList<Card> selectedCards) {
         this.selectedCards = selectedCards;

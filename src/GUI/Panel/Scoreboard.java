@@ -45,7 +45,7 @@ public class Scoreboard extends JPanel {
             return (int[]) object.readObject();
         } catch (IOException | ClassNotFoundException e) {
             // Handle exceptions (create a new scores array with initial values)
-            return new int[]{0, 0, 0, 0};
+            return new int[]{5, 5, 5, 5};
         }
     }
     // Method to update a player's score

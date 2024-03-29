@@ -17,6 +17,9 @@ import components.Suit;
 public class GamePanel extends JPanel {
     private CardLayout cardLayout;
     private GameState gameState;
+    private RoundOnePanel roundOnePanel;
+    private IntermediatePanel intermediatePanel;
+    private TurnPanel turnPanel;
 
     public GamePanel() {
         initialise();
@@ -24,37 +27,42 @@ public class GamePanel extends JPanel {
         setLayout(cardLayout);
         ArrayList<Player> playersList = gameState.getPlayersList();
         ArrayList<Card> selectedCards = gameState.getSelectedCards();
-        initialisePanels(playersList, selectedCards);
+        // initialisePanels(playersList, selectedCards);
         doRound();
-        // for (int i = 0; i < playersList.size(); i++){
-        //     doRound(i);
-        // }
         // Create and add each scene panel to the GamePanel
         // RoundPanel roundPanel = new roundPanel(gameState);
-        // RoundOnePanel roundOnePanel = new RoundOnePanel();
-        IntermediatePanel intermediatePanel = new IntermediatePanel(gameState );
-        TurnPanel turnPanel = new TurnPanel(gameState);
-        // RoundTwoPanel roundTwoPanel = new RoundTwoPanel();
+        roundOnePanel = new RoundOnePanel(gameState);
+        intermediatePanel = new IntermediatePanel(gameState);
+        turnPanel = new TurnPanel(gameState);
         DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
 
         // add(roundPanel, "round");
-        // add(roundOnePanel, "RoundOne");
+        add(roundOnePanel, "Round");
         add(intermediatePanel, "Intermediate");
         add(turnPanel, "Turn");
-        // add(roundTwoPanel, "RoundTwo");
         add(displayScoresPanel, "Scoreboard");
 
         // Show the initial scene (e.g., RoundOne)
-        // cardLayout.show(this, "RoundOne0");
-        switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
+        switchToPanel("Round");
     }
-    public void initialisePanels(ArrayList<Player> playersList, ArrayList<Card> selectedCards){
-        for (int i = 0; i < playersList.size(); i++){
-            Player player = playersList.get(i);
-            RoundOnePanel roundOnePanel = new RoundOnePanel(gameState, player);
-            System.out.println("---"+ player.toString() +" Time pass here---");
-            add(roundOnePanel, "P"+ player.getPlayerID() + "Picking");
+    public void updateIntermediatePanel (){
+        System.out.println("Updating IntermediatePanel");
+        if (gameState.getCurrPlayer().getPlayerID() == 1){
+            gameState.nextRound();
+            intermediatePanel.setDescriptionLabelToRound(gameState);
+        } else {
+            intermediatePanel.setDescriptionLabelToPass(gameState);
         }
+    }
+    public void updateTurnPanel(){
+        turnPanel.setDescriptionLabel(gameState);
+        turnPanel.setSelectedCardsPanel(gameState);
+    }
+    public void updateRoundOnePanel(){
+        roundOnePanel.setDescriptionLabel(gameState);
+        roundOnePanel.setHandPanel(gameState);
+        repaint();
+        revalidate();
     }
     public void doRound() {
         ArrayList<Player> players = gameState.getPlayersList();
@@ -69,9 +77,6 @@ public class GamePanel extends JPanel {
             System.out.println(hand.toString());
             System.out.println("=================================================");
             
-            // RoundOnePanel roundOnePanel = new RoundOnePanel(gameState);
-            // add(roundOnePanel, "P"+p.getPlayerID() + "Picking");
-
         //     //select upper bound and lower bound
         //     //upper and lower bound will be removed from hand afterwards
         //     p.chooseRange();

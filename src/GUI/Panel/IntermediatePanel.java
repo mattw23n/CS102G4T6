@@ -23,6 +23,7 @@ public class IntermediatePanel extends JPanel {
     private Scoreboard scoreBoard;
     private Player nextPlayer;
     private GameState gameState;
+    private JLabel descriptionLabel;
 
     public IntermediatePanel(GameState gameState) {
         this.gameState = gameState;
@@ -55,7 +56,7 @@ public class IntermediatePanel extends JPanel {
 
 
         // Add content to RoundOnePanel
-        JLabel descriptionLabel = new JLabel("Pass on to next player");
+        descriptionLabel = new JLabel("Pass on to next player");
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
         GridConstraints.weightx = 0.1;
@@ -92,9 +93,17 @@ public class IntermediatePanel extends JPanel {
                 if (parent instanceof GamePanel) {
                     GamePanel gamePanel = (GamePanel) parent;
                     // Switch to IntermediatePanel
-                    gamePanel.switchToPanel("P"+ gameState.getCurrPlayer().getPlayerID() + "Picking");
+                    gamePanel.updateRoundOnePanel();
+                    gamePanel.switchToPanel("Round");
+
                 }
             }
         });
+    }
+    public void setDescriptionLabelToRound(GameState gameState) {
+        this.descriptionLabel.setText("Round "+ gameState.getRound());
+    }
+    public void setDescriptionLabelToPass(GameState gameState) {
+        this.descriptionLabel.setText("Pass on to next player");
     }
 }
