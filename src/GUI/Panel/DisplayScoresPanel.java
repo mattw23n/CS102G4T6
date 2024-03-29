@@ -2,7 +2,9 @@ package GUI.Panel;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.awt.GridBagConstraints;
 import java.awt.Color;
 
@@ -20,7 +22,8 @@ public class DisplayScoresPanel extends JPanel{
     private JPanel contentPanel;
     private GameState gameState;
 
-    public DisplayScoresPanel (){
+    public DisplayScoresPanel (GameState gameState){
+        this.gameState = gameState;
         initialize();
     }
     private void initialize(){
@@ -46,7 +49,7 @@ public class DisplayScoresPanel extends JPanel{
         
         ImageIcon titleIcon = new ImageIcon("images/finalScore.png");
         java.awt.Image titleIconeImage = titleIcon.getImage();
-        java.awt.Image scaledTitleImage = titleIconeImage.getScaledInstance(500, 300, java.awt.Image.SCALE_SMOOTH);
+        java.awt.Image scaledTitleImage = titleIconeImage.getScaledInstance(500, 150, java.awt.Image.SCALE_SMOOTH);
         titleIcon = new ImageIcon(scaledTitleImage);
         JLabel title = new JLabel(titleIcon);
         GridConstraints.gridx = 0;
@@ -59,19 +62,34 @@ public class DisplayScoresPanel extends JPanel{
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 1;
         contentPanel.add(scoreBoard, GridConstraints);
-        add(contentPanel, BorderLayout.CENTER);
+        
+        ArrayList<Player> players = gameState.getPlayersList();
+        Collections.sort(players, new PlayerComparator());
+        Player winner = players.get(0);
 
-        // Set image as "exit" button
-        ImageIcon exitIcon = new ImageIcon("images/exit.png");
-        java.awt.Image exitIconImage = exitIcon.getImage();
-        java.awt.Image scaledImage = exitIconImage.getScaledInstance(100, 50, java.awt.Image.SCALE_SMOOTH);
-        exitIcon = new ImageIcon(scaledImage);
-        JButton exitButton = new JButton(exitIcon);
-        exitButton.setBorder(null);
-
+        // String imageFilePath = "images/p" + winner.getPlayerID() + "Wins.png";
+        ImageIcon winIcon = new ImageIcon("images/p1Wins.png");
+        java.awt.Image winIconImage = winIcon.getImage();
+        java.awt.Image scaledWinImage = winIconImage.getScaledInstance(350, 100, java.awt.Image.SCALE_SMOOTH);
+        winIcon = new ImageIcon(scaledWinImage);
+        JLabel winLabel = new JLabel(winIcon);
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 2;
-        contentPanel.add(exitButton, GridConstraints);
+        contentPanel.add(winLabel, GridConstraints);
+
+        // Set image as "exit" button
+        // ImageIcon exitIcon = new ImageIcon("images/exit.png");
+        // java.awt.Image exitIconImage = exitIcon.getImage();
+        // java.awt.Image scaledImage = exitIconImage.getScaledInstance(100, 50, java.awt.Image.SCALE_SMOOTH);
+        // exitIcon = new ImageIcon(scaledImage);
+        // JButton exitButton = new JButton(exitIcon);
+        // exitButton.setBorder(null);
+
+        // GridConstraints.gridx = 0;
+        // GridConstraints.gridy = 2;
+        // contentPanel.add(exitButton, GridConstraints);
+
+        add(contentPanel, BorderLayout.CENTER);
 
     }
 }
