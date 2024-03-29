@@ -1,6 +1,6 @@
 # CS102G4T6 - In Between++
 
-In Between++ is a thrilling card game where 4 players strategize, bet, and calculate probabilities to win points. The game is played with a standard deck of cards with some exciting twists involving Wild Cards (Jack, Queen, King, Joker). This README provides an overview of the game mechanics, rules, and how to use the app to enjoy this engaging card game. 
+In Between++ is a thrilling card game where 4 players strategize, bet, and calculate probabilities to win points. The game is played with a standard deck of cards with some exciting twists involving Wild Cards (Jack, Queen, King). This README provides an overview of the game mechanics, rules, and how to use the app to enjoy this engaging card game. 
 
 ## Game Mechanics
 1. Each player is dealt 6 Cards and starts with 5 points in their Pocket. 🃏💰
