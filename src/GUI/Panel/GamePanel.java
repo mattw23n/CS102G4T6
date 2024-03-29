@@ -34,7 +34,7 @@ public class GamePanel extends JPanel {
         intermediatePanel = new IntermediatePanel(gameState);
         turnPanel = new TurnPanel(gameState);
         drawPanel = new DrawPanel(gameState);
-        DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
+        DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel(gameState);
 
         // add(roundPanel, "round");
         add(roundPanel, "Round");

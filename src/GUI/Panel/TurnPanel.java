@@ -182,7 +182,14 @@ public class TurnPanel extends JPanel {
                             int bet = Integer.parseInt(input);
                             currPlayer.setBet(bet);
                             betButton.setEnabled(true);
-                            finishButton.setEnabled(true);
+                            // finishButton.setEnabled(true);
+                            Container parent = getParent();
+                            if (parent instanceof GamePanel) {
+                                GamePanel gamePanel = (GamePanel) parent;
+                                // Switch to IntermediatePanel
+                                gamePanel.updateDrawPanel();
+                                gamePanel.switchToPanel("Draw");
+                            } 
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }
@@ -191,53 +198,53 @@ public class TurnPanel extends JPanel {
             }
         });
 
-        //Listener for "finish turn" Button
-        add(mainPanel, BorderLayout.CENTER);
-        finishButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                betField.setText(null);
-                if (gameState.getRound() < 3) {
-                    // gameState.moveToNextPlayer();
-                    // Get the parent GamePanel
-                    Container parent = getParent();
-                    if (parent instanceof GamePanel) {
-                        GamePanel gamePanel = (GamePanel) parent;
-                        // Switch to DrawPanel
-                        System.out.println(gameState.getSelectedCards());
-                        gamePanel.updateDrawPanel();
-                        gamePanel.switchToPanel("Draw");
-                    }
-                // get user input
-                String input = betField.getText();
-                if (input.isEmpty()) {
-                    JOptionPane.showMessageDialog(mainPanel, "Please place bet", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    try {
-                        int bet = Integer.parseInt(input);
-                        currPlayer.setBet(bet);
-                        // switch to draw panel
-                        // Container parent = getParent();
-                        // if (parent instanceof GamePanel) {
-                        //     GamePanel gamePanel = (GamePanel) parent;
-                        //     // Switch to IntermediatePanel
-                        //     gamePanel.switchToPanel("Draw");
-                        // } 
-                    } catch (NumberFormatException e) {
-                        e.printStackTrace();
-                    } 
-                }
-                // if (gameState.getRound() == 3) {
-                    Container parent = getParent();
-                    if (parent instanceof GamePanel) {
-                        GamePanel gamePanel = (GamePanel) parent;
-                        // Switch to IntermediatePanel
-                        gamePanel.switchToPanel("Scoreboard");
-                    } 
-                // }
-            }
-        }
-        });
+        // //Listener for "finish turn" Button
+        // add(mainPanel, BorderLayout.CENTER);
+        // finishButton.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         betField.setText(null);
+        //         if (gameState.getRound() < 3) {
+        //             // gameState.moveToNextPlayer();
+        //             // Get the parent GamePanel
+        //             Container parent = getParent();
+        //             if (parent instanceof GamePanel) {
+        //                 GamePanel gamePanel = (GamePanel) parent;
+        //                 // Switch to DrawPanel
+        //                 System.out.println(gameState.getSelectedCards());
+        //                 gamePanel.updateDrawPanel();
+        //                 gamePanel.switchToPanel("Draw");
+        //             }
+        //         // get user input
+        //         String input = betField.getText();
+        //         if (input.isEmpty()) {
+        //             JOptionPane.showMessageDialog(mainPanel, "Please place bet", "Error", JOptionPane.ERROR_MESSAGE);
+        //         } else {
+        //             try {
+        //                 int bet = Integer.parseInt(input);
+        //                 currPlayer.setBet(bet);
+        //                 // switch to draw panel
+        //                 // Container parent = getParent();
+        //                 // if (parent instanceof GamePanel) {
+        //                 //     GamePanel gamePanel = (GamePanel) parent;
+        //                 //     // Switch to IntermediatePanel
+        //                 //     gamePanel.switchToPanel("Draw");
+        //                 // } 
+        //             } catch (NumberFormatException ex) {
+        //                 e.printStackTrace();
+        //             } 
+        //         }
+        //         // if (gameState.getRound() == 3) {
+        //             Container parent = getParent();
+        //             if (parent instanceof GamePanel) {
+        //                 GamePanel gamePanel = (GamePanel) parent;
+        //                 // Switch to IntermediatePanel
+        //                 gamePanel.switchToPanel("Scoreboard");
+        //             } 
+        //         // }
+        //     }
+        // }
+        // });
 
         //Listener for "finish turn" Button
         add(mainPanel, BorderLayout.CENTER);
