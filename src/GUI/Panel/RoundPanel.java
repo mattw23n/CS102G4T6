@@ -118,7 +118,6 @@ public class RoundPanel extends JPanel{
                         gamePanel.updateTurnPanel();
                         gamePanel.switchToPanel("Turn");
                         gameState.setSelectedCards(selection);
-                        selection.clear();
                         // return; // Exit the actionPerformed method after switching panels
                     }
                 }         
@@ -135,6 +134,7 @@ public class RoundPanel extends JPanel{
         this.descriptionLabel.setText("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer().getPlayerID() +": Pick 2 Cards");;
     }
     public void setHandPanel(GameState gameState){
+        selection.clear();
         handPanel.removeAll();
         handPanel.revalidate();
         handPanel.repaint();
@@ -158,7 +158,7 @@ public class RoundPanel extends JPanel{
                         numOfClickedCards[0]++;
                     } else {
                         cardImage.setBorder(null);
-                        selection.remove(selection.size()-1);
+                        selection.remove(selection.indexOf(card));
                         numOfClickedCards[0]--;
                     }
                 }

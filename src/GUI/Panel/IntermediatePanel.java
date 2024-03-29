@@ -95,7 +95,6 @@ public class IntermediatePanel extends JPanel {
                     // Switch to IntermediatePanel
                     gamePanel.updateRoundPanel();
                     gamePanel.switchToPanel("Round");
-
                 }
             }
         });

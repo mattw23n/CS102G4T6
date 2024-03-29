@@ -1,37 +1,29 @@
 package GUI.Panel;
 
-import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.text.MaskFormatter;
 
-import GUI.Listener.MouseListener;
 import components.Card;
 import components.Player;
-import components.Deck;
-import components.Hand;
 
-public class TurnPanel extends JPanel {
+public class DrawPanel extends JPanel {
     private JButton nextButton;
     private Scoreboard scoreBoard;
     private GameState gameState;
@@ -39,8 +31,11 @@ public class TurnPanel extends JPanel {
     private JPanel selectedCardsPanel;
     private ArrayList<Card> selectedCards;
     private JLabel descriptionLabel;
+    private JLabel lowerBoundLabel;
+    private JLabel upperBoundLabel;
+    private JPanel wildStatusPanel;
 
-    public TurnPanel(GameState gameState) {
+    public DrawPanel(GameState gameState) {
         this.gameState = gameState;
         this.currPlayer = gameState.getCurrPlayer();
         this.selectedCards = gameState.getSelectedCards();
@@ -90,8 +85,6 @@ public class TurnPanel extends JPanel {
         selectedCardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
         selectedCardsPanel.setBackground(background);
 
-        System.out.println("selected = " + selectedCards.toString());
-
         // draw card from deck and add to hand
         // Hand playerHand = currPlayer.getHand();
         // Deck.dealCard(allDeck, hand);
@@ -99,64 +92,48 @@ public class TurnPanel extends JPanel {
         //     Card newest = hand.getCard(hand.getNumberOfCards() - 1);
         //     System.out.println("\nYOU GOT " + newest);
 
-
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 3;
         selectedCardsPanel.setVisible(true);
         contentPanel.add(selectedCardsPanel, GridConstraints);
-
-        // Betting label
-        JLabel betLabel = new JLabel("Make your bet");
-        betLabel.setFont(new Font("Segoe UI", Font.PLAIN, 30));
-        betLabel.setBackground(background);
-        betLabel.setForeground(textColor);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 4;
-        contentPanel.add(betLabel, GridConstraints);
-
-        // Bet Panel
-        JPanel betPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        betPanel.setBackground(background);
-
-        // Betting field
-        // try {
-            // MaskFormatter mask = new MaskFormatter("#");
-            // mask.setPlaceholderCharacter('_');
-            // JFormattedTextField betField = new JFormattedTextField(mask);
-        JTextField betField = new JTextField(5);
-        betField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-        betField.setBackground(Color.WHITE);
-        betField.setBorder(null);
-        betPanel.add(betField);
-        // } catch (ParseException e) {
-        //     e.printStackTrace();
-        // }
-
-        // Place Bet button
-        ImageIcon betIcon = new ImageIcon("images/bet.png");
-        Image betIconImage = betIcon.getImage();
-        Image scaledImage2 = betIconImage.getScaledInstance(150, 75, java.awt.Image.SCALE_SMOOTH);
-        betIcon = new ImageIcon(scaledImage2);
-        JButton betButton = new JButton(betIcon);
-        betButton.setBorder(null);
-        betPanel.add(betButton);
-        betButton.setActionCommand("bet");
+        
+        
+        // Set image as "draw" button
+        ImageIcon nextIcon = new ImageIcon("images/finish.png");
+        Image nextIconImage = nextIcon.getImage();
+        Image scaledImage = nextIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+        nextIcon = new ImageIcon(scaledImage);
+        JButton nextButton = new JButton(nextIcon);
+        nextButton.setBorder(null);
 
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 5;
-        contentPanel.add(betPanel, GridConstraints);
-        
-        // Finish Turn Button
-        // nextButton = new JButton("Finish Turn");
+        contentPanel.add(nextButton, GridConstraints);
+
+        //Listener for "Next" Button
+        add(mainPanel, BorderLayout.CENTER);
+        nextButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Get the parent GamePanel
+                Container parent = getParent();
+                if (parent instanceof GamePanel) {
+                    GamePanel gamePanel = (GamePanel) parent;
+                    // Switch to IntermediatePanel
+                    System.out.println("DRAW CARD");
+                }
+            }
+        });
+
+
 
         // set image for "finish turn" button
-        ImageIcon finishIcon = new ImageIcon("images/finish.png");
+        ImageIcon finishIcon = new ImageIcon("images/next.png");
         Image finishIconImage = finishIcon.getImage();
-        Image scaledImage = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-        finishIcon = new ImageIcon(scaledImage);
+        Image scaledImage2 = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+        finishIcon = new ImageIcon(scaledImage2);
         JButton finishButton = new JButton(finishIcon);
         finishButton.setBorder(null);
-        finishButton.setEnabled(false);
 
         JLabel disabledFinish = new JLabel(finishIcon);
         GridConstraints.gridx = 0;
@@ -168,57 +145,24 @@ public class TurnPanel extends JPanel {
         GridConstraints.gridy = 7;
         contentPanel.add(finishButton, GridConstraints);
 
-        // add listener to bet button
-        betButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e1) {
-                if ("bet".equals(e1.getActionCommand())) {
-                    // get user input
-                    String input = betField.getText();
-                    if (input.isEmpty()) {
-                        JOptionPane.showMessageDialog(mainPanel, "Please place bet", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        try {
-                            int bet = Integer.parseInt(input);
-                            currPlayer.setBet(bet);
-                            betButton.setEnabled(true);
-                            finishButton.setEnabled(true);
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    } 
-                } 
-            }
-        });
-
         //Listener for "finish turn" Button
         add(mainPanel, BorderLayout.CENTER);
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                betField.setText(null);
-                if (gameState.getRound() < 3) {
-                    // gameState.moveToNextPlayer();
-                    // Get the parent GamePanel
-                    Container parent = getParent();
-                    if (parent instanceof GamePanel) {
-                        GamePanel gamePanel = (GamePanel) parent;
-                        // Switch to DrawPanel
-                        System.out.println(gameState.getSelectedCards());
-                        gamePanel.updateDrawPanel();
-                        gamePanel.switchToPanel("Draw");
-                    }
-                } else {
-                    // Get the parent GamePanel
-                    Container parent = getParent();
-                    if (parent instanceof GamePanel) {
-                        GamePanel gamePanel = (GamePanel) parent;
-                        // Switch to IntermediatePanel
-                        gamePanel.switchToPanel("Scoreboard");
-                    }
-                }
-                
+                gameState.moveToNextPlayer();
+                // Get the parent GamePanel
+                Container parent = getParent();
+                if (parent instanceof GamePanel) {
+                    GamePanel gamePanel = (GamePanel) parent;
+                    // Switch to IntermediatePanel
+                    System.out.println("a" + gameState.getSelectedCards());
+                    gameState.clearSelectedCards();
+                    System.out.println("b" + gameState.getSelectedCards());
+                    gamePanel.updateIntermediatePanel();
+                    gamePanel.switchToPanel("Intermediate");                
             }
+        }
         });
     }
     public void setDescriptionLabel(GameState gameState) {
@@ -227,15 +171,38 @@ public class TurnPanel extends JPanel {
     public void setSelectedCardsPanel (GameState gameState){
         selectedCardsPanel.removeAll();
         ArrayList<Card> cards = gameState.getSelectedCards();
-        Collections.sort(cards);
+        System.out.println(cards);
+        cards.add(null);
+        Collections.swap(cards, 1, 2);
+
+        
         for (Card card : cards) {
-            gameState.getCurrPlayer().getHand().removeCard(card);
+            JPanel cardPanel = new JPanel(new BorderLayout());
+            // gameState.getCurrPlayer().getHand().removeCard(card);
             System.out.println("card = " + gameState.getSelectedCards());
             JLabel cardImage = new JLabel();
-            cardImage.setName(card.toString());
-            setImage(cardImage, "images/" + card.toString() +".gif");
             // cardImage.addMouseListener(new MouseListener(cardImage.getName()));
-            selectedCardsPanel.add(cardImage);
+            if (card == null){
+                // cardImage.setName("as");
+                setImage(cardImage, "images/cardback.png");
+                cardPanel.add(cardImage, BorderLayout.NORTH);
+            } else {
+                // cardImage.setName(card.toString());
+                if (cards.getFirst().isSameAs(card)){
+                    cardPanel.add(cardImage, BorderLayout.NORTH);
+                    lowerBoundLabel = new JLabel("Lower");
+                    lowerBoundLabel.setBackground(new Color(27, 109, 50));
+                    cardPanel.add(lowerBoundLabel, BorderLayout.SOUTH);
+                } else {
+                    cardPanel.add(cardImage,BorderLayout.NORTH);
+                    upperBoundLabel = new JLabel("Upper");
+                    upperBoundLabel.setBackground(new Color(27, 109, 50));
+                    cardPanel.add(upperBoundLabel, BorderLayout.SOUTH);
+                }
+                setImage(cardImage, "images/" + card.toString() +".gif");
+            }
+            selectedCardsPanel.add(cardPanel);
+
         }
         repaint();
         revalidate();

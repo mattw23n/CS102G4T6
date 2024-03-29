@@ -20,6 +20,7 @@ public class GamePanel extends JPanel {
     private RoundPanel roundPanel;
     private IntermediatePanel intermediatePanel;
     private TurnPanel turnPanel;
+    private DrawPanel drawPanel;
 
     public GamePanel() {
         initialise();
@@ -32,16 +33,23 @@ public class GamePanel extends JPanel {
         roundPanel = new RoundPanel(gameState);
         intermediatePanel = new IntermediatePanel(gameState);
         turnPanel = new TurnPanel(gameState);
+        drawPanel = new DrawPanel(gameState);
         DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
 
         // add(roundPanel, "round");
         add(roundPanel, "Round");
         add(intermediatePanel, "Intermediate");
         add(turnPanel, "Turn");
+        add(drawPanel, "Draw");
         add(displayScoresPanel, "Scoreboard");
 
         // Show the initial scene (e.g., RoundOne)
         switchToPanel("Round");
+    }
+    public void updateDrawPanel (){
+        System.out.println("Drawing");
+        drawPanel.setDescriptionLabel(gameState);
+        drawPanel.setSelectedCardsPanel(gameState);
     }
     public void updateIntermediatePanel (){
         System.out.println("Updating IntermediatePanel");
