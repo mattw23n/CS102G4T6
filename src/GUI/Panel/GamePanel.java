@@ -20,6 +20,7 @@ public class GamePanel extends JPanel {
     private RoundPanel roundPanel;
     private IntermediatePanel intermediatePanel;
     private TurnPanel turnPanel;
+    private DisplayScoresPanel displayScoresPanel;
 
     public GamePanel() {
         initialise();
@@ -32,7 +33,7 @@ public class GamePanel extends JPanel {
         roundPanel = new RoundPanel(gameState);
         intermediatePanel = new IntermediatePanel(gameState);
         turnPanel = new TurnPanel(gameState);
-        DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();
+        displayScoresPanel = new DisplayScoresPanel(gameState);
 
         // add(roundPanel, "round");
         add(roundPanel, "Round");

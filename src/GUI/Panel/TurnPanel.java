@@ -162,77 +162,88 @@ public class TurnPanel extends JPanel {
         // nextButton = new JButton("Finish Turn");
 
         // set image for "finish turn" button
-        ImageIcon finishIcon = new ImageIcon("images/finish.png");
-        Image finishIconImage = finishIcon.getImage();
-        Image scaledImage = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-        finishIcon = new ImageIcon(scaledImage);
-        JButton finishButton = new JButton(finishIcon);
-        finishButton.setBorder(null);
-        finishButton.setEnabled(false);
+        // ImageIcon finishIcon = new ImageIcon("images/finish.png");
+        // Image finishIconImage = finishIcon.getImage();
+        // Image scaledImage = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+        // finishIcon = new ImageIcon(scaledImage);
+        // JButton finishButton = new JButton(finishIcon);
+        // finishButton.setBorder(null);
+        // finishButton.setEnabled(false);
 
-        JLabel disabledFinish = new JLabel(finishIcon);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 7;
-        contentPanel.add(disabledFinish, GridConstraints);
+        // JLabel disabledFinish = new JLabel(finishIcon);
+        // GridConstraints.gridx = 0;
+        // GridConstraints.gridy = 7;
+        // contentPanel.add(disabledFinish, GridConstraints);
 
-        GridConstraints.weightx = 0.5;
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 7;
-        contentPanel.add(finishButton, GridConstraints);
+        // GridConstraints.weightx = 0.5;
+        // GridConstraints.gridx = 0;
+        // GridConstraints.gridy = 7;
+        // contentPanel.add(finishButton, GridConstraints);
 
         // add listener to bet button
         betButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e1) {
-                if ("bet".equals(e1.getActionCommand())) {
-                    // get user input
-                    String input = betField.getText();
-                    if (input.isEmpty()) {
-                        JOptionPane.showMessageDialog(mainPanel, "Please place bet", "Error", JOptionPane.ERROR_MESSAGE);
-                    } else {
-                        try {
-                            int bet = Integer.parseInt(input);
-                            currPlayer.setBet(bet);
-                            betButton.setEnabled(true);
-                            finishButton.setEnabled(true);
-                        } catch (NumberFormatException e) {
-                            e.printStackTrace();
-                        }
-                    } 
-                } 
-            }
-        });
-
-        //Listener for "finish turn" Button
-        add(mainPanel, BorderLayout.CENTER);
-        finishButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                betField.setText(null);
-                if (gameState.getRound() < 3) {
-                    gameState.moveToNextPlayer();
-                    // Get the parent GamePanel
-                    Container parent = getParent();
-                    if (parent instanceof GamePanel) {
-                        GamePanel gamePanel = (GamePanel) parent;
-                        // Switch to IntermediatePanel
-                        gameState.clearSelectedCards();
-                        
-                        gamePanel.updateIntermediatePanel();
-                        gamePanel.switchToPanel("Intermediate");
-                    }
+                // get user input
+                String input = betField.getText();
+                if (input.isEmpty()) {
+                    JOptionPane.showMessageDialog(mainPanel, "Please place bet", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    // Get the parent GamePanel
+                    try {
+                        int bet = Integer.parseInt(input);
+                        currPlayer.setBet(bet);
+                        // switch to draw panel
+                        // Container parent = getParent();
+                        // if (parent instanceof GamePanel) {
+                        //     GamePanel gamePanel = (GamePanel) parent;
+                        //     // Switch to IntermediatePanel
+                        //     gamePanel.switchToPanel("Draw");
+                        // } 
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                    } 
+                }
+                // if (gameState.getRound() == 3) {
                     Container parent = getParent();
                     if (parent instanceof GamePanel) {
                         GamePanel gamePanel = (GamePanel) parent;
                         // Switch to IntermediatePanel
                         gamePanel.switchToPanel("Scoreboard");
-                    }
-                }
-                
+                    } 
+                // }
             }
         });
+
+        //Listener for "finish turn" Button
+        add(mainPanel, BorderLayout.CENTER);
+        // finishButton.addActionListener(new ActionListener() {
+        //     @Override
+        //     public void actionPerformed(ActionEvent e) {
+        //         betField.setText(null);
+        //         if (gameState.getRound() < 3) {
+        //             gameState.moveToNextPlayer();
+        //             // Get the parent GamePanel
+        //             Container parent = getParent();
+        //             if (parent instanceof GamePanel) {
+        //                 GamePanel gamePanel = (GamePanel) parent;
+        //                 // Switch to IntermediatePanel
+        //                 gameState.clearSelectedCards();
+                        
+        //                 gamePanel.updateIntermediatePanel();
+        //                 gamePanel.switchToPanel("Intermediate");
+        //             }
+        //         } else {
+        //             // Get the parent GamePanel
+        //             Container parent = getParent();
+        //             if (parent instanceof GamePanel) {
+        //                 GamePanel gamePanel = (GamePanel) parent;
+        //                 // Switch to IntermediatePanel
+        //                 gamePanel.switchToPanel("Scoreboard");
+        //             }
+        //         }
+                
+        //     }
+        // });
     }
     public void setDescriptionLabel(GameState gameState) {
         this.descriptionLabel.setText("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
