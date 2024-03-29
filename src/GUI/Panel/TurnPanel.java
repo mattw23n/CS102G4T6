@@ -239,8 +239,9 @@ public class TurnPanel extends JPanel {
     }
     public void setSelectedCardsPanel (GameState gameState){
         selectedCardsPanel.removeAll();
-        
-        for (Card card : gameState.getSelectedCards()) {
+        ArrayList<Card> cards = gameState.getSelectedCards();
+        Collections.sort(cards);
+        for (Card card : cards) {
             gameState.getCurrPlayer().getHand().removeCard(card);
             System.out.println("card = " + gameState.getSelectedCards());
             JLabel cardImage = new JLabel();

@@ -17,7 +17,7 @@ import components.Suit;
 public class GamePanel extends JPanel {
     private CardLayout cardLayout;
     private GameState gameState;
-    private RoundOnePanel roundOnePanel;
+    private RoundPanel roundOnePanel;
     private IntermediatePanel intermediatePanel;
     private TurnPanel turnPanel;
 
@@ -27,11 +27,9 @@ public class GamePanel extends JPanel {
         setLayout(cardLayout);
         ArrayList<Player> playersList = gameState.getPlayersList();
         ArrayList<Card> selectedCards = gameState.getSelectedCards();
-        // initialisePanels(playersList, selectedCards);
         doRound();
         // Create and add each scene panel to the GamePanel
-        // RoundPanel roundPanel = new roundPanel(gameState);
-        roundOnePanel = new RoundOnePanel(gameState);
+        roundOnePanel = new RoundPanel(gameState);
         intermediatePanel = new IntermediatePanel(gameState);
         turnPanel = new TurnPanel(gameState);
         DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel();

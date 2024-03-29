@@ -31,7 +31,7 @@ import components.Card;
 import components.Hand;
 import components.Player;
 
-public class RoundOnePanel extends JPanel{
+public class RoundPanel extends JPanel{
     private JButton nextButton;
     private Scoreboard scoreBoard;
     private GameState gameState;
@@ -43,7 +43,7 @@ public class RoundOnePanel extends JPanel{
     private JLabel descriptionLabel;
     private JPanel handPanel;
 
-    public RoundOnePanel(GameState gameState) {
+    public RoundPanel(GameState gameState) {
         this.gameState = gameState;
         this.currPlayer = gameState.getCurrPlayer();
         this.selection = new ArrayList<>();
@@ -107,23 +107,11 @@ public class RoundOnePanel extends JPanel{
         add(mainPanel, BorderLayout.CENTER);
         nextButton.addActionListener(new ActionListener() {
             @Override
-            /* 
-                if roundcount = 1 or 2
-                    if picking 
-                        round panel
-                    else if betting
-                        turn panel
-                    else intermediate
-                else if round == 3
-                    betting
-                else 
-                    scoreboard
-            */
             public void actionPerformed(ActionEvent e) {
                 System.out.println(gameState.toString());
-                // if (numOfClickedCards[0] != 2) {
-                //     // JOptionPane.showMessageDialog(contentPanel, "Please select 2 cards before proceeding.", "Selection Error", JOptionPane.ERROR_MESSAGE);
-                // } else {
+                if (numOfClickedCards[0] != 2) {
+                    JOptionPane.showMessageDialog(contentPanel, "Select 2 cards only.", "Selection Error", JOptionPane.ERROR_MESSAGE);
+                } else {
                     Container parent = getParent();
                     if (parent instanceof GamePanel) {
                         GamePanel gamePanel = (GamePanel) parent;
@@ -133,21 +121,7 @@ public class RoundOnePanel extends JPanel{
                         selection.clear();
                         // return; // Exit the actionPerformed method after switching panels
                     }
-                    
-                // }
-                // Only reach here if the panel switching logic didn't execute
-                // Reset the card selection and remove any existing borders
-                // numOfClickedCards[0] = 0;
-                // Component[] components = handPanel.getComponents();
-                // for (Component component : components) {
-                //     if (component instanceof JLabel) {
-                //         JLabel cardImage = (JLabel) component;
-                //         cardImage.setBorder(null);
-                //     }
-                // }
-                // Switch to the next state (choosing to bet) for the same player
-                // gameState.setPickingState(false);
-                // gameState.setBettingState(true);            
+                }         
             repaint();
             revalidate();
             }
@@ -178,34 +152,15 @@ public class RoundOnePanel extends JPanel{
                 
                 @Override
                 public void mouseClicked(MouseEvent arg) {
-                    if (numOfClickedCards[0] < 2) {
-                        if (cardImage.getBorder() == null) {
-                            cardImage.setBorder(BorderFactory.createLineBorder(Color.white, 3));
-                            selection.add(card);
-                            numOfClickedCards[0]++;
-                        } else {
-                            cardImage.setBorder(null);
-                            selection.remove(selection.size()-1);
-                            numOfClickedCards[0]--;
-                        }
-                    } else {
-                        JOptionPane.showMessageDialog(contentPanel, "You can only select up to 2 cards at a time.", "Limit Exceeded", JOptionPane.WARNING_MESSAGE);
-                        selection.removeAll(selection);
-                        numOfClickedCards[0] = 0;
-
-                        Component[] components = handPanel.getComponents();
-                        for (Component component : components) {
-                            if (component instanceof JLabel) {
-                                JLabel cardImage = (JLabel) component;
-                                cardImage.setBorder(null);
-                            }
-                        }
-                        // Set the border for the clicked card image
+                    if (cardImage.getBorder() == null) {
                         cardImage.setBorder(BorderFactory.createLineBorder(Color.white, 3));
                         selection.add(card);
-                        numOfClickedCards[0] = 1;
+                        numOfClickedCards[0]++;
+                    } else {
+                        cardImage.setBorder(null);
+                        selection.remove(selection.size()-1);
+                        numOfClickedCards[0]--;
                     }
-                    
                 }
             });
             handPanel.add(cardImage);
