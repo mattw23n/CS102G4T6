@@ -93,7 +93,7 @@ public class IntermediatePanel extends JPanel {
                 if (parent instanceof GamePanel) {
                     GamePanel gamePanel = (GamePanel) parent;
                     // Switch to IntermediatePanel
-                    gamePanel.updateRoundOnePanel();
+                    gamePanel.updateRoundPanel();
                     gamePanel.switchToPanel("Round");
 
                 }
