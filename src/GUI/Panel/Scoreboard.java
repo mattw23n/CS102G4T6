@@ -17,6 +17,7 @@ public class Scoreboard extends JPanel {
     private final JTable scoreTable;
     private final String[] playerNames = {"Player 1", "Player 2", "Player 3", "Player 4"};
     private int[] playerScores;
+
     public Scoreboard() {
         playerScores = loadScores();
         // Create the table model with player names and initial scores of 0
@@ -33,9 +34,9 @@ public class Scoreboard extends JPanel {
         scoreTable.setEnabled(false); // Disable editing table cells
         setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-        JLabel title = new JLabel("Scoreboard");
+        // JLabel title = new JLabel("Scoreboard");
         // Add the table to the panel
-        add(title);
+        // add(title);
         add(scoreTable);
     }
 
