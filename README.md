@@ -2,7 +2,7 @@
 In Between++ is a thrilling card game where 4 players strategize, bet, and calculate probabilities to win points. The game is played with a standard deck of cards with some exciting twists involving Wild Cards (Jack, Queen, King, Joker). This README provides an overview of the game mechanics, rules, and how to use the app to enjoy this engaging card game.
 
 ## Game Mechanics
-1. Each player is dealt 6 Cards and starts with 5 points in their Pocket.
+1. Each player is dealt 6 Cards and starts with 5 points.
 2. The first player selects 2 cards from their hand to form a range and places a bet.
 3. After betting, draw a card from the deck and resolve the outcome based on the rules.
 4. Discard the cards used and pass the turn to the next player.
@@ -12,9 +12,9 @@ In Between++ is a thrilling card game where 4 players strategize, bet, and calcu
 ## Rules
 
 ### Point System
-- If the drawn card is within the player's range, their bet is added to their Pocket.
-- If the drawn card is outside the player's range, their bet is deducted from their Pocket.
-- If the drawn card matches precisely one of the range cards, their bet is doubled and added to their Pocket.
+- If the drawn card is within the player's range, their bet is added to their points.
+- If the drawn card is outside the player's range, their bet is deducted from their points.
+- If the drawn card matches precisely one of the range cards, their bet is doubled and added to their points.
 
 ### Wild Cards
 - Jack : Swap one of the range cards for a new range card.
