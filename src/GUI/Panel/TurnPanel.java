@@ -145,28 +145,6 @@ public class TurnPanel extends JPanel {
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 5;
         contentPanel.add(betPanel, GridConstraints);
-        
-        // Finish Turn Button
-        // nextButton = new JButton("Finish Turn");
-
-        // set image for "finish turn" button
-        // ImageIcon finishIcon = new ImageIcon("images/finish.png");
-        // Image finishIconImage = finishIcon.getImage();
-        // Image scaledImage = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-        // finishIcon = new ImageIcon(scaledImage);
-        // JButton finishButton = new JButton(finishIcon);
-        // finishButton.setBorder(null);
-        // finishButton.setEnabled(false);
-
-        // JLabel disabledFinish = new JLabel(finishIcon);
-        // GridConstraints.gridx = 0;
-        // GridConstraints.gridy = 7;
-        // contentPanel.add(disabledFinish, GridConstraints);
-
-        // GridConstraints.weightx = 0.5;
-        // GridConstraints.gridx = 0;
-        // GridConstraints.gridy = 7;
-        // contentPanel.add(finishButton, GridConstraints);
 
         // add listener to bet button
         betButton.addActionListener(new ActionListener() {
@@ -182,6 +160,7 @@ public class TurnPanel extends JPanel {
                             int bet = Integer.parseInt(input);
                             currPlayer.setBet(bet);
                             betButton.setEnabled(true);
+                            betField.setText(null);
                             // finishButton.setEnabled(true);
                             Container parent = getParent();
                             if (parent instanceof GamePanel) {

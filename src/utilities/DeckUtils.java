@@ -65,9 +65,10 @@ public final class DeckUtils {
     }
 
     //Deals a card from a deck of 52
-    public static void dealCard(Deck deck, Hand hand){
+    public static Card dealCard(Deck deck, Hand hand){
         hand.addCard(deck.dealCard());
         Card newest = hand.getCard(hand.getNumberOfCards() - 1);
-        System.out.println("\nYOU GOT " + newest);
+        // System.out.println("\nYOU GOT " + newest);
+        return newest;
     }    
 }

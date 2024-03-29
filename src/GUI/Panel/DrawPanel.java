@@ -18,10 +18,15 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import components.Card;
+import components.Hand;
 import components.Player;
+import components.Deck;
+import utilities.DeckUtils;
+import utilities.Utils;
 
 public class DrawPanel extends JPanel {
     private JButton nextButton;
@@ -99,27 +104,69 @@ public class DrawPanel extends JPanel {
         
         
         // Set image as "draw" button
-        ImageIcon nextIcon = new ImageIcon("images/finish.png");
-        Image nextIconImage = nextIcon.getImage();
-        Image scaledImage = nextIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-        nextIcon = new ImageIcon(scaledImage);
-        JButton nextButton = new JButton(nextIcon);
-        nextButton.setBorder(null);
+        ImageIcon drawIcon = new ImageIcon("images/draw.png");
+        Image drawIconImage = drawIcon.getImage();
+        Image scaledImage = drawIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+        drawIcon = new ImageIcon(scaledImage);
+        JButton drawButton = new JButton(drawIcon);
+        drawButton.setBorder(null);
 
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 5;
-        contentPanel.add(nextButton, GridConstraints);
+        contentPanel.add(drawButton, GridConstraints);
 
-        //Listener for "Next" Button
+        Hand currHand = gameState.getCurrPlayer().getHand();
+        Deck deck = DeckUtils.initializeWhole();
+        
+        //Listener for "draw" Button
         add(mainPanel, BorderLayout.CENTER);
-        nextButton.addActionListener(new ActionListener() {
+        drawButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // Get the parent GamePanel
                 Container parent = getParent();
                 if (parent instanceof GamePanel) {
                     GamePanel gamePanel = (GamePanel) parent;
-                    // Switch to IntermediatePanel
+                    // implement draw card feature
+                    Card dealtCard = DeckUtils.dealCard(deck, currHand);
+                    System.out.println("dealt = " + dealtCard.toString());
+                    updateSelectedCardsPanel(gameState, dealtCard);
+                    // if Q/K extend bounds
+                    if (dealtCard.getRank().getSymbol().equals("q")) {
+                        // extend lower by 2 but max 10
+                        System.out.println("queen drawn");
+                    }
+                    if (dealtCard.getRank().getSymbol().equals("k")) {
+                        // extend upper by 2 but max 10
+                        System.out.println("king drawn");
+                    }
+                    // if jack swap cards
+                    if (dealtCard.getRank().getSymbol().equals("j")) {
+                        System.out.println("jack drawn");
+
+                        String[] options = {"Swap Lower Bound Card", "Swap Upper Bound Card"};
+                        int choice = 0;
+
+                        JOptionPane.showOptionDialog(null, 
+                                            "Jack drawn. Swap one of your cards.", 
+                                            "Jack Drawn", 
+                                            JOptionPane.DEFAULT_OPTION, 
+                                            JOptionPane.QUESTION_MESSAGE, 
+                                            null, options, options[0]);
+
+                        switch (choice) {
+                            case 0:
+                                System.out.println("swap lower");
+                                Utils.processJack(currPlayer, selectedCards.get(0), dealtCard);
+                                break;
+                            case 1:
+                                System.out.println("swap upper");
+                                break;
+                            default:
+                                break;
+                        }
+                        
+                    }
                     System.out.println("DRAW CARD");
                 }
             }
@@ -128,7 +175,7 @@ public class DrawPanel extends JPanel {
 
 
         // set image for "finish turn" button
-        ImageIcon finishIcon = new ImageIcon("images/next.png");
+        ImageIcon finishIcon = new ImageIcon("images/finish.png");
         Image finishIconImage = finishIcon.getImage();
         Image scaledImage2 = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
         finishIcon = new ImageIcon(scaledImage2);
@@ -203,6 +250,26 @@ public class DrawPanel extends JPanel {
             }
             selectedCardsPanel.add(cardPanel);
 
+        }
+        repaint();
+        revalidate();
+    }
+    public void updateSelectedCardsPanel (GameState gameState, Card dealtCard){
+        selectedCardsPanel.removeAll();
+        ArrayList<Card> cards = gameState.getSelectedCards();
+        System.out.println(cards);
+        cards.set(1, dealtCard);
+        // Collections.swap(cards, 1, 2);
+        
+        System.out.println("3 cards = " + cards.toString());
+        for (Card card : cards) {
+            JPanel cardPanel = new JPanel(new BorderLayout());
+            // gameState.getCurrPlayer().getHand().removeCard(card);
+            System.out.println("card = " + gameState.getSelectedCards());
+            JLabel cardImage = new JLabel();
+            setImage(cardImage, "images/" + card.toString() +".gif");
+            cardPanel.add(cardImage);
+            selectedCardsPanel.add(cardPanel);
         }
         repaint();
         revalidate();
