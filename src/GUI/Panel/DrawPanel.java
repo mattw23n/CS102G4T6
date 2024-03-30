@@ -171,10 +171,10 @@ public class DrawPanel extends JPanel {
                 String lower = Utils.getCardValue(lowerCard);
                 String higher = Utils.getCardValue(higherCard);
                 Player currPlayer = gameState.getCurrPlayer();
-                currPlayer.setLower(Integer.parseInt(lower));
-                currPlayer.setUpper(Integer.parseInt(higher));
-                currPlayer.setOriginalLower(lowerCard);
-                currPlayer.setOriginalUpper(higherCard);
+                gameState.getCurrPlayer().setLower(Integer.parseInt(lower));
+                gameState.getCurrPlayer().setUpper(Integer.parseInt(higher));
+                gameState.getCurrPlayer().setOriginalLower(lowerCard);
+                gameState.getCurrPlayer().setOriginalUpper(higherCard);
                 
                 // Get the parent GamePanel
                 Container parent = getParent();
@@ -188,17 +188,17 @@ public class DrawPanel extends JPanel {
                     setSelectedCardsPanel(gameState, dealtCard);
 
                     if (!(Utils.isWildCard(dealtCard))) {
-                        int points = Utils.calculatePoints(currPlayer, dealtCard);
+                        int points = Utils.calculatePoints(gameState.getCurrPlayer(), dealtCard);
                         System.out.println("points = " + points);
-                        currPlayer.setPoints(points);
+                        gameState.getCurrPlayer().setPoints(points);
                         finishButton.setEnabled(true);
-                        System.out.println("player " + currPlayer.getPlayerID() + " points = " + currPlayer.getPoints());
+                        System.out.println("player " + gameState.getCurrPlayer().getPlayerID() + " points = " + gameState.getCurrPlayer().getPoints());
                     } else {
                             // if Q/K extend bounds
                         if (dealtCard.getRank().getSymbol().equals("q")) {
                             // extend lower by 2 but max 10
                             System.out.println("queen drawn");
-                            Utils.processWildCard(currPlayer, lowerCard);
+                            Utils.processWildCard(gameState.getCurrPlayer(), lowerCard);
                             setLowerBoundLabel();
                             setLowerBoundValueLabel();
                             
@@ -206,7 +206,7 @@ public class DrawPanel extends JPanel {
                         if (dealtCard.getRank().getSymbol().equals("k")) {
                             // extend upper by 2 but max 10
                             System.out.println("king drawn");
-                            Utils.processWildCard(currPlayer, higherCard);
+                            Utils.processWildCard(gameState.getCurrPlayer(), higherCard);
                             setUpperBoundLabel();
                             setUpperBoundValueLabel();
                             
@@ -215,6 +215,7 @@ public class DrawPanel extends JPanel {
                         if (dealtCard.getRank().getSymbol().equals("j")) {
                             System.out.println("jack drawn");
                             Card newDealtCard = DeckUtils.dealCard(boundDeck, currHand);
+                            System.out.println("new dealt card = " + newDealtCard);
 
                             String[] options = {"Swap Lower Bound Card", "Swap Upper Bound Card"};
                             int choice = 0;
@@ -228,15 +229,15 @@ public class DrawPanel extends JPanel {
 
                             if (choice == 0) {
                                 System.out.println("swap lower");
-                                Utils.processJack(currPlayer, lowerCard, newDealtCard);
+                                Utils.processJack(gameState.getCurrPlayer(), lowerCard, newDealtCard);
                             } else {
                                 System.out.println("swap upper");
-                                Utils.processJack(currPlayer, higherCard, newDealtCard);
+                                Utils.processJack(gameState.getCurrPlayer(), higherCard, newDealtCard);
                             }
 
-                            Card newLower = Utils.stringToCard(currPlayer.getLower() + "c");
+                            Card newLower = Utils.stringToCard(gameState.getCurrPlayer().getLower() + "c");
                             System.out.println("new lower = " + newLower);
-                            Card newHigher = Utils.stringToCard(currPlayer.getUpper() + "c");
+                            Card newHigher = Utils.stringToCard(gameState.getCurrPlayer().getUpper() + "c");
                             System.out.println("new higher = " + newHigher);
 
                             ArrayList<Card> newCards = new ArrayList<>();
@@ -251,7 +252,7 @@ public class DrawPanel extends JPanel {
                     System.out.println("DRAW CARD");
                 }
                 
-                scoreBoard.updateScore(currPlayer.getPlayerID(), currPlayer.getPoints());
+                scoreBoard.updateScore(gameState.getCurrPlayer().getPlayerID(), gameState.getCurrPlayer().getPoints());
                 
             }
         });
