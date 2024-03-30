@@ -20,7 +20,7 @@ import components.Player;
 
 public class IntermediatePanel extends JPanel {
     private JButton nextButton;
-    private Scoreboard scoreBoard;
+    // private Scoreboard scoreBoard;
     private Player nextPlayer;
     private GameState gameState;
     private JLabel descriptionLabel;
@@ -65,10 +65,10 @@ public class IntermediatePanel extends JPanel {
         contentPanel.add(descriptionLabel, GridConstraints);
 
         
-        scoreBoard = new Scoreboard();
-        scoreBoard.setBackground(background);
+        // scoreBoard = new Scoreboard();
+        // scoreBoard.setBackground(background);
 
-        mainPanel.add(scoreBoard);
+        // mainPanel.add(scoreBoard);
         mainPanel.add(contentPanel);
         
         // Set image as "next" button

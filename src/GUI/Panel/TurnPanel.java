@@ -1,35 +1,28 @@
 package GUI.Panel;
 
-import java.util.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
-import javax.swing.text.MaskFormatter;
 
-import GUI.Listener.MouseListener;
 import components.Card;
 import components.Player;
-import components.Deck;
-import components.Hand;
 
 public class TurnPanel extends JPanel {
     private JButton nextButton;
@@ -158,7 +151,7 @@ public class TurnPanel extends JPanel {
                     } else {
                         try {
                             int bet = Integer.parseInt(input);
-                            currPlayer.setBet(bet);
+                            gameState.getCurrPlayer().setBet(bet);
                             betButton.setEnabled(true);
                             betField.setText(null);
                             // finishButton.setEnabled(true);
@@ -176,85 +169,8 @@ public class TurnPanel extends JPanel {
                 } 
             }
         });
-
-        // //Listener for "finish turn" Button
-        // add(mainPanel, BorderLayout.CENTER);
-        // finishButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         betField.setText(null);
-        //         if (gameState.getRound() < 3) {
-        //             // gameState.moveToNextPlayer();
-        //             // Get the parent GamePanel
-        //             Container parent = getParent();
-        //             if (parent instanceof GamePanel) {
-        //                 GamePanel gamePanel = (GamePanel) parent;
-        //                 // Switch to DrawPanel
-        //                 System.out.println(gameState.getSelectedCards());
-        //                 gamePanel.updateDrawPanel();
-        //                 gamePanel.switchToPanel("Draw");
-        //             }
-        //         // get user input
-        //         String input = betField.getText();
-        //         if (input.isEmpty()) {
-        //             JOptionPane.showMessageDialog(mainPanel, "Please place bet", "Error", JOptionPane.ERROR_MESSAGE);
-        //         } else {
-        //             try {
-        //                 int bet = Integer.parseInt(input);
-        //                 currPlayer.setBet(bet);
-        //                 // switch to draw panel
-        //                 // Container parent = getParent();
-        //                 // if (parent instanceof GamePanel) {
-        //                 //     GamePanel gamePanel = (GamePanel) parent;
-        //                 //     // Switch to IntermediatePanel
-        //                 //     gamePanel.switchToPanel("Draw");
-        //                 // } 
-        //             } catch (NumberFormatException ex) {
-        //                 e.printStackTrace();
-        //             } 
-        //         }
-        //         // if (gameState.getRound() == 3) {
-        //             Container parent = getParent();
-        //             if (parent instanceof GamePanel) {
-        //                 GamePanel gamePanel = (GamePanel) parent;
-        //                 // Switch to IntermediatePanel
-        //                 gamePanel.switchToPanel("Scoreboard");
-        //             } 
-        //         // }
-        //     }
-        // }
-        // });
-
-        //Listener for "finish turn" Button
         add(mainPanel, BorderLayout.CENTER);
-        // finishButton.addActionListener(new ActionListener() {
-        //     @Override
-        //     public void actionPerformed(ActionEvent e) {
-        //         betField.setText(null);
-        //         if (gameState.getRound() < 3) {
-        //             gameState.moveToNextPlayer();
-        //             // Get the parent GamePanel
-        //             Container parent = getParent();
-        //             if (parent instanceof GamePanel) {
-        //                 GamePanel gamePanel = (GamePanel) parent;
-        //                 // Switch to IntermediatePanel
-        //                 gameState.clearSelectedCards();
-                        
-        //                 gamePanel.updateIntermediatePanel();
-        //                 gamePanel.switchToPanel("Intermediate");
-        //             }
-        //         } else {
-        //             // Get the parent GamePanel
-        //             Container parent = getParent();
-        //             if (parent instanceof GamePanel) {
-        //                 GamePanel gamePanel = (GamePanel) parent;
-        //                 // Switch to IntermediatePanel
-        //                 gamePanel.switchToPanel("Scoreboard");
-        //             }
-        //         }
-                
-        //     }
-        // });
+        
     }
     public void setDescriptionLabel(GameState gameState) {
         this.descriptionLabel.setText("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
@@ -278,5 +194,13 @@ public class TurnPanel extends JPanel {
     private static void setImage (JLabel label, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);
         label.setIcon(icon);
+    }
+    public void refreshScoreboard() {
+        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
+        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
+        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
+        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        scoreBoard.repaint();
+        scoreBoard.revalidate();
     }
 }

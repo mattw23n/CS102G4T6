@@ -1,10 +1,7 @@
 package GUI.Panel;
 
-import java.util.*;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.Font;
@@ -17,16 +14,14 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.BorderFactory;
 
-import GUI.Listener.MouseListener;
 import components.Card;
 import components.Hand;
 import components.Player;
@@ -173,5 +168,13 @@ public class RoundPanel extends JPanel{
     private static void setImage (JLabel label, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);
         label.setIcon(icon);
+    }
+    public void refreshScoreboard() {
+        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
+        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
+        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
+        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        scoreBoard.repaint();
+        scoreBoard.revalidate();
     }
 }

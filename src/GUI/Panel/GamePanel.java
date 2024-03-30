@@ -21,6 +21,7 @@ public class GamePanel extends JPanel {
     private IntermediatePanel intermediatePanel;
     private TurnPanel turnPanel;
     private DrawPanel drawPanel;
+    private Scoreboard scoreBoard;
 
     public GamePanel() {
         initialise();
@@ -29,6 +30,9 @@ public class GamePanel extends JPanel {
         ArrayList<Player> playersList = gameState.getPlayersList();
         ArrayList<Card> selectedCards = gameState.getSelectedCards();
         doRound();
+        this.scoreBoard = new Scoreboard();
+        scoreBoard.setVisible(true);
+
         // Create and add each scene panel to the GamePanel
         roundPanel = new RoundPanel(gameState);
         intermediatePanel = new IntermediatePanel(gameState);
@@ -65,12 +69,14 @@ public class GamePanel extends JPanel {
     public void updateTurnPanel(){
         turnPanel.setDescriptionLabel(gameState);
         turnPanel.setSelectedCardsPanel(gameState);
+        turnPanel.refreshScoreboard();
     }
     public void updateRoundPanel(){
         roundPanel.setDescriptionLabel(gameState);
         roundPanel.setHandPanel(gameState);
         repaint();
         revalidate();
+        roundPanel.refreshScoreboard();
     }
     public void doRound() {
         ArrayList<Player> players = gameState.getPlayersList();

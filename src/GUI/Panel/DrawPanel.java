@@ -351,4 +351,12 @@ public class DrawPanel extends JPanel {
         ImageIcon icon = new ImageIcon(imagePath);
         label.setIcon(icon);
     }
+    public void refreshScoreboard() {
+        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
+        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
+        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
+        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        scoreBoard.repaint();
+        scoreBoard.revalidate();
+    }
 }
