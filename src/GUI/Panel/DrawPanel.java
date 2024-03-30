@@ -78,7 +78,7 @@ public class DrawPanel extends JPanel {
         descriptionLabel = new JLabel("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
-        GridConstraints.weightx = 0.5;
+        // GridConstraints.weightx = 0.5;
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 0;
         contentPanel.add(descriptionLabel, GridConstraints);
@@ -132,9 +132,10 @@ public class DrawPanel extends JPanel {
         ImageIcon drawIcon = new ImageIcon("images/draw.png");
         Image drawIconImage = drawIcon.getImage();
         Image scaledImage = drawIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-        drawIcon = new ImageIcon(scaledImage);
+        drawIcon.setImage(scaledImage);;
         JButton drawButton = new JButton(drawIcon);
         drawButton.setBorder(null);
+        drawButton.setEnabled(true);
 
         // set image for "finish turn" button
         ImageIcon finishIcon = new ImageIcon("images/finish.png");
@@ -158,6 +159,14 @@ public class DrawPanel extends JPanel {
         // Deck deck = DeckUtils.initializeWhole();
         Deck deck = gameState.getAllDeck();
         Deck boundDeck = gameState.getRangeDeck();
+
+        JLabel disabledDraw = new JLabel(drawIcon);
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 5;
+        contentPanel.add(disabledDraw, GridConstraints);
+        
+        contentPanel.repaint();
+        contentPanel.revalidate();
         
         //Listener for "draw" Button
         add(mainPanel, BorderLayout.CENTER);
@@ -165,12 +174,14 @@ public class DrawPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
 
+                drawButton.setEnabled(true);
+                
                 ArrayList<Card> selectedCards = gameState.getSelectedCards();
                 Card lowerCard = selectedCards.get(0);
                 Card higherCard = selectedCards.get(1);
                 String lower = Utils.getCardValue(lowerCard);
                 String higher = Utils.getCardValue(higherCard);
-                Player currPlayer = gameState.getCurrPlayer();
+                
                 gameState.getCurrPlayer().setLower(Integer.parseInt(lower));
                 gameState.getCurrPlayer().setUpper(Integer.parseInt(higher));
                 gameState.getCurrPlayer().setOriginalLower(lowerCard);
@@ -192,68 +203,81 @@ public class DrawPanel extends JPanel {
                         System.out.println("points = " + points);
                         gameState.getCurrPlayer().setPoints(points);
                         finishButton.setEnabled(true);
+                        contentPanel.remove(drawButton);
+                        GridConstraints.gridx = 0;
+                        GridConstraints.gridy = 5;
+                        contentPanel.add(disabledDraw, GridConstraints);
+                        
                         System.out.println("player " + gameState.getCurrPlayer().getPlayerID() + " points = " + gameState.getCurrPlayer().getPoints());
                     } else {
-                            // if Q/K extend bounds
-                        if (dealtCard.getRank().getSymbol().equals("q")) {
-                            // extend lower by 2 but max 10
-                            System.out.println("queen drawn");
-                            Utils.processWildCard(gameState.getCurrPlayer(), lowerCard);
-                            setLowerBoundLabel();
-                            setLowerBoundValueLabel();
-                            
-                        }
-                        if (dealtCard.getRank().getSymbol().equals("k")) {
-                            // extend upper by 2 but max 10
-                            System.out.println("king drawn");
-                            Utils.processWildCard(gameState.getCurrPlayer(), higherCard);
-                            setUpperBoundLabel();
-                            setUpperBoundValueLabel();
-                            
-                        }
-                        // if jack swap cards
-                        if (dealtCard.getRank().getSymbol().equals("j")) {
-                            System.out.println("jack drawn");
-                            Card newDealtCard = DeckUtils.dealCard(boundDeck, currHand);
-                            System.out.println("new dealt card = " + newDealtCard);
-
-                            String[] options = {"Swap Lower Bound Card", "Swap Upper Bound Card"};
-                            int choice = 0;
-
-                            JOptionPane.showOptionDialog(null, 
-                                                "Jack drawn. Swap one of your cards.", 
-                                                "Jack Drawn", 
-                                                JOptionPane.DEFAULT_OPTION, 
-                                                JOptionPane.QUESTION_MESSAGE, 
-                                                null, options, options[0]);
-
-                            if (choice == 0) {
-                                System.out.println("swap lower");
-                                Utils.processJack(gameState.getCurrPlayer(), lowerCard, newDealtCard);
-                            } else {
-                                System.out.println("swap upper");
-                                Utils.processJack(gameState.getCurrPlayer(), higherCard, newDealtCard);
+                        int wildCardCount = gameState.getCurrPlayer().getWildcardCount();
+                        System.out.println("wildcard before drawing wildcard = " + wildCardCount);
+                        if (gameState.getCurrPlayer().getWildcardCount() <= 3) {
+                            wildCardCount++;
+                            gameState.getCurrPlayer().setWildCardCount(wildCardCount);
+                            // get queen
+                            if (dealtCard.getRank().getSymbol().equals("q")) {
+                                System.out.println("queen drawn");
+                                System.out.println("wildcardcount after drawing = " + gameState.getCurrPlayer().getWildcardCount());
+                                Utils.processWildCard(gameState.getCurrPlayer(), lowerCard);
+                                setLowerBoundLabel();
+                                setLowerBoundValueLabel();
                             }
+                            // get king
+                            if (dealtCard.getRank().getSymbol().equals("k")) {
+                                // extend upper by 2 but max 10
+                                System.out.println("king drawn");
+                                System.out.println("wildcardcount after drawing = " + gameState.getCurrPlayer().getWildcardCount());
+                                Utils.processWildCard(gameState.getCurrPlayer(), higherCard);
+                                setUpperBoundLabel();
+                                setUpperBoundValueLabel();
+                                
+                            }
+                            // if jack swap cards
+                            if (dealtCard.getRank().getSymbol().equals("j")) {
+                                System.out.println("jack drawn");
+                                System.out.println("wildcardcount after drawing = " + gameState.getCurrPlayer().getWildcardCount());
+                                Card newDealtCard = DeckUtils.dealCard(boundDeck, currHand);
+                                newest = currHand.getCard(currHand.getNumberOfCards() - 1);
+                                currHand.removeCard(newest);
+                                System.out.println("new dealt card = " + newDealtCard);
 
-                            Card newLower = Utils.stringToCard(gameState.getCurrPlayer().getLower() + "c");
-                            System.out.println("new lower = " + newLower);
-                            Card newHigher = Utils.stringToCard(gameState.getCurrPlayer().getUpper() + "c");
-                            System.out.println("new higher = " + newHigher);
+                                String[] options = {"Swap Lower Bound Card", "Swap Upper Bound Card"};
+                                int choice = 0;
 
-                            ArrayList<Card> newCards = new ArrayList<>();
-                            newCards.add(newLower);
-                            newCards.add(newHigher);
-                            gameState.setSelectedCards(newCards);
-                            System.out.println("new cards = " + gameState.getSelectedCards());
-                            setSelectedCardsPanel(gameState, dealtCard);
+                                JOptionPane.showOptionDialog(null, 
+                                                    "Jack drawn. Swap one of your cards.", 
+                                                    "Jack Drawn", 
+                                                    JOptionPane.DEFAULT_OPTION, 
+                                                    JOptionPane.QUESTION_MESSAGE, 
+                                                    null, options, options[0]);
+
+                                if (choice == 0) {
+                                    System.out.println("swap lower");
+                                    Utils.processJack(gameState.getCurrPlayer(), lowerCard, newDealtCard);
+                                } else {
+                                    System.out.println("swap upper");
+                                    Utils.processJack(gameState.getCurrPlayer(), higherCard, newDealtCard);
+                                }
+
+                                Card newLower = Utils.stringToCard(gameState.getCurrPlayer().getOriginalLower().toString());
+                                System.out.println("new lower = " + newLower);
+                                Card newHigher = Utils.stringToCard(gameState.getCurrPlayer().getOriginalUpper().toString());
+                                System.out.println("new higher = " + newHigher);
+
+                                ArrayList<Card> newCards = new ArrayList<>();
+                                newCards.add(newLower);
+                                newCards.add(newHigher);
+                                gameState.setSelectedCards(newCards);
+                                System.out.println("new cards = " + gameState.getSelectedCards());
+                                setSelectedCardsPanel(gameState, dealtCard);
+                            }
                         }
                         finishButton.setEnabled(true);
                     }
                     System.out.println("DRAW CARD");
                 }
-                
                 scoreBoard.updateScore(gameState.getCurrPlayer().getPlayerID(), gameState.getCurrPlayer().getPoints());
-                
             }
         });
 
@@ -267,18 +291,35 @@ public class DrawPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gameState.moveToNextPlayer();
-                finishButton.setEnabled(false);
-                // Get the parent GamePanel
-                Container parent = getParent();
-                if (parent instanceof GamePanel) {
-                    GamePanel gamePanel = (GamePanel) parent;
-                    // Switch to IntermediatePanel
-                    System.out.println("a" + gameState.getSelectedCards());
-                    gameState.clearSelectedCards();
-                    System.out.println("b" + gameState.getSelectedCards());
-                    gamePanel.updateIntermediatePanel();
-                    gamePanel.switchToPanel("Intermediate");                
+
+                if (gameState.getRound() != 3) {
+                    // reset wildCardCount
+                    gameState.getCurrPlayer().setWildCardCount(0);
+                    gameState.moveToNextPlayer();
+                    finishButton.setEnabled(false);
+                    GridConstraints.gridx = 0;
+                    GridConstraints.gridy = 5;
+                    contentPanel.add(drawButton, GridConstraints);
+                    // Get the parent GamePanel
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to IntermediatePanel
+                        System.out.println("a" + gameState.getSelectedCards());
+                        gameState.clearSelectedCards();
+                        System.out.println("b" + gameState.getSelectedCards());
+                        gamePanel.updateIntermediatePanel();
+                        gamePanel.switchToPanel("Intermediate");    
+                    }
+                } else {
+                    // Get the parent GamePanel
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to scoreboard
+                        refreshScoreboard();
+                        gamePanel.switchToPanel("Scoreboard");   
+                }            
             }
         }
         });

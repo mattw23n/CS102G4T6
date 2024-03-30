@@ -24,6 +24,7 @@ public class DisplayScoresPanel extends JPanel{
 
     public DisplayScoresPanel (GameState gameState){
         this.gameState = gameState;
+        this.scoreBoard = scoreBoard;
         initialize();
     }
     private void initialize(){
@@ -67,8 +68,8 @@ public class DisplayScoresPanel extends JPanel{
         Collections.sort(players, new PlayerComparator());
         Player winner = players.get(0);
 
-        // String imageFilePath = "images/p" + winner.getPlayerID() + "Wins.png";
-        ImageIcon winIcon = new ImageIcon("images/p1Wins.png");
+        String imageFilePath = "images/p" + winner.getPlayerID() + "Wins.png";
+        ImageIcon winIcon = new ImageIcon(imageFilePath);
         java.awt.Image winIconImage = winIcon.getImage();
         java.awt.Image scaledWinImage = winIconImage.getScaledInstance(350, 100, java.awt.Image.SCALE_SMOOTH);
         winIcon = new ImageIcon(scaledWinImage);
@@ -91,5 +92,13 @@ public class DisplayScoresPanel extends JPanel{
 
         add(contentPanel, BorderLayout.CENTER);
 
+    }
+    public void refreshScoreboard() {
+        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
+        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
+        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
+        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        scoreBoard.repaint();
+        scoreBoard.revalidate();
     }
 }

@@ -96,7 +96,10 @@ public final class Utils {
             points = p.getBet() * -1;
             System.out.println("Good luck next time!");
         }
-        return p.getPoints() + points;
+        System.out.println("current points = " + p.getPoints());
+        p.setPoints(p.getPoints()+ points);
+        System.out.println("new points = " + p.getPoints());
+        return p.getPoints();
     }
 
     //Set upper or lower based on wildcard
