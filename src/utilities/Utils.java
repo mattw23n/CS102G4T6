@@ -20,7 +20,13 @@ public final class Utils {
     
     //Get card value as string, ace is 1
     public static String getCardValue(Card card){
-        return card.getRank().getSymbol();
+        String result = "";
+        if (card.getRank().getSymbol().equals("a")) {
+            result += 1;
+        } else {
+            result += card.getRank().getSymbol();
+        }
+        return result;
     }
 
     //Wild card check

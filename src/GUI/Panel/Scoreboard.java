@@ -44,6 +44,6 @@ public class Scoreboard extends JPanel {
     }
     public void updateScore(int playerIndex, int newScore) {
         playerScores[playerIndex-1] = newScore;
-        ((DefaultTableModel) scoreTable.getModel()).setValueAt(newScore, playerIndex, 1);
+        ((DefaultTableModel) scoreTable.getModel()).setValueAt(newScore, playerIndex-1, 1);
     }
 }
