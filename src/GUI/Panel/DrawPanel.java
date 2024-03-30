@@ -170,7 +170,7 @@ public class DrawPanel extends JPanel {
                     }
                     System.out.println("DRAW CARD");
                 }
-                scoreBoard.updateScore(currPlayer.getPlayerID(), currPlayer().getPoints);
+                scoreBoard.updateScore(currPlayer.getPlayerID(), currPlayer.getPoints);
             }
         });
 
