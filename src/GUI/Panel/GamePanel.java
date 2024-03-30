@@ -46,10 +46,10 @@ public class GamePanel extends JPanel {
         // Show the initial scene (e.g., RoundOne)
         switchToPanel("Round");
     }
-    public void updateDrawPanel (){
+    public void updateDrawPanel (Card card){
         System.out.println("Drawing");
         drawPanel.setDescriptionLabel(gameState);
-        drawPanel.setSelectedCardsPanel(gameState);
+        drawPanel.setSelectedCardsPanel(gameState, card);
     }
     public void updateIntermediatePanel (){
         System.out.println("Updating IntermediatePanel");

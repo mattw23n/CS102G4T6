@@ -38,7 +38,6 @@ public class DrawPanel extends JPanel {
     private JLabel descriptionLabel;
     private JLabel lowerBoundLabel;
     private JLabel upperBoundLabel;
-    private JPanel wildStatusPanel;
 
     public DrawPanel(GameState gameState) {
         this.gameState = gameState;
@@ -116,7 +115,8 @@ public class DrawPanel extends JPanel {
         contentPanel.add(drawButton, GridConstraints);
 
         Hand currHand = gameState.getCurrPlayer().getHand();
-        Deck deck = DeckUtils.initializeWhole();
+        // Deck deck = DeckUtils.initializeWhole();
+        Deck deck = gameState.getAllDeck();
         
         //Listener for "draw" Button
         add(mainPanel, BorderLayout.CENTER);
@@ -130,7 +130,8 @@ public class DrawPanel extends JPanel {
                     // implement draw card feature
                     Card dealtCard = DeckUtils.dealCard(deck, currHand);
                     System.out.println("dealt = " + dealtCard.toString());
-                    updateSelectedCardsPanel(gameState, dealtCard);
+                    // updateSelectedCardsPanel(gameState, dealtCard);
+                    setSelectedCardsPanel(gameState, dealtCard);
                     // if Q/K extend bounds
                     if (dealtCard.getRank().getSymbol().equals("q")) {
                         // extend lower by 2 but max 10
@@ -169,6 +170,7 @@ public class DrawPanel extends JPanel {
                     }
                     System.out.println("DRAW CARD");
                 }
+                scoreBoard.updateScore(currPlayer.getPlayerID(), currPlayer().getPoints);
             }
         });
 
@@ -215,13 +217,12 @@ public class DrawPanel extends JPanel {
     public void setDescriptionLabel(GameState gameState) {
         this.descriptionLabel.setText("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
     }
-    public void setSelectedCardsPanel (GameState gameState){
+    public void setSelectedCardsPanel (GameState gameState, Card middleCard){
         selectedCardsPanel.removeAll();
-        ArrayList<Card> cards = gameState.getSelectedCards();
-        System.out.println(cards);
-        cards.add(null);
-        Collections.swap(cards, 1, 2);
-
+        ArrayList<Card> cards = new ArrayList<>(gameState.getSelectedCards());
+        Card upperBoundCard = cards.get(1);
+        cards.set(1, middleCard);
+        cards.add(upperBoundCard);
         
         for (Card card : cards) {
             JPanel cardPanel = new JPanel(new BorderLayout());
@@ -238,13 +239,17 @@ public class DrawPanel extends JPanel {
                 if (cards.getFirst().isSameAs(card)){
                     cardPanel.add(cardImage, BorderLayout.NORTH);
                     lowerBoundLabel = new JLabel("Lower");
+                    lowerBoundLabel.setFont(new Font("Segoe UI", Font.PLAIN, 28));
                     lowerBoundLabel.setBackground(new Color(27, 109, 50));
                     cardPanel.add(lowerBoundLabel, BorderLayout.SOUTH);
-                } else {
+                } else if (cards.getLast().isSameAs(card)) {
                     cardPanel.add(cardImage,BorderLayout.NORTH);
                     upperBoundLabel = new JLabel("Upper");
+                    upperBoundLabel.setFont(new Font("Segoe UI", Font.PLAIN, 28));
                     upperBoundLabel.setBackground(new Color(27, 109, 50));
                     cardPanel.add(upperBoundLabel, BorderLayout.SOUTH);
+                } else {
+                    cardPanel.add(cardImage);
                 }
                 setImage(cardImage, "images/" + card.toString() +".gif");
             }

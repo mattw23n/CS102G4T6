@@ -1,13 +1,10 @@
 package GUI.Panel;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.awt.Font;
+import java.util.ArrayList;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -19,8 +16,10 @@ public class Scoreboard extends JPanel {
     private int[] playerScores;
 
     public Scoreboard() {
-        playerScores = loadScores();
-        // Create the table model with player names and initial scores of 0
+        // Default scores set to 5 for each player
+        playerScores = new int[]{5, 5, 5, 5};
+
+        // Create the table model with player names and initial scores
         DefaultTableModel model = new DefaultTableModel(new Object[][]{
                 {playerNames[0], playerScores[0]},
                 {playerNames[1], playerScores[1]},
@@ -30,41 +29,21 @@ public class Scoreboard extends JPanel {
 
         // Create the table using the model
         scoreTable = new JTable(model);
-        // scoreTable.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        scoreTable.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        // scoreTable.setBackground(new Color(27, 109, 50));
+        scoreTable.setRowHeight(24); // Set row height to 40 pixels
+        scoreTable.getColumnModel().getColumn(0).setPreferredWidth(150); // Set column 0 width to 200 pixels
+
         scoreTable.setEnabled(false); // Disable editing table cells
         setLayout(new FlowLayout(FlowLayout.RIGHT));
 
-        // JLabel title = new JLabel("Scoreboard");
-        // Add the table to the panel
-        // add(title);
         add(scoreTable);
     }
-
-    private int[] loadScores() {
-        try (FileInputStream file = new FileInputStream("scores.dat");
-            ObjectInputStream object = new ObjectInputStream(file)) {
-            return (int[]) object.readObject();
-        } catch (IOException | ClassNotFoundException e) {
-            // Handle exceptions (create a new scores array with initial values)
-            return new int[]{5, 5, 5, 5};
-        }
+    public int getScore (int playerIndex){
+        return playerScores[playerIndex];
     }
-    // Method to update a player's score
     public void updateScore(int playerIndex, int newScore) {
-        playerScores[playerIndex] = newScore;
+        playerScores[playerIndex-1] = newScore;
         ((DefaultTableModel) scoreTable.getModel()).setValueAt(newScore, playerIndex, 1);
-        for(int i:playerScores){
-            System.out.println(i);
-        }
-        saveScores();
     }
-    public void saveScores() {
-        try (FileOutputStream file = new FileOutputStream("scores.dat");
-            ObjectOutputStream object = new ObjectOutputStream(file)) {
-            object.writeObject(playerScores);
-        } catch (IOException e) {
-            // Handle exceptions if saving fails
-        }
-    }
-    
 }
