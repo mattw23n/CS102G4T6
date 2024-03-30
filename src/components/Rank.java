@@ -74,11 +74,6 @@ public class Rank implements Comparable {
     * The rank king.
     */
    public final static Rank KING = new Rank( "King", "k" );
-   /**
-    * The rank joker.
-    */
-   // public final static Rank JOKER = new Rank( "Joker", "x" );
-    
    private final static java.util.List VALUES_NUMBER_LIST =
       Collections.unmodifiableList( 
          Arrays.asList( new Rank[] { ACE, TWO, THREE, FOUR, FIVE, SIX, SEVEN,

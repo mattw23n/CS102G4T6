@@ -50,6 +50,8 @@ public class GamePanel extends JPanel {
         System.out.println("Drawing");
         drawPanel.setDescriptionLabel(gameState);
         drawPanel.setSelectedCardsPanel(gameState, card);
+        drawPanel.setLowerBoundValueLabel();
+        drawPanel.setUpperBoundValueLabel();
     }
     public void updateIntermediatePanel (){
         System.out.println("Updating IntermediatePanel");

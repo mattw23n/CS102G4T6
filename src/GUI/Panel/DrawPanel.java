@@ -7,12 +7,10 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -22,6 +20,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import components.Card;
+import components.Deck;
 import components.Hand;
 import components.Player;
 import components.Rank;
@@ -39,6 +38,8 @@ public class DrawPanel extends JPanel {
     private JLabel descriptionLabel;
     private JLabel lowerBoundLabel;
     private JLabel upperBoundLabel;
+    private JLabel upperBoundValueLabel;
+    private JLabel lowerBoundValueLabel;
 
     public DrawPanel(GameState gameState) {
         this.gameState = gameState;
@@ -96,6 +97,22 @@ public class DrawPanel extends JPanel {
         //     dealCard(allDeck, hand);
         //     Card newest = hand.getCard(hand.getNumberOfCards() - 1);
         //     System.out.println("\nYOU GOT " + newest);
+
+        lowerBoundLabel = new JLabel(" ");
+        lowerBoundLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lowerBoundLabel.setBackground(new Color(27, 109, 50));
+
+        lowerBoundValueLabel = new JLabel(" ");
+        lowerBoundValueLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lowerBoundValueLabel.setBackground(new Color(27, 109, 50));
+
+        upperBoundLabel = new JLabel(" ");
+        upperBoundLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        upperBoundLabel.setBackground(new Color(27, 109, 50));
+
+        upperBoundValueLabel = new JLabel(" ");
+        upperBoundValueLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        upperBoundValueLabel.setBackground(new Color(27, 109, 50));
 
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 3;
@@ -156,11 +173,15 @@ public class DrawPanel extends JPanel {
                         if (dealtCard.getRank().getSymbol().equals("q")) {
                             // extend lower by 2 but max 10
                             System.out.println("queen drawn");
+                            setLowerBoundLabel();
+                            setLowerBoundValueLabel();
                             
                         }
                         if (dealtCard.getRank().getSymbol().equals("k")) {
                             // extend upper by 2 but max 10
                             System.out.println("king drawn");
+                            setUpperBoundLabel();
+                            setUpperBoundValueLabel();
                             
                         }
                         // if jack swap cards
@@ -203,8 +224,6 @@ public class DrawPanel extends JPanel {
             }
         });
 
-
-
         // set image for "finish turn" button
         ImageIcon finishIcon = new ImageIcon("images/finish.png");
         Image finishIconImage = finishIcon.getImage();
@@ -246,6 +265,22 @@ public class DrawPanel extends JPanel {
     public void setDescriptionLabel(GameState gameState) {
         this.descriptionLabel.setText("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
     }
+    public void setLowerBoundLabel (){
+        String currText = lowerBoundLabel.getText();
+        lowerBoundLabel.setText(currText + "-2");
+    }
+    public void setLowerBoundValueLabel (){
+        Card lowerCard= gameState.getSelectedCards().get(0);
+        lowerBoundValueLabel.setText("Value: " + lowerCard.getRank().getSymbol());    
+    }
+    public void setUpperBoundLabel (){
+        String currText = upperBoundLabel.getText();
+        upperBoundLabel.setText(currText + "+2");
+    }
+    public void setUpperBoundValueLabel (){
+        Card upperCard= gameState.getSelectedCards().get(gameState.getSelectedCards().size() - 1);
+        upperBoundValueLabel.setText("Value: " + upperCard.getRank().getSymbol()); 
+    }
     public void setSelectedCardsPanel (GameState gameState, Card middleCard){
         selectedCardsPanel.removeAll();
         ArrayList<Card> cards = new ArrayList<>(gameState.getSelectedCards());
@@ -253,8 +288,11 @@ public class DrawPanel extends JPanel {
         cards.set(1, middleCard);
         cards.add(upperBoundCard);
         
-        for (Card card : cards) {
+        for (int i = 0; i < 3; i++){
+        // for (Card card : cards) {
+            Card card = cards.get(i);
             JPanel cardPanel = new JPanel(new BorderLayout());
+            cardPanel.setBackground(new Color(27, 109, 50));
             // gameState.getCurrPlayer().getHand().removeCard(card);
             System.out.println("card = " + gameState.getSelectedCards());
             JLabel cardImage = new JLabel();
@@ -265,18 +303,14 @@ public class DrawPanel extends JPanel {
                 cardPanel.add(cardImage, BorderLayout.NORTH);
             } else {
                 // cardImage.setName(card.toString());
-                if (cards.getFirst().isSameAs(card)){
+                if (i == 0){
                     cardPanel.add(cardImage, BorderLayout.NORTH);
-                    lowerBoundLabel = new JLabel("Lower");
-                    lowerBoundLabel.setFont(new Font("Segoe UI", Font.PLAIN, 28));
-                    lowerBoundLabel.setBackground(new Color(27, 109, 50));
-                    cardPanel.add(lowerBoundLabel, BorderLayout.SOUTH);
-                } else if (cards.getLast().isSameAs(card)) {
+                    cardPanel.add(lowerBoundLabel, BorderLayout.CENTER);
+                    cardPanel.add(lowerBoundValueLabel, BorderLayout.SOUTH);
+                } else if (i == 2) {
                     cardPanel.add(cardImage,BorderLayout.NORTH);
-                    upperBoundLabel = new JLabel("Upper");
-                    upperBoundLabel.setFont(new Font("Segoe UI", Font.PLAIN, 28));
-                    upperBoundLabel.setBackground(new Color(27, 109, 50));
-                    cardPanel.add(upperBoundLabel, BorderLayout.SOUTH);
+                    cardPanel.add(upperBoundLabel, BorderLayout.CENTER);
+                    cardPanel.add(upperBoundValueLabel, BorderLayout.SOUTH);
                 } else {
                     cardPanel.add(cardImage);
                 }
