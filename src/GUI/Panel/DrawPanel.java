@@ -40,6 +40,8 @@ public class DrawPanel extends JPanel {
     private JLabel upperBoundLabel;
     private JLabel upperBoundValueLabel;
     private JLabel lowerBoundValueLabel;
+    private JLabel middleLabel;
+    private JLabel middleLabel2;
 
     public DrawPanel(GameState gameState) {
         this.gameState = gameState;
@@ -91,34 +93,40 @@ public class DrawPanel extends JPanel {
         selectedCardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
         selectedCardsPanel.setBackground(background);
 
-        // draw card from deck and add to hand
-        // Hand playerHand = currPlayer.getHand();
-        // Deck.dealCard(allDeck, hand);
-        //     dealCard(allDeck, hand);
-        //     Card newest = hand.getCard(hand.getNumberOfCards() - 1);
-        //     System.out.println("\nYOU GOT " + newest);
-
         lowerBoundLabel = new JLabel(" ");
         lowerBoundLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lowerBoundLabel.setForeground(textColor);
         lowerBoundLabel.setBackground(new Color(27, 109, 50));
 
         lowerBoundValueLabel = new JLabel(" ");
         lowerBoundValueLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        lowerBoundValueLabel.setForeground(textColor);
         lowerBoundValueLabel.setBackground(new Color(27, 109, 50));
 
         upperBoundLabel = new JLabel(" ");
         upperBoundLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        upperBoundLabel.setForeground(textColor);
         upperBoundLabel.setBackground(new Color(27, 109, 50));
 
         upperBoundValueLabel = new JLabel(" ");
         upperBoundValueLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        upperBoundValueLabel.setForeground(textColor);
         upperBoundValueLabel.setBackground(new Color(27, 109, 50));
+
+        middleLabel = new JLabel(". ");
+        middleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        middleLabel.setForeground(background);
+        middleLabel.setBackground(background);
+
+        middleLabel2 = new JLabel(". ");
+        middleLabel2.setFont(new Font("Segoe UI", Font.BOLD, 16));
+        middleLabel2.setForeground(background);
+        middleLabel2.setBackground(background);
 
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 3;
         selectedCardsPanel.setVisible(true);
         contentPanel.add(selectedCardsPanel, GridConstraints);
-        
         
         // Set image as "draw" button
         ImageIcon drawIcon = new ImageIcon("images/draw.png");
@@ -127,6 +135,20 @@ public class DrawPanel extends JPanel {
         drawIcon = new ImageIcon(scaledImage);
         JButton drawButton = new JButton(drawIcon);
         drawButton.setBorder(null);
+
+        // set image for "finish turn" button
+        ImageIcon finishIcon = new ImageIcon("images/finish.png");
+        Image finishIconImage = finishIcon.getImage();
+        Image scaledImage2 = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
+        finishIcon = new ImageIcon(scaledImage2);
+        JButton finishButton = new JButton(finishIcon);
+        finishButton.setBorder(null);
+        finishButton.setEnabled(false);
+
+        JLabel disabledFinish = new JLabel(finishIcon);
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 7;
+        contentPanel.add(disabledFinish, GridConstraints);
 
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 5;
@@ -160,19 +182,23 @@ public class DrawPanel extends JPanel {
                     GamePanel gamePanel = (GamePanel) parent;
                     // implement draw card feature
                     Card dealtCard = DeckUtils.dealCard(deck, currHand);
+                    Card newest = currHand.getCard(currHand.getNumberOfCards() - 1);
+                    currHand.removeCard(newest);
                     System.out.println("dealt = " + dealtCard.toString());
                     setSelectedCardsPanel(gameState, dealtCard);
 
-                    if (!("jqk".contains(dealtCard.getRank().getSymbol()))) {
+                    if (!(Utils.isWildCard(dealtCard))) {
                         int points = Utils.calculatePoints(currPlayer, dealtCard);
                         System.out.println("points = " + points);
                         currPlayer.setPoints(points);
+                        finishButton.setEnabled(true);
                         System.out.println("player " + currPlayer.getPlayerID() + " points = " + currPlayer.getPoints());
                     } else {
                             // if Q/K extend bounds
                         if (dealtCard.getRank().getSymbol().equals("q")) {
                             // extend lower by 2 but max 10
                             System.out.println("queen drawn");
+                            Utils.processWildCard(currPlayer, lowerCard);
                             setLowerBoundLabel();
                             setLowerBoundValueLabel();
                             
@@ -180,6 +206,7 @@ public class DrawPanel extends JPanel {
                         if (dealtCard.getRank().getSymbol().equals("k")) {
                             // extend upper by 2 but max 10
                             System.out.println("king drawn");
+                            Utils.processWildCard(currPlayer, higherCard);
                             setUpperBoundLabel();
                             setUpperBoundValueLabel();
                             
@@ -187,6 +214,7 @@ public class DrawPanel extends JPanel {
                         // if jack swap cards
                         if (dealtCard.getRank().getSymbol().equals("j")) {
                             System.out.println("jack drawn");
+                            Card newDealtCard = DeckUtils.dealCard(boundDeck, currHand);
 
                             String[] options = {"Swap Lower Bound Card", "Swap Upper Bound Card"};
                             int choice = 0;
@@ -198,44 +226,35 @@ public class DrawPanel extends JPanel {
                                                 JOptionPane.QUESTION_MESSAGE, 
                                                 null, options, options[0]);
 
-                            switch (choice) {
-                                case 0:
-                                    System.out.println("swap lower");
-                                    dealtCard = DeckUtils.dealCard(boundDeck, currHand);
-                                    Utils.processJack(currPlayer, selectedCards.get(0), dealtCard);
-                                    setSelectedCardsPanel(gameState, dealtCard);
-                                    break;
-                                case 1:
-                                    System.out.println("swap upper");
-                                    dealtCard = DeckUtils.dealCard(boundDeck, currHand);
-                                    Utils.processJack(currPlayer, selectedCards.get(1), dealtCard);
-                                    setSelectedCardsPanel(gameState, dealtCard);
-                                    break;
-                                default:
-                                    break;
+                            if (choice == 0) {
+                                System.out.println("swap lower");
+                                Utils.processJack(currPlayer, lowerCard, newDealtCard);
+                            } else {
+                                System.out.println("swap upper");
+                                Utils.processJack(currPlayer, higherCard, newDealtCard);
                             }
-                            
+
+                            Card newLower = Utils.stringToCard(currPlayer.getLower() + "c");
+                            System.out.println("new lower = " + newLower);
+                            Card newHigher = Utils.stringToCard(currPlayer.getUpper() + "c");
+                            System.out.println("new higher = " + newHigher);
+
+                            ArrayList<Card> newCards = new ArrayList<>();
+                            newCards.add(newLower);
+                            newCards.add(newHigher);
+                            gameState.setSelectedCards(newCards);
+                            System.out.println("new cards = " + gameState.getSelectedCards());
+                            setSelectedCardsPanel(gameState, dealtCard);
                         }
+                        finishButton.setEnabled(true);
                     }
                     System.out.println("DRAW CARD");
                 }
                 
                 scoreBoard.updateScore(currPlayer.getPlayerID(), currPlayer.getPoints());
+                
             }
         });
-
-        // set image for "finish turn" button
-        ImageIcon finishIcon = new ImageIcon("images/finish.png");
-        Image finishIconImage = finishIcon.getImage();
-        Image scaledImage2 = finishIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-        finishIcon = new ImageIcon(scaledImage2);
-        JButton finishButton = new JButton(finishIcon);
-        finishButton.setBorder(null);
-
-        JLabel disabledFinish = new JLabel(finishIcon);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 7;
-        contentPanel.add(disabledFinish, GridConstraints);
 
         GridConstraints.weightx = 0.5;
         GridConstraints.gridx = 0;
@@ -248,6 +267,7 @@ public class DrawPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 gameState.moveToNextPlayer();
+                finishButton.setEnabled(false);
                 // Get the parent GamePanel
                 Container parent = getParent();
                 if (parent instanceof GamePanel) {
@@ -271,7 +291,7 @@ public class DrawPanel extends JPanel {
     }
     public void setLowerBoundValueLabel (){
         Card lowerCard= gameState.getSelectedCards().get(0);
-        lowerBoundValueLabel.setText("Value: " + lowerCard.getRank().getSymbol());    
+        lowerBoundValueLabel.setText("Value: " + lowerCard.getRank().getSymbol());      
     }
     public void setUpperBoundLabel (){
         String currText = upperBoundLabel.getText();
@@ -301,6 +321,8 @@ public class DrawPanel extends JPanel {
                 // cardImage.setName("as");
                 setImage(cardImage, "images/cardback.png");
                 cardPanel.add(cardImage, BorderLayout.NORTH);
+                cardPanel.add(middleLabel, BorderLayout.CENTER);
+                cardPanel.add(middleLabel2, BorderLayout.SOUTH);
             } else {
                 // cardImage.setName(card.toString());
                 if (i == 0){
@@ -312,7 +334,9 @@ public class DrawPanel extends JPanel {
                     cardPanel.add(upperBoundLabel, BorderLayout.CENTER);
                     cardPanel.add(upperBoundValueLabel, BorderLayout.SOUTH);
                 } else {
-                    cardPanel.add(cardImage);
+                    cardPanel.add(cardImage, BorderLayout.NORTH);
+                    cardPanel.add(middleLabel, BorderLayout.CENTER);
+                    cardPanel.add(middleLabel2, BorderLayout.SOUTH);
                 }
                 setImage(cardImage, "images/" + card.toString() +".gif");
             }

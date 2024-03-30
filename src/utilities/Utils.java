@@ -165,7 +165,7 @@ public final class Utils {
             }
         }
 
-        System.out.println("upper " + upperBound + "lower " + lowerBound);
+        System.out.println("upper " + upperBound + " lower " + lowerBound);
     }
 
     //Process wild cards and regular cards
