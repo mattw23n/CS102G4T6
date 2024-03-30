@@ -223,7 +223,7 @@ public class DrawPanel extends JPanel {
                             if (dealtCard.getRank().getSymbol().equals("q")) {
                                 System.out.println("queen drawn");
                                 System.out.println("wildcardcount after drawing = " + gameState.getCurrPlayer().getWildcardCount());
-                                Utils.processWildCard(gameState.getCurrPlayer(), lowerCard);
+                                Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
                                 setLowerBoundLabel();
                                 setLowerBoundValueLabel();
                             }
@@ -232,7 +232,7 @@ public class DrawPanel extends JPanel {
                                 // extend upper by 2 but max 10
                                 System.out.println("king drawn");
                                 System.out.println("wildcardcount after drawing = " + gameState.getCurrPlayer().getWildcardCount());
-                                Utils.processWildCard(gameState.getCurrPlayer(), higherCard);
+                                Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
                                 setUpperBoundLabel();
                                 setUpperBoundValueLabel();
                                 
@@ -275,73 +275,78 @@ public class DrawPanel extends JPanel {
                                 gameState.setSelectedCards(newCards);
                                 System.out.println("new cards = " + gameState.getSelectedCards());
                                 setSelectedCardsPanel(gameState, dealtCard);
-                            }
-                        // System.out.println("player " + gameState.getCurrPlayer().getPlayerID() + " points = " + gameState.getCurrPlayer().getPoints());
-                    } else {
-                            // if Q/K extend bounds
-                        if (dealtCard.getRank().getSymbol().equals("q")) {
-                            // extend lower by 2 but max 10
-                            System.out.println("queen drawn");
-                            Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
-                            setLowerBoundLabel();
-                            setLowerBoundValueLabel();
+                                setUpperBoundValueLabel();
+                                setLowerBoundValueLabel();
+                                lowerBoundLabel.setText(" ");
+                                upperBoundLabel.setText(" ");
+                            }   
+                    } 
+                    // else {
+                    //         // if Q/K extend bounds
+                    //     if (dealtCard.getRank().getSymbol().equals("q")) {
+                    //         // extend lower by 2 but max 10
+                    //         System.out.println("queen drawn");
+                    //         Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
+                    //         setLowerBoundLabel();
+                    //         setLowerBoundValueLabel();
                             
-                        }
-                        if (dealtCard.getRank().getSymbol().equals("k")) {
-                            // extend upper by 2 but max 10
-                            System.out.println("king drawn");
-                            Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
-                            setUpperBoundLabel();
-                            setUpperBoundValueLabel();
+                    //     }
+                    //     if (dealtCard.getRank().getSymbol().equals("k")) {
+                    //         // extend upper by 2 but max 10
+                    //         System.out.println("king drawn");
+                    //         Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
+                    //         setUpperBoundLabel();
+                    //         setUpperBoundValueLabel();
                             
-                        }
-                        // if jack swap cards
-                        if (dealtCard.getRank().getSymbol().equals("j")) {
-                            System.out.println("jack drawn");
-                            Card newDealtCard = DeckUtils.dealCard(boundDeck, currHand);
-                            System.out.println("new dealt card = " + newDealtCard);
+                    //     }
+                    //     // if jack swap cards
+                    //     if (dealtCard.getRank().getSymbol().equals("j")) {
+                    //         System.out.println("jack drawn");
+                    //         Card newDealtCard = DeckUtils.dealCard(boundDeck, currHand);
+                    //         System.out.println("new dealt card = " + newDealtCard);
 
-                            String[] options = {"Swap Lower Bound Card", "Swap Upper Bound Card"};
-                            int choice = 0;
-                            //Dialog to choose
-                            JOptionPane.showOptionDialog(null, 
-                                                "Jack drawn. Swap one of your cards.", 
-                                                "Jack Drawn", 
-                                                JOptionPane.DEFAULT_OPTION, 
-                                                JOptionPane.QUESTION_MESSAGE, 
-                                                null, options, options[0]);
-                            //User choice
-                            if (choice == 0) {
-                                System.out.println("swap lower");
-                                Utils.processJack(gameState.getCurrPlayer(), lowerCard, newDealtCard);
-                            } else {
-                                System.out.println("swap upper");
-                                Utils.processJack(gameState.getCurrPlayer(), higherCard, newDealtCard);
-                            }
-                            //
-                            Card newLower = Utils.stringToCard(gameState.getCurrPlayer().getOriginalLower().toString());
-                            System.out.println("new lower = " + newLower);
-                            Card newHigher = Utils.stringToCard(gameState.getCurrPlayer().getOriginalUpper().toString());
-                            System.out.println("new higher = " + newHigher);
+                    //         String[] options = {"Swap Lower Bound Card", "Swap Upper Bound Card"};
+                    //         int choice = 0;
+                    //         //Dialog to choose
+                    //         JOptionPane.showOptionDialog(null, 
+                    //                             "Jack drawn. Swap one of your cards.", 
+                    //                             "Jack Drawn", 
+                    //                             JOptionPane.DEFAULT_OPTION, 
+                    //                             JOptionPane.QUESTION_MESSAGE, 
+                    //                             null, options, options[0]);
+                    //         //User choice
+                    //         if (choice == 0) {
+                    //             System.out.println("swap lower");
+                    //             Utils.processJack(gameState.getCurrPlayer(), lowerCard, newDealtCard);
+                    //         } else {
+                    //             System.out.println("swap upper");
+                    //             Utils.processJack(gameState.getCurrPlayer(), higherCard, newDealtCard);
+                    //         }
+                    //         //
+                    //         Card newLower = Utils.stringToCard(gameState.getCurrPlayer().getOriginalLower().toString());
+                    //         System.out.println("new lower = " + newLower);
+                    //         Card newHigher = Utils.stringToCard(gameState.getCurrPlayer().getOriginalUpper().toString());
+                    //         System.out.println("new higher = " + newHigher);
 
-                            ArrayList<Card> newCards = new ArrayList<>();
-                            newCards.add(newLower);
-                            newCards.add(newHigher);
-                            gameState.setSelectedCards(newCards);
-                            System.out.println("new cards = " + gameState.getSelectedCards());
-                            setSelectedCardsPanel(gameState, dealtCard);
-                            setUpperBoundValueLabel();
-                            setLowerBoundValueLabel();
-                            lowerBoundLabel.setText(" ");
-                            upperBoundLabel.setText(" ");
-                        }
-                        finishButton.setEnabled(true);
-                    }
+                    //         ArrayList<Card> newCards = new ArrayList<>();
+                    //         newCards.add(newLower);
+                    //         newCards.add(newHigher);
+                    //         gameState.setSelectedCards(newCards);
+                    //         System.out.println("new cards = " + gameState.getSelectedCards());
+                    //         setSelectedCardsPanel(gameState, dealtCard);
+                    //         setUpperBoundValueLabel();
+                    //         setLowerBoundValueLabel();
+                    //         lowerBoundLabel.setText(" ");
+                    //         upperBoundLabel.setText(" ");
+                    //     }
+                    //     finishButton.setEnabled(true);
+                    // }
                     System.out.println("Lower Bound AFTER:" + gameState.getCurrPlayer().getLower());
                     System.out.println("Upper Bound AFTER:" + gameState.getCurrPlayer().getUpper());
                     System.out.println("DRAW CARD");
                 }
                 scoreBoard.updateScore(gameState.getCurrPlayer().getPlayerID(), gameState.getCurrPlayer().getPoints());
+            }
             }
         });
 
