@@ -360,8 +360,10 @@ public class DrawPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                if (gameState.getRound() != 3) {
+                System.out.println("FINISH GAME");
+                System.out.println(gameState.getRound());
+                System.out.println(gameState.getCurrPlayer().getPlayerID());
+                if (gameState.getRound() != 3  || gameState.getCurrPlayer().getPlayerID() != 4) {
                     // reset wildCardCount
                     gameState.getCurrPlayer().setWildCardCount(0);
                     gameState.moveToNextPlayer();
