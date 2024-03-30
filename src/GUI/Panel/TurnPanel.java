@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import components.Card;
 import components.Player;
+import utilities.Utils;
 
 public class TurnPanel extends JPanel {
     private JButton nextButton;
@@ -159,6 +160,8 @@ public class TurnPanel extends JPanel {
                             if (parent instanceof GamePanel) {
                                 GamePanel gamePanel = (GamePanel) parent;
                                 // Switch to IntermediatePanel
+                                gameState.getCurrPlayer().setLower(Utils.getCardValueInt(gameState.getSelectedCards().get(0)));
+                                gameState.getCurrPlayer().setUpper(Utils.getCardValueInt(gameState.getSelectedCards().get(1)));
                                 gamePanel.updateDrawPanel(null);
                                 gamePanel.switchToPanel("Draw");
                             } 

@@ -104,7 +104,7 @@ public final class Utils {
 
     //Set upper or lower based on wildcard
     public static void processWildCard(Player p, Card card) {
-
+        System.out.println(p.getPlayerID() + card.toString());
         // If queen, extend lower bound
         if ("q".equals(getCardValue(card))) {
             int lower = p.getLower();
@@ -122,7 +122,6 @@ public final class Utils {
                 upper = 10;
             }
             p.setUpper(upper);
-
         }
     }
 
@@ -131,13 +130,13 @@ public final class Utils {
 
         // Swaps the selected bound card for a new bound card
         int swappedCard = getCardValueInt(swapped);
-
+        // System.out.println("Swapped Card:" + swappedCard );
         int upperBound = p.getUpper();
         int lowerBound = p.getLower();
-
+        // System.out.println("INT Upper: " + upperBound + " Lower: " + lowerBound);
         Card originalUpper = p.getOriginalUpper();
         Card originalLower = p.getOriginalLower();
-
+        // System.out.println("CARD Upper: " + originalUpper.toString() + " Lower: " + originalLower.toString());
         //Adjust upper and lower bound accordingly
         if(cardToSwap.isSameAs(originalUpper)){
             if(swappedCard < lowerBound){
@@ -167,8 +166,12 @@ public final class Utils {
                 p.setLower(swappedCard);
             }
         }
-
-        System.out.println("upper " + upperBound + " lower " + lowerBound);
+        // System.out.println("---AFTER SWAPPING---");
+        // System.out.println("Swapped Card:" + swappedCard );
+        // System.out.println("INT Upper: " + upperBound + " Lower: " + lowerBound);
+        // System.out.println("CARD Upper: " + originalUpper.toString() + " Lower: " + originalLower.toString());
+        // System.out.println("---AFTER SWAPPING---");
+        // System.out.println("upper " + upperBound + " lower " + lowerBound);
     }
 
     //Process wild cards and regular cards

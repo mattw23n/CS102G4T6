@@ -3,7 +3,6 @@ package GUI.Panel;
 import java.awt.CardLayout;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import javax.swing.JPanel;
 
