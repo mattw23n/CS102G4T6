@@ -21,6 +21,7 @@ public class GamePanel extends JPanel {
     private TurnPanel turnPanel;
     private DrawPanel drawPanel;
     private Scoreboard scoreBoard;
+    private DisplayScoresPanel displayScoresPanel;
 
     public GamePanel() {
         initialise();
@@ -37,7 +38,7 @@ public class GamePanel extends JPanel {
         intermediatePanel = new IntermediatePanel(gameState);
         turnPanel = new TurnPanel(gameState);
         drawPanel = new DrawPanel(gameState);
-        DisplayScoresPanel displayScoresPanel = new DisplayScoresPanel(gameState);
+        displayScoresPanel = new DisplayScoresPanel(gameState);
 
         // add(roundPanel, "round");
         add(roundPanel, "Round");
@@ -76,6 +77,9 @@ public class GamePanel extends JPanel {
         repaint();
         revalidate();
         roundPanel.refreshScoreboard();
+    }
+    public void updateScoresPanel() {
+        displayScoresPanel.refreshScoreboard();
     }
     public void doRound() {
         ArrayList<Player> players = gameState.getPlayersList();

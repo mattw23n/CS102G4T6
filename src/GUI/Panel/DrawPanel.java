@@ -387,6 +387,7 @@ public class DrawPanel extends JPanel {
                         GamePanel gamePanel = (GamePanel) parent;
                         // Switch to scoreboard
                         refreshScoreboard();
+                        gamePanel.updateScoresPanel();
                         gamePanel.switchToPanel("Scoreboard");   
                 }            
             }
