@@ -121,7 +121,7 @@ public class DrawPanel extends JPanel {
         ImageIcon drawIcon = new ImageIcon("images/draw.png");
         Image drawIconImage = drawIcon.getImage();
         Image scaledImage = drawIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
-        drawIcon.setImage(scaledImage);;
+        drawIcon.setImage(scaledImage);
         JButton drawButton = new JButton(drawIcon);
         drawButton.setBorder(null);
         // drawButton.setEnabled(true);
@@ -297,6 +297,10 @@ public class DrawPanel extends JPanel {
         finishButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                if (!gameState.isFinishTurn()){
+                    JOptionPane.showMessageDialog(mainPanel, "Your turn hasn't finished. Please draw card.", "Invalid Action", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
                 System.out.println("FINISH GAME");
                 System.out.println(gameState.getRound());
                 System.out.println(gameState.getCurrPlayer().getPlayerID());
@@ -323,9 +327,15 @@ public class DrawPanel extends JPanel {
                         gamePanel.switchToPanel("Intermediate");    
                     }
                 } else {
-                    JOptionPane.showMessageDialog(mainPanel, "Your turn hasn't finished. Please draw card.", "Invalid Action", JOptionPane.ERROR_MESSAGE);
+                    Container parent = getParent();
+                    if (parent instanceof GamePanel) {
+                        GamePanel gamePanel = (GamePanel) parent;
+                        // Switch to scoreboard
+                        refreshScoreboard();
+                        gamePanel.updateScoresPanel();
+                        gamePanel.switchToPanel("Scoreboard");   
+                    }                   
                 }
-                
             }
         });
     }
