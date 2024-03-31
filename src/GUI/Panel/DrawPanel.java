@@ -26,6 +26,7 @@ import components.Player;
 import components.Rank;
 import components.Deck;
 import utilities.DeckUtils;
+import utilities.PanelUtils;
 import utilities.Utils;
 
 public class DrawPanel extends JPanel {
@@ -57,6 +58,7 @@ public class DrawPanel extends JPanel {
         // Colours Used (Can change later)
         Color background = new Color(27, 109, 50);
         Color textColor = new Color(244, 250, 255);
+        Font font = new Font("Segoe UI", Font.BOLD, 16);
 
         // Panel creation
         JPanel mainPanel = new JPanel();
@@ -95,34 +97,22 @@ public class DrawPanel extends JPanel {
         selectedCardsPanel.setBackground(background);
 
         lowerBoundLabel = new JLabel(" ");
-        lowerBoundLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lowerBoundLabel.setForeground(textColor);
-        lowerBoundLabel.setBackground(new Color(27, 109, 50));
+        PanelUtils.initializeLabel(lowerBoundLabel, font, textColor, background);
 
         lowerBoundValueLabel = new JLabel(" ");
-        lowerBoundValueLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        lowerBoundValueLabel.setForeground(textColor);
-        lowerBoundValueLabel.setBackground(new Color(27, 109, 50));
+        PanelUtils.initializeLabel(lowerBoundValueLabel, font, textColor, background);
 
         upperBoundLabel = new JLabel(" ");
-        upperBoundLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        upperBoundLabel.setForeground(textColor);
-        upperBoundLabel.setBackground(new Color(27, 109, 50));
+        PanelUtils.initializeLabel(upperBoundLabel, font, textColor, background);
 
         upperBoundValueLabel = new JLabel(" ");
-        upperBoundValueLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        upperBoundValueLabel.setForeground(textColor);
-        upperBoundValueLabel.setBackground(new Color(27, 109, 50));
+        PanelUtils.initializeLabel(upperBoundValueLabel, font, textColor, background);
 
         middleLabel = new JLabel(". ");
-        middleLabel.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        middleLabel.setForeground(background);
-        middleLabel.setBackground(background);
+        PanelUtils.initializeLabel(middleLabel, font, background, background);
 
         middleLabel2 = new JLabel(". ");
-        middleLabel2.setFont(new Font("Segoe UI", Font.BOLD, 16));
-        middleLabel2.setForeground(background);
-        middleLabel2.setBackground(background);
+        PanelUtils.initializeLabel(middleLabel2, font, background, background);
 
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 3;

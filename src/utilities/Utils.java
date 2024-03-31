@@ -113,6 +113,7 @@ public final class Utils {
                 lower = 1;
             }
             p.setLower(lower);
+            // System.out.println(p.getLower());
 
         // If king, extend upper bound
         } else if ("k".equals(getCardValue(card))) {
@@ -122,6 +123,7 @@ public final class Utils {
                 upper = 10;
             }
             p.setUpper(upper);
+            // System.out.println(p.getUpper());
         }
     }
 
