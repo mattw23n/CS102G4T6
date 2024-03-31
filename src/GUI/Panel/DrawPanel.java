@@ -246,7 +246,7 @@ public class DrawPanel extends JPanel {
                     return;
                 }
 
-                if (gameState.getRound() != maxRound  || gameState.getCurrPlayer().getPlayerID() != 4) {
+                if (gameState.getRound() != maxRound  || gameState.getCurrPlayer().getPlayerID() != gameState.getPlayersList().getLast().getPlayerID()) {
                     // reset wildCardCount
                     gameState.getCurrPlayer().setWildCardCount(0);
                     gameState.setFinishTurn(false);
@@ -270,7 +270,7 @@ public class DrawPanel extends JPanel {
                                 + "Out", JOptionPane.ERROR_MESSAGE);
                             gameState.removePlayer(currentPlayer);
                         } 
-                        if (gameState.getPlayersList().isEmpty()){
+                        if (gameState.getPlayersList().size() <= 1){
                             gamePanel.updateScoresPanel();
                             gamePanel.switchToPanel("Scoreboard");
                         } else {
@@ -285,6 +285,7 @@ public class DrawPanel extends JPanel {
                         GamePanel gamePanel = (GamePanel) parent;
                         // Switch to scoreboard
                         refreshScoreboard();
+                        gameState.updatePlayerPoints(currPlayer, currPlayer.getPoints());
                         gamePanel.updateScoresPanel();
                         gamePanel.switchToPanel("Scoreboard");   
                     }                   
