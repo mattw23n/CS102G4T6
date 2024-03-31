@@ -24,6 +24,7 @@ public class GamePanel extends JPanel {
     private DrawPanel drawPanel;
     private Scoreboard scoreBoard;
     private DisplayScoresPanel displayScoresPanel;
+    private final int initialPoints = 5;
 
     public GamePanel() {
         initialise();
@@ -92,20 +93,14 @@ public class GamePanel extends JPanel {
         Deck rangeDeck = initializeNumbers();
         Deck allDeck = initializeWhole();
 
-        Player p1 = new Player(1, 5, new PlayerHand());
-        Player p2 = new Player(2, 5, new PlayerHand());
-        Player p3 = new Player(3, 5, new PlayerHand());
-        Player p4 = new Player(4, 5, new PlayerHand());
-
         ArrayList<Player> playersList = new ArrayList<>();
-        playersList.add(p1);
-        playersList.add(p2);
-        playersList.add(p3);
-        playersList.add(p4);
 
-        for(Player p : playersList){
-            dealRange(rangeDeck, p.getHand());
+        for (int i = 1; i < 5; i++) {
+            playersList.add(new Player(i, initialPoints, new PlayerHand()));
         }
+
+        playersList.forEach(p -> dealRange(rangeDeck, p.getHand()));
+
         int roundCount = 1;
         boolean finishTurn = false;
         ArrayList<Card> selectedCards = new ArrayList<>();
