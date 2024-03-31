@@ -17,7 +17,6 @@ import components.Player;
 
 public class IntermediatePanel extends JPanel {
     private JButton nextButton;
-    // private Scoreboard scoreBoard;
     private Player nextPlayer;
     private GameState gameState;
     private JLabel descriptionLabel;

@@ -8,6 +8,8 @@ In Between++ is a thrilling card game where 4 players strategize, bet, and calcu
 4. Discard the cards used and pass the turn to the next player.
 5. Repeat steps 3-5 for three rounds.
 6. The player with the most points at the end wins the game.
+7. If 2 or more players have the highest score, the game will tied between multiple winners.
+8. If the player's points reach 1 or below, he/she is kicked out of the game!
 
 ## Rules
 
