@@ -1,4 +1,10 @@
 package GUI.Panel;
+/*
+ * TurnPanel.java
+ * 
+ * TurnPanel is used to display a Player's turn, mainly their betting process.
+ * 
+ */
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,7 +34,6 @@ import components.Player;
 import utilities.Utils;
 
 public class TurnPanel extends JPanel {
-    private JButton nextButton;
     private Scoreboard scoreBoard;
     private GameState gameState;
     private Player currPlayer;
@@ -41,10 +46,10 @@ public class TurnPanel extends JPanel {
         this.gameState = gameState;
         this.currPlayer = gameState.getCurrPlayer();
         this.selectedCards = gameState.getSelectedCards();
-        initialise();
+        initializeTurn();
     }
 
-    private void initialise(){
+    private void initializeTurn(){
         setLayout(new BorderLayout());
 
         // Colours Used (Can change later)
@@ -58,24 +63,23 @@ public class TurnPanel extends JPanel {
         mainPanel.setBackground(background);
         
         // Create GridBagLayout
-        GridBagLayout GridBagLayoutGrid = new GridBagLayout();
-        GridBagConstraints GridConstraints = new GridBagConstraints();
+        GridBagLayout gridBagLayoutGrid = new GridBagLayout();
+        GridBagConstraints gridConstraints = new GridBagConstraints();
 
         // Create components for Turn Panel
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(background);
-        contentPanel.setLayout(GridBagLayoutGrid);
-        // GridConstraints.fill = GridConstraints.HORIZONTAL;
+        contentPanel.setLayout(gridBagLayoutGrid);
+        // gridConstraints.fill = gridConstraints.HORIZONTAL;
 
         // Add content to Turn Panel
-        System.out.println("current player = " + gameState.getCurrPlayer().getPlayerID());
         descriptionLabel = new JLabel("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
-        GridConstraints.weightx = 0.5;
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 0;
-        contentPanel.add(descriptionLabel, GridConstraints);
+        gridConstraints.weightx = 0.5;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 0;
+        contentPanel.add(descriptionLabel, gridConstraints);
 
         scoreBoard = new Scoreboard();
         scoreBoard.setBackground(background);
@@ -87,12 +91,11 @@ public class TurnPanel extends JPanel {
         selectedCardsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
         selectedCardsPanel.setBackground(background);
 
-        System.out.println("selected = " + selectedCards.toString());
 
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 3;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 3;
         selectedCardsPanel.setVisible(true);
-        contentPanel.add(selectedCardsPanel, GridConstraints);
+        contentPanel.add(selectedCardsPanel, gridConstraints);
 
         // Betting label
         betLabel = new JLabel(" ");
@@ -100,9 +103,9 @@ public class TurnPanel extends JPanel {
         betLabel.setBackground(background);
         betLabel.setForeground(textColor);
         betLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 4;
-        contentPanel.add(betLabel, GridConstraints);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 4;
+        contentPanel.add(betLabel, gridConstraints);
 
         // Betting field
         JTextField betField = new JTextField(5);
@@ -110,10 +113,10 @@ public class TurnPanel extends JPanel {
         betField.setBackground(Color.WHITE);
         betField.setBorder(null);
         betField.setHorizontalAlignment(JTextField.CENTER);
-        GridConstraints.insets = new Insets(10, 0, 0, 0);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 5;
-        contentPanel.add(betField, GridConstraints);
+        gridConstraints.insets = new Insets(10, 0, 0, 0);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 5;
+        contentPanel.add(betField, gridConstraints);
 
         // Place Bet button
         ImageIcon betIcon = new ImageIcon("images/bet.png");
@@ -122,9 +125,9 @@ public class TurnPanel extends JPanel {
         betIcon = new ImageIcon(scaledImage2);
         JButton betButton = new JButton(betIcon);
         betButton.setBorder(null);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 6;
-        contentPanel.add(betButton, GridConstraints);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 6;
+        contentPanel.add(betButton, gridConstraints);
         betButton.setActionCommand("bet");
 
         // add listener to bet button
@@ -181,7 +184,6 @@ public class TurnPanel extends JPanel {
         Collections.sort(cards);
         for (Card card : cards) {
             gameState.getCurrPlayer().getHand().removeCard(card);
-            System.out.println("card = " + gameState.getSelectedCards());
             JLabel cardImage = new JLabel();
             cardImage.setName(card.toString());
             setImage(cardImage, "images/" + card.toString() +".gif");
@@ -196,15 +198,10 @@ public class TurnPanel extends JPanel {
         label.setIcon(icon);
     }
     public void refreshScoreboard() {
-        gameState.printScores();
-        System.out.println("ScoreBoard");
-        System.out.println("-------------------");
         ArrayList<Integer> playerScores = gameState.getPlayerScores();
         for (int i = 0; i < playerScores.size(); i++) {
             scoreBoard.updateScore(i + 1, playerScores.get(i));
-            System.out.println(playerScores.get(i));
         }
-        System.out.println("-------------------");
         scoreBoard.repaint();
         scoreBoard.revalidate();
     }

@@ -1,4 +1,12 @@
 package GUI.Panel;
+/*
+ * IntermediatePanel.java
+ * 
+ * IntermediatePanel displays the panel in between turns 
+ * and updates the subsequent panels accordingly.
+ * 
+ */
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -27,9 +35,10 @@ public class IntermediatePanel extends JPanel {
 
     public IntermediatePanel(GameState gameState) {
         this.gameState = gameState;
-        initialize();
+        initializeIntermediate();
     }
-    private void initialize(){
+
+    private void initializeIntermediate(){
         setLayout(new BorderLayout());
 
         // Colours Used (Can change later)
@@ -43,15 +52,15 @@ public class IntermediatePanel extends JPanel {
         mainPanel.setBackground(background);
 
         // Create GridBagLayout
-        GridBagLayout GridBagLayoutGrid = new GridBagLayout();
-        GridBagConstraints GridConstraints = new GridBagConstraints();
+        GridBagLayout gridBagLayoutGrid = new GridBagLayout();
+        GridBagConstraints gridConstraints = new GridBagConstraints();
 
         // Create components for RoundOnePanel
         // JLabel titleLabel = new JLabel("Round One");
         // titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
         // add(titleLabel, BorderLayout.NORTH);
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(GridBagLayoutGrid);
+        contentPanel.setLayout(gridBagLayoutGrid);
         contentPanel.setBackground(background);
 
 
@@ -59,10 +68,10 @@ public class IntermediatePanel extends JPanel {
         descriptionLabel = new JLabel("Pass on to next player");
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
-        GridConstraints.weightx = 0.1;
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 0;
-        contentPanel.add(descriptionLabel, GridConstraints);
+        gridConstraints.weightx = 0.1;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 0;
+        contentPanel.add(descriptionLabel, gridConstraints);
 
         
 
@@ -77,9 +86,9 @@ public class IntermediatePanel extends JPanel {
         JButton nextButton = new JButton(nextIcon);
         nextButton.setBorder(null);
 
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 3;
-        contentPanel.add(nextButton, GridConstraints);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 3;
+        contentPanel.add(nextButton, gridConstraints);
 
         //Listener for "Next" Button
         add(mainPanel, BorderLayout.CENTER);
@@ -97,9 +106,11 @@ public class IntermediatePanel extends JPanel {
             }
         });
     }
+    
     public void setDescriptionLabelToRound(GameState gameState) {
         this.descriptionLabel.setText("Round "+ gameState.getRound());
     }
+
     public void setDescriptionLabelToPass(GameState gameState) {
         this.descriptionLabel.setText("Pass on to next player");
     }

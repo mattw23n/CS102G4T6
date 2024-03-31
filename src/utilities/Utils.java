@@ -46,6 +46,7 @@ public final class Utils {
 
     //String input to card object output
     public static Card stringToCard(String target){
+        final int suits = 4;
         Map<String, Card> map = new HashMap<>();
 
         Rank.setKingHigh();
@@ -53,24 +54,14 @@ public final class Utils {
         List s = Suit.VALUES;
 
         //adding cards to deck
-        for(int i = 0; i < 4; i++){
+        for(int i = 0; i < suits; i++){
             for(int j = 0; j < r.size(); j++){
                 Card temp = new Card((Suit)s.get(i), (Rank)r.get(j), null);
                 map.put(temp.toString(), temp);
             }
         }
-        
 
-        Set keys = map.keySet();
-        Iterator keysIterator = keys.iterator();
-        while(keysIterator.hasNext()){
-            String current = (String) keysIterator.next();
-            if(current.equals(target)){
-                return map.get(current);
-            }
-        }
-
-        return null;
+        return map.get(target);
     }
 
     //Return points based on range & bet

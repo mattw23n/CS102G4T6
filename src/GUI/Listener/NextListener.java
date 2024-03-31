@@ -1,4 +1,11 @@
 package GUI.Listener;
+/*
+ * NextListener.java
+ * 
+ * NextListener handles all next-relative inputs after a Moust input.
+ * 
+ */
+
 
 import GUI.Panel.GamePanel;
 
