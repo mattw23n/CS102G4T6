@@ -230,7 +230,6 @@ public class DrawPanel extends JPanel {
                                     Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
                                     setUpperBoundLabel();
                                     setUpperBoundValueLabel();
-                                    
                                 }
                                 // if jack swap cards
                                 if (dealtCard.getRank().getSymbol().equals("j")) {
@@ -304,6 +303,7 @@ public class DrawPanel extends JPanel {
                 if (gameState.getRound() != 3  || gameState.getCurrPlayer().getPlayerID() != 4) {
                     // reset wildCardCount
                     gameState.getCurrPlayer().setWildCardCount(0);
+                    gameState.setFinishTurn(false);
                     gameState.moveToNextPlayer();
                     // finishButton.setEnabled(false);
                     GridConstraints.gridx = 0;

@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -103,17 +104,16 @@ public class TurnPanel extends JPanel {
         GridConstraints.gridy = 4;
         contentPanel.add(betLabel, GridConstraints);
 
-        // Bet Panel
-        JPanel betPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        betPanel.setBackground(background);
-
         // Betting field
         JTextField betField = new JTextField(5);
         betField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         betField.setBackground(Color.WHITE);
         betField.setBorder(null);
-        betPanel.add(betField);
-
+        betField.setHorizontalAlignment(JTextField.CENTER);
+        GridConstraints.insets = new Insets(10, 0, 0, 0);
+        GridConstraints.gridx = 0;
+        GridConstraints.gridy = 5;
+        contentPanel.add(betField, GridConstraints);
 
         // Place Bet button
         ImageIcon betIcon = new ImageIcon("images/bet.png");
@@ -122,12 +122,10 @@ public class TurnPanel extends JPanel {
         betIcon = new ImageIcon(scaledImage2);
         JButton betButton = new JButton(betIcon);
         betButton.setBorder(null);
-        betPanel.add(betButton);
-        betButton.setActionCommand("bet");
-
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 6;
-        contentPanel.add(betPanel, GridConstraints);
+        contentPanel.add(betButton, GridConstraints);
+        betButton.setActionCommand("bet");
 
         // add listener to bet button
         betButton.addActionListener(new ActionListener() {
