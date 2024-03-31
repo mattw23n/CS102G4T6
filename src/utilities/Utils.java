@@ -79,25 +79,19 @@ public final class Utils {
         //point logic
         if (current == upper || current == lower) {
             points = p.getBet() * 2;
-            System.out.println("Right on the dot!");
 
         } else if (current > lower && current < upper) {
             points = p.getBet() * 1;
-            System.out.println("In between!");
 
         } else {
             points = p.getBet() * -1;
-            System.out.println("Good luck next time!");
         }
-        System.out.println("current points = " + p.getPoints());
         p.setPoints(p.getPoints()+ points);
-        System.out.println("new points = " + p.getPoints());
         return p.getPoints();
     }
 
     //Set upper or lower based on wildcard
     public static void processWildCard(Player p, Card card) {
-        System.out.println(p.getPlayerID() + card.toString());
         // If queen, extend lower bound
         if (Rank.QUEEN.getSymbol().equals(getCardValue(card))) {
             int lower = p.getLower();

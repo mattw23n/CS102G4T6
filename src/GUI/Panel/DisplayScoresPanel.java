@@ -122,7 +122,6 @@ public class DisplayScoresPanel extends JPanel{
             this.filepath = "images/p" + gameState.getPlayersList().get(0).getPlayerID() + "Wins.png";
         }
         
-        System.out.println("filepath = " + filepath);
         ImageIcon winIcon = new ImageIcon(filepath);
         java.awt.Image winIconImage = winIcon.getImage();
         java.awt.Image scaledWinImage = winIconImage.getScaledInstance(350, 100, java.awt.Image.SCALE_SMOOTH);

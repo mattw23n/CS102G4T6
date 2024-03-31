@@ -19,7 +19,5 @@ public class MouseListener extends MouseAdapter {
     
     @Override
     public void mouseClicked(MouseEvent e) {
-        // Handle mouse click event
-        System.out.println("Image clicked: " + name);
     }
 }
