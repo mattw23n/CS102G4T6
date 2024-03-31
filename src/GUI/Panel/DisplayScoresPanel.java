@@ -112,12 +112,11 @@ public class DisplayScoresPanel extends JPanel{
     
     public void setFilepath(GameState gameState) {
         Collections.sort(gameState.getPlayersList(), new PlayerComparator());
-        if (gameState.getPlayersList().isEmpty()){
+        if (gameState.getPlayersList().isEmpty()) {
             this.filepath = "images/noWinner.png";
         } else if (gameState.getPlayersList().size() == 1){
             this.filepath = "images/p" + gameState.getPlayersList().get(0).getPlayerID() + "Wins.png";
-        } 
-        else if((gameState.getPlayersList().get(0).getPoints()) == (gameState.getPlayersList().get(1).getPoints())) {
+        } else if((gameState.getPlayersList().get(0).getPoints()) == (gameState.getPlayersList().get(1).getPoints())) {
             this.filepath = "images/tie.png";
         } else {
             this.filepath = "images/p" + gameState.getPlayersList().get(0).getPlayerID() + "Wins.png";
