@@ -45,18 +45,5 @@ public class Scoreboard extends JPanel {
         playerScores[playerIndex-1] = newScore;
         ((DefaultTableModel) scoreTable.getModel()).setValueAt(newScore, playerIndex-1, 1);
     }
-    // public void refreshScoreboard() {
-    //     scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
-    //     scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
-    //     scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
-    //     scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
-    //     scoreBoard.repaint();
-    //     scoreBoard.revalidate();
-    // }
-    // public void printScoreboardToConsole() {
-    //     System.out.println("Scoreboard:");
-    //     for (int i = 0; i < playerNames.length; i++) {
-    //         System.out.println(playerNames[i] + ": " + playerScores[i]);
-    //     }
-    // }
+
 }

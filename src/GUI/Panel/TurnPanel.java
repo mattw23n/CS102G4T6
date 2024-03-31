@@ -196,10 +196,15 @@ public class TurnPanel extends JPanel {
         label.setIcon(icon);
     }
     public void refreshScoreboard() {
-        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
-        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
-        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
-        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        gameState.printScores();
+        System.out.println("ScoreBoard");
+        System.out.println("-------------------");
+        ArrayList<Integer> playerScores = gameState.getPlayerScores();
+        for (int i = 0; i < playerScores.size(); i++) {
+            scoreBoard.updateScore(i + 1, playerScores.get(i));
+            System.out.println(playerScores.get(i));
+        }
+        System.out.println("-------------------");
         scoreBoard.repaint();
         scoreBoard.revalidate();
     }

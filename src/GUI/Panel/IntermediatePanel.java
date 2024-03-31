@@ -65,8 +65,6 @@ public class IntermediatePanel extends JPanel {
         contentPanel.add(descriptionLabel, GridConstraints);
 
         
-        // scoreBoard = new Scoreboard();
-        // scoreBoard.setBackground(background);
 
         // mainPanel.add(scoreBoard);
         mainPanel.add(contentPanel);

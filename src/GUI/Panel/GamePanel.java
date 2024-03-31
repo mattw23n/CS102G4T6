@@ -58,15 +58,16 @@ public class GamePanel extends JPanel {
         drawPanel.setLowerBoundValueLabel();
         drawPanel.setUpperBoundValueLabel();
     }
-    public void updateIntermediatePanel (){
-        System.out.println("Updating IntermediatePanel");
-        if (gameState.getCurrPlayer().getPlayerID() == 1){
+    public void updateIntermediatePanel() {
+        int listSize = gameState.getPlayersList().size();
+         if (gameState.getPlayersList().get(listSize-1).getPlayerID() == gameState.getCurrPlayer().getPlayerID()) {
             gameState.nextRound();
             intermediatePanel.setDescriptionLabelToRound(gameState);
         } else {
             intermediatePanel.setDescriptionLabelToPass(gameState);
         }
     }
+        
     public void updateTurnPanel(){
         turnPanel.setDescriptionLabel(gameState);
         turnPanel.setSelectedCardsPanel(gameState);

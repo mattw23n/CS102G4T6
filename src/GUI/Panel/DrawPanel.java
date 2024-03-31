@@ -310,7 +310,7 @@ public class DrawPanel extends JPanel {
                     // reset wildCardCount
                     gameState.getCurrPlayer().setWildCardCount(0);
                     gameState.setFinishTurn(false);
-                    gameState.moveToNextPlayer();
+                    
                     // finishButton.setEnabled(false);
                     GridConstraints.gridx = 0;
                     GridConstraints.gridy = 5;
@@ -320,13 +320,23 @@ public class DrawPanel extends JPanel {
                     if (parent instanceof GamePanel) {
                         GamePanel gamePanel = (GamePanel) parent;
                         // Switch to IntermediatePanel
-                        System.out.println("a" + gameState.getSelectedCards());
                         gameState.clearSelectedCards();
-                        System.out.println("b" + gameState.getSelectedCards());
+                        
+                        Player currentPlayer = gameState.getCurrPlayer();
+                        gamePanel.updateIntermediatePanel();
+                        gameState.moveToNextPlayer();
+                        if (currentPlayer.getPoints() <= 1){
+                            JOptionPane.showMessageDialog(mainPanel, "You have used up all your points, You are OUT!", "Player " + currentPlayer.getPlayerID() + "Out", JOptionPane.ERROR_MESSAGE);
+                            gameState.removePlayer(currentPlayer);
+                        } 
+                        if (gameState.getPlayersList().isEmpty()){
+                            gamePanel.updateScoresPanel();
+                            gamePanel.switchToPanel("Scoreboard");
+                        } else {
+                            gamePanel.switchToPanel("Intermediate");    
+                        }
                         lowerBoundLabel.setText(" ");
                         upperBoundLabel.setText(" ");
-                        gamePanel.updateIntermediatePanel();
-                        gamePanel.switchToPanel("Intermediate");    
                     }
                 } else {
                     Container parent = getParent();
@@ -370,10 +380,8 @@ public class DrawPanel extends JPanel {
             Card card = cards.get(i);
             JPanel cardPanel = new JPanel(new BorderLayout());
             cardPanel.setBackground(new Color(27, 109, 50));
-            // gameState.getCurrPlayer().getHand().removeCard(card);
             System.out.println("card = " + gameState.getSelectedCards());
             JLabel cardImage = new JLabel();
-            // cardImage.addMouseListener(new MouseListener(cardImage.getName()));
             if (card == null){
                 // cardImage.setName("as");
                 setImage(cardImage, "images/cardback.png");
@@ -408,10 +416,12 @@ public class DrawPanel extends JPanel {
         label.setIcon(icon);
     }
     public void refreshScoreboard() {
-        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
-        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
-        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
-        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        gameState.printScores();
+        ArrayList<Integer> playerScores = gameState.getPlayerScores();
+        for (int i = 0; i < playerScores.size(); i++) {
+            scoreBoard.updateScore(i + 1, playerScores.get(i));
+            System.out.println(playerScores.get(i));
+        }
         scoreBoard.repaint();
         scoreBoard.revalidate();
     }

@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.sound.midi.Soundbank;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -34,7 +35,7 @@ public class RoundPanel extends JPanel{
     private int[] numOfClickedCards = {0};
     private ArrayList<Card> selection;
 
-    private JPanel contentPanel;
+    // private JPanel contentPanel;
     private JLabel descriptionLabel;
     private JPanel handPanel;
 
@@ -62,7 +63,7 @@ public class RoundPanel extends JPanel{
         GridBagConstraints GridConstraints = new GridBagConstraints();
 
         // Create components for RoundOnePanel
-        contentPanel = new JPanel();
+        JPanel contentPanel = new JPanel();
         contentPanel.setLayout(GridBagLayoutGrid);
         contentPanel.setBackground(background);
 
@@ -170,10 +171,15 @@ public class RoundPanel extends JPanel{
         label.setIcon(icon);
     }
     public void refreshScoreboard() {
-        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
-        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
-        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
-        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        gameState.printScores();
+        System.out.println("ScoreBoard");
+        System.out.println("-------------------");
+        ArrayList<Integer> playerScores = gameState.getPlayerScores();
+        for (int i = 0; i < playerScores.size(); i++) {
+            scoreBoard.updateScore(i + 1, playerScores.get(i));
+            System.out.println(playerScores.get(i));
+        }
+        System.out.println("-------------------");
         scoreBoard.repaint();
         scoreBoard.revalidate();
     }

@@ -106,17 +106,35 @@ public class DisplayScoresPanel extends JPanel{
         contentPanel.revalidate();
 
     }
+    // public void refreshScoreboard() {
+    //     scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
+    //     scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
+    //     scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
+    //     scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+    //     scoreBoard.repaint();
+    //     scoreBoard.revalidate();
+    // }
     public void refreshScoreboard() {
-        scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
-        scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
-        scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
-        scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+        gameState.printScores();
+        System.out.println("ScoreBoard");
+        System.out.println("-------------------");
+        ArrayList<Integer> playerScores = gameState.getPlayerScores();
+        for (int i = 0; i < playerScores.size(); i++) {
+            scoreBoard.updateScore(i + 1, playerScores.get(i));
+            System.out.println(playerScores.get(i));
+        }
+        System.out.println("-------------------");
         scoreBoard.repaint();
         scoreBoard.revalidate();
     }
     public void setFilepath(GameState gameState) {
         Collections.sort(gameState.getPlayersList(), new PlayerComparator());
-        if ((gameState.getPlayersList().get(0).getPoints()) == (gameState.getPlayersList().get(1).getPoints())) {
+        if (gameState.getPlayersList().isEmpty()){
+            this.filepath = "images/noWinner.png";
+        } else if (gameState.getPlayersList().size() == 1){
+            this.filepath = "images/p" + gameState.getPlayersList().get(0).getPlayerID() + "Wins.png";
+        } 
+        else if((gameState.getPlayersList().get(0).getPoints()) == (gameState.getPlayersList().get(1).getPoints())) {
             this.filepath = "images/tie.png";
         } else {
             this.filepath = "images/p" + gameState.getPlayersList().get(0).getPlayerID() + "Wins.png";

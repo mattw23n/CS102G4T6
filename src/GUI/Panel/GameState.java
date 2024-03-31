@@ -1,6 +1,7 @@
 package GUI.Panel;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import components.Deck;
 import components.Player;
@@ -9,6 +10,7 @@ import components.Card;
 
 public class GameState {
     private ArrayList<Player> playersList;
+    private ArrayList<Integer> playerScores;
     private Player currPlayer;
     private Deck allDeck;
     private Deck rangeDeck;
@@ -24,6 +26,10 @@ public class GameState {
         this.round = 1;
         this.selectedCards = selectedCards;
         this.finishTurn = finishTurn;
+        this.playerScores = new ArrayList<>();
+        for (int i = 0; i < playersList.size(); i++) {
+            playerScores.add(playersList.get(i).getPoints());
+        }
     }
     public ArrayList<Player> getPlayersList() {
         return playersList;
@@ -32,9 +38,28 @@ public class GameState {
         this.playersList = playersList;
     }
     public void moveToNextPlayer() {
+        updatePlayerPoints(currPlayer, currPlayer.getPoints());
         int currentIndex = playersList.indexOf(currPlayer);
         int nextIndex = (currentIndex + 1) % playersList.size();
         currPlayer = playersList.get(nextIndex);
+
+    }
+    public void printScores(){
+        System.out.println("-----SCORES---------");
+        System.out.println(playerScores);
+        System.out.println("-------------------");
+    }
+    public void updatePlayerPoints(Player player, int newPoints) {
+        System.out.println("---------SAVINGS THESE VALUES---------");
+        int index = player.getPlayerID() - 1;
+        playerScores.set(index, newPoints);
+        System.out.println("Index: " + index);
+        System.out.println("Player" + player.getPlayerID());
+        System.out.println("Points:" + newPoints);
+        System.out.println("-------------------");
+    }
+    public void removePlayer(Player playerToRemove) {
+        playersList.remove(playerToRemove);
     }
     public Player getCurrPlayer() {
         return currPlayer;
@@ -56,7 +81,9 @@ public class GameState {
     }
     @Override
     public String toString() {
-        return "Current Player: " + currPlayer.toString();
+        return "Current Player: " + currPlayer.toString() + "\n"+
+            playersList + "\n" +
+            "Round:" + round;
     }
     public int getRound() {
         return round;
@@ -82,4 +109,11 @@ public class GameState {
     public void setFinishTurn(boolean finishTurn) {
         this.finishTurn = finishTurn;
     }
+    public ArrayList<Integer> getPlayerScores() {
+        return playerScores;
+    }
+    public void setPlayerScores(ArrayList<Integer> playerScores) {
+        this.playerScores = playerScores;
+    }
+    
 }
