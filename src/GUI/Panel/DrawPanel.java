@@ -211,7 +211,7 @@ public class DrawPanel extends JPanel {
                         } else {
                             int wildCardCount = gameState.getCurrPlayer().getWildcardCount();
                             System.out.println("wildcard before drawing wildcard = " + wildCardCount);
-                            if (gameState.getCurrPlayer().getWildcardCount() <= 3) {
+                            if (gameState.getCurrPlayer().getWildcardCount() <= 2) {
                                 wildCardCount++;
                                 gameState.getCurrPlayer().setWildCardCount(wildCardCount);
                                 // get queen
@@ -274,7 +274,9 @@ public class DrawPanel extends JPanel {
                                     lowerBoundLabel.setText(" ");
                                     upperBoundLabel.setText(" ");
                                 }   
-                            } 
+                            } else {
+                                gameState.getCurrPlayer().setPoints(gameState.getCurrPlayer().getPoints() - 1);
+                            }
                         }
                         System.out.println("Lower Bound AFTER:" + gameState.getCurrPlayer().getLower());
                         System.out.println("Upper Bound AFTER:" + gameState.getCurrPlayer().getUpper());
