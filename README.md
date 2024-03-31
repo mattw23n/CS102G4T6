@@ -25,3 +25,9 @@ In Between++ is a thrilling card game where 4 players strategize, bet, and calcu
 
 ## Github Repository
 - https://github.com/mattw23n/CS102G4T6
+
+## Credits
+- CardGame Repository written by John K. Estell 
+https://github.com/BigRedS/java/tree/master/CardGame
+- Images of Cards used
+https://waste.org/~oliviax/files/cards/
