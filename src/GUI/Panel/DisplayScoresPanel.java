@@ -7,25 +7,14 @@ package GUI.Panel;
  * 
  */
 
-import java.awt.BorderLayout;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.awt.GridBagConstraints;
-import java.awt.Color;
-
-import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 import GUI.MainWindow;
-import GUI.Listener.ButtonListener;
 import components.Player;
 import components.PlayerComparator;
 
@@ -98,7 +87,7 @@ public class DisplayScoresPanel extends JPanel{
         exitButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 // Close the current frame (DisplayScoresPanel)
-                getTopLevelAncestor().setVisible(false);
+                System.exit(0);
             }
         });
 

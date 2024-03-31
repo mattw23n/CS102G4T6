@@ -10,19 +10,13 @@ package GUI.Panel;
 
 import java.awt.CardLayout;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import javax.swing.JPanel;
 
 import components.Card;
 import components.Deck;
-import components.Hand;
 import components.Player;
-import components.PlayerComparator;
 import components.PlayerHand;
-import components.Rank;
-import components.Suit;
 import utilities.DeckUtils;
 
 public class GamePanel extends JPanel {

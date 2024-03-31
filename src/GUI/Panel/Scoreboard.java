@@ -7,10 +7,7 @@ package GUI.Panel;
  */
 
 
-import java.awt.Color;
-import java.awt.FlowLayout;
-import java.awt.Font;
-import java.util.ArrayList;
+import java.awt.*;
 
 import javax.swing.JPanel;
 import javax.swing.JTable;

@@ -9,12 +9,10 @@ package GUI.Panel;
 
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
+import components.Card;
 import components.Deck;
 import components.Player;
-import utilities.Utils;
-import components.Card;
 
 public class GameState {
     private ArrayList<Player> playersList;
