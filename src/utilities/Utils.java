@@ -21,7 +21,7 @@ public final class Utils {
     //Get card value as string, ace is 1
     public static String getCardValue(Card card){
         String result = "";
-        if (card.getRank().getSymbol().equals("a")) {
+        if (card.getRank().getSymbol().equals(Rank.ACE.getSymbol())) {
             result += 1;
         } else {
             result += card.getRank().getSymbol();
@@ -32,12 +32,12 @@ public final class Utils {
     //Wild card check
     public static boolean isWildCard(Card card){
 
-        return "q".equals(getCardValue(card)) || "k".equals(getCardValue(card)) || "j".equals(getCardValue(card));
+        return Rank.QUEEN.getSymbol().equals(getCardValue(card)) || Rank.KING.getSymbol().equals(getCardValue(card)) || Rank.JACK.getSymbol().equals(getCardValue(card));
     }
 
     //Get card value as int, ace is 1
     public static int getCardValueInt(Card card){
-        if ("a".equals(getCardValue(card))) {
+        if (Rank.ACE.getSymbol().equals(getCardValue(card))) {
             return 1;
         } else {
             return Integer.parseInt(getCardValue(card));
@@ -97,7 +97,7 @@ public final class Utils {
     public static void processWildCard(Player p, Card card) {
         System.out.println(p.getPlayerID() + card.toString());
         // If queen, extend lower bound
-        if ("q".equals(getCardValue(card))) {
+        if (Rank.QUEEN.getSymbol().equals(getCardValue(card))) {
             int lower = p.getLower();
             lower -= 2;
             if (lower < 1) {
@@ -107,7 +107,7 @@ public final class Utils {
             // System.out.println(p.getLower());
 
         // If king, extend upper bound
-        } else if ("k".equals(getCardValue(card))) {
+        } else if (Rank.KING.getSymbol().equals(getCardValue(card))) {
             int upper = p.getUpper();
             upper += 2;
             if (upper > 10) {

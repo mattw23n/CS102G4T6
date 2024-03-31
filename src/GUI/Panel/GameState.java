@@ -26,7 +26,7 @@ public class GameState {
 
     public GameState(ArrayList<Player> playersList, Deck allDeck, Deck rangeDeck, int round, ArrayList<Card> selectedCards, boolean finishTurn){
         this.playersList = playersList;
-        this.currPlayer = playersList.get(0);
+        this.currPlayer = playersList.getFirst();
         this.allDeck = allDeck;
         this.rangeDeck = rangeDeck;
         this.round = 1;
