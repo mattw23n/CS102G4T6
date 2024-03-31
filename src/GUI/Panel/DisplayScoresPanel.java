@@ -1,4 +1,11 @@
 package GUI.Panel;
+/*
+ * DisplayScoresPanel.java
+ * 
+ * DisplayScorePanel handles displaying the total tally of scores at the end of the game
+ * 
+ * 
+ */
 
 import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
@@ -34,9 +41,10 @@ public class DisplayScoresPanel extends JPanel{
         this.gameState = gameState;
         this.scoreBoard = scoreBoard;
         this.mainWindow = mainWindow;
-        initialize();
+        initializeDisplayScore();
     }
-    private void initialize(){
+    
+    private void initializeDisplayScore(){
         setLayout(new BorderLayout());
 
         // Colours Used (Can change later)
@@ -49,12 +57,12 @@ public class DisplayScoresPanel extends JPanel{
         mainPanel.setLayout(boxLayout);
         mainPanel.setBackground(background);
 
-        GridBagLayout GridBagLayoutGrid = new GridBagLayout();
-        GridBagConstraints GridConstraints = new GridBagConstraints();
+        GridBagLayout gridBagLayoutGrid = new GridBagLayout();
+        GridBagConstraints gridConstraints = new GridBagConstraints();
 
         // Create components for RoundOnePanel
         contentPanel = new JPanel();
-        contentPanel.setLayout(GridBagLayoutGrid);
+        contentPanel.setLayout(gridBagLayoutGrid);
         contentPanel.setBackground(background);
         
         ImageIcon titleIcon = new ImageIcon("images/finalScore.png");
@@ -62,25 +70,22 @@ public class DisplayScoresPanel extends JPanel{
         java.awt.Image scaledTitleImage = titleIconImage.getScaledInstance(500, 150, java.awt.Image.SCALE_SMOOTH);
         titleIcon = new ImageIcon(scaledTitleImage);
         JLabel title = new JLabel(titleIcon);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 0;
-        contentPanel.add(title, GridConstraints);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 0;
+        contentPanel.add(title, gridConstraints);
 
         scoreBoard = new Scoreboard();
         scoreBoard.setBackground(background);
 
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 1;
-        contentPanel.add(scoreBoard, GridConstraints);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 1;
+        contentPanel.add(scoreBoard, gridConstraints);
         
         winLabel = new JLabel();
-
-        // winLabel = new JLabel("Player " + gameState.getCurrPlayer().getPlayerID() + " Wins");
-        // winLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
-        // winLabel.setForeground(textColor);
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 2;
-        contentPanel.add(winLabel, GridConstraints);
+        
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 2;
+        contentPanel.add(winLabel, gridConstraints);
 
         // Set image as "exit" button
         ImageIcon exitIcon = new ImageIcon("images/exit.png");
@@ -97,36 +102,25 @@ public class DisplayScoresPanel extends JPanel{
             }
         });
 
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 3;
-        contentPanel.add(exitButton, GridConstraints);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 3;
+        contentPanel.add(exitButton, gridConstraints);
 
         add(contentPanel, BorderLayout.CENTER);
         contentPanel.repaint();
         contentPanel.revalidate();
 
     }
-    // public void refreshScoreboard() {
-    //     scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
-    //     scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
-    //     scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
-    //     scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
-    //     scoreBoard.repaint();
-    //     scoreBoard.revalidate();
-    // }
+
     public void refreshScoreboard() {
-        gameState.printScores();
-        System.out.println("ScoreBoard");
-        System.out.println("-------------------");
         ArrayList<Integer> playerScores = gameState.getPlayerScores();
         for (int i = 0; i < playerScores.size(); i++) {
             scoreBoard.updateScore(i + 1, playerScores.get(i));
-            System.out.println(playerScores.get(i));
         }
-        System.out.println("-------------------");
         scoreBoard.repaint();
         scoreBoard.revalidate();
     }
+    
     public void setFilepath(GameState gameState) {
         Collections.sort(gameState.getPlayersList(), new PlayerComparator());
         if (gameState.getPlayersList().isEmpty()){

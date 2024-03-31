@@ -1,4 +1,11 @@
 package GUI.Panel;
+/*
+ * RoundPanel.java
+ * 
+ * RoundPanel handles the display of each round, mainly the player's Hand.
+ * 
+ */
+
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,6 +41,7 @@ public class RoundPanel extends JPanel{
     private Player currPlayer;
     private int[] numOfClickedCards = {0};
     private ArrayList<Card> selection;
+    private int numOfCardsToSelect = 2;
 
     // private JPanel contentPanel;
     private JLabel descriptionLabel;
@@ -43,9 +51,9 @@ public class RoundPanel extends JPanel{
         this.gameState = gameState;
         this.currPlayer = gameState.getCurrPlayer();
         this.selection = new ArrayList<>();
-        initialise();
+        initializeRoundRoundRound();
     }
-    private void initialise(){
+    private void initializeRoundRoundRound(){
         setLayout(new BorderLayout());
 
         // Colours Used (Can change later)
@@ -59,22 +67,25 @@ public class RoundPanel extends JPanel{
         mainPanel.setBackground(background);
         
         // Create GridBagLayout
-        GridBagLayout GridBagLayoutGrid = new GridBagLayout();
-        GridBagConstraints GridConstraints = new GridBagConstraints();
+        GridBagLayout gridBagLayoutGrid = new GridBagLayout();
+        GridBagConstraints gridConstraints = new GridBagConstraints();
 
         // Create components for RoundOnePanel
         JPanel contentPanel = new JPanel();
-        contentPanel.setLayout(GridBagLayoutGrid);
+        contentPanel.setLayout(gridBagLayoutGrid);
         contentPanel.setBackground(background);
 
         // Add content to RoundOnePanel
-        descriptionLabel = new JLabel("Round " + gameState.getRound() + " Player " + currPlayer.getPlayerID() +": Pick 2 Cards");
+        descriptionLabel = new JLabel("Round " + gameState.getRound() 
+            + " Player " + currPlayer.getPlayerID() +": Pick " 
+            + numOfCardsToSelect +  " Cards");
+
         descriptionLabel.setFont(new Font("Segoe UI", Font.PLAIN, 40));
         descriptionLabel.setForeground(textColor);
-        GridConstraints.weightx = 0.1;
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 0;
-        contentPanel.add(descriptionLabel, GridConstraints);
+        gridConstraints.weightx = 0.1;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 0;
+        contentPanel.add(descriptionLabel, gridConstraints);
 
         scoreBoard = new Scoreboard();
         scoreBoard.setBackground(background);
@@ -90,10 +101,10 @@ public class RoundPanel extends JPanel{
         JButton nextButton = new JButton(nextIcon);
         nextButton.setBorder(null);
 
-        // GridConstraints.weightx = 0.5;
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 3;
-        contentPanel.add(nextButton, GridConstraints);
+        // gridConstraints.weightx = 0.5;
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 3;
+        contentPanel.add(nextButton, gridConstraints);
 
         // Create and display multiple images
         handPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); // Example grid layout with 2x2 images
@@ -104,7 +115,6 @@ public class RoundPanel extends JPanel{
         nextButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(gameState.toString());
                 if (numOfClickedCards[0] != 2) {
                     JOptionPane.showMessageDialog(contentPanel, "Select 2 cards only.", "Selection Error", JOptionPane.ERROR_MESSAGE);
                 } else {
@@ -122,13 +132,16 @@ public class RoundPanel extends JPanel{
             }
         });
 
-        GridConstraints.gridx = 0;
-        GridConstraints.gridy = 2;
-        contentPanel.add(handPanel, GridConstraints);
+        gridConstraints.gridx = 0;
+        gridConstraints.gridy = 2;
+        contentPanel.add(handPanel, gridConstraints);
     }
+
     public void setDescriptionLabel(GameState gameState) {
-        this.descriptionLabel.setText("Round " + gameState.getRound() + " Player " + gameState.getCurrPlayer().getPlayerID() +": Pick 2 Cards");;
+        this.descriptionLabel.setText("Round " + gameState.getRound() + " Player " 
+            + gameState.getCurrPlayer().getPlayerID() +": Pick 2 Cards");
     }
+
     public void setHandPanel(GameState gameState){
         selection.clear();
         handPanel.removeAll();
@@ -161,25 +174,22 @@ public class RoundPanel extends JPanel{
             });
             handPanel.add(cardImage);
         }
+
         gameState.setSelectedCards(selection);
-        System.out.println("selection = " + gameState.getSelectedCards());
         handPanel.revalidate();
         handPanel.repaint();
     }
+
     private static void setImage (JLabel label, String imagePath){
         ImageIcon icon = new ImageIcon(imagePath);
         label.setIcon(icon);
     }
+
     public void refreshScoreboard() {
-        gameState.printScores();
-        System.out.println("ScoreBoard");
-        System.out.println("-------------------");
         ArrayList<Integer> playerScores = gameState.getPlayerScores();
         for (int i = 0; i < playerScores.size(); i++) {
             scoreBoard.updateScore(i + 1, playerScores.get(i));
-            System.out.println(playerScores.get(i));
         }
-        System.out.println("-------------------");
         scoreBoard.repaint();
         scoreBoard.revalidate();
     }

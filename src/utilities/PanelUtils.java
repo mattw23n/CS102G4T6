@@ -1,4 +1,10 @@
 package utilities;
+/*
+ * PanelUtils.java
+ * 
+ * PanelUtils is used to store utility functions that manipulate Panel.java files
+ * 
+ */
 
 import java.awt.Color;
 import java.awt.Font;

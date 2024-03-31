@@ -1,4 +1,10 @@
 package GUI;
+/*
+ * MainWindow.java
+ * 
+ * MainWindow displays the start screen and updates the subsequent panels accordingly.
+ * 
+ */
 
 import java.awt.Color;
 import java.awt.GridBagLayout;
@@ -59,6 +65,7 @@ public class MainWindow{
         // Set frame size and make it visible
         frame.setSize(800, 600); // Adjust size as needed
     }
+    
     public void showWindow() {
         frame.setVisible(true);
     }

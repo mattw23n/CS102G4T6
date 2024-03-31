@@ -1,4 +1,11 @@
 package GUI.Panel;
+/*
+ * Scoreboard.java
+ * 
+ * Scoreboard is a custom Object to save the point tally of every Player.
+ * 
+ */
+
 
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -38,9 +45,11 @@ public class Scoreboard extends JPanel {
 
         add(scoreTable);
     }
+
     public int getScore (int playerIndex){
         return playerScores[playerIndex];
     }
+
     public void updateScore(int playerIndex, int newScore) {
         playerScores[playerIndex-1] = newScore;
         ((DefaultTableModel) scoreTable.getModel()).setValueAt(newScore, playerIndex-1, 1);
