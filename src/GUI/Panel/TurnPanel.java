@@ -53,7 +53,6 @@ public class TurnPanel extends JPanel {
         JPanel contentPanel = new JPanel();
         contentPanel.setBackground(background);
         contentPanel.setLayout(gridBagLayoutGrid);
-        // gridConstraints.fill = gridConstraints.HORIZONTAL;
 
         // Add content to Turn Panel
         descriptionLabel = new JLabel("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
@@ -133,7 +132,6 @@ public class TurnPanel extends JPanel {
                             gameState.getCurrPlayer().setBet(bet);
                             betButton.setEnabled(true);
                             betField.setText(null);
-                            // finishButton.setEnabled(true);
                             Container parent = getParent();
                             if (parent instanceof GamePanel) {
                                 GamePanel gamePanel = (GamePanel) parent;
@@ -144,7 +142,6 @@ public class TurnPanel extends JPanel {
                                 gamePanel.switchToPanel("Draw");
                             } 
                         } catch (NumberFormatException e) {
-                            // e.printStackTrace();
                             JOptionPane.showMessageDialog(mainPanel, "Enter a valid bet", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } 
@@ -170,7 +167,6 @@ public class TurnPanel extends JPanel {
             JLabel cardImage = new JLabel();
             cardImage.setName(card.toString());
             setImage(cardImage, "images/" + card.toString() +".gif");
-            // cardImage.addMouseListener(new MouseListener(cardImage.getName()));
             selectedCardsPanel.add(cardImage);
         }
         repaint();
