@@ -14,14 +14,16 @@ public class GameState {
     private Deck rangeDeck;
     private int round;
     private ArrayList<Card> selectedCards;
+    private boolean finishTurn;
 
-    public GameState(ArrayList<Player> playersList, Deck allDeck, Deck rangeDeck, int round, ArrayList<Card> selectedCards){
+    public GameState(ArrayList<Player> playersList, Deck allDeck, Deck rangeDeck, int round, ArrayList<Card> selectedCards, boolean finishTurn){
         this.playersList = playersList;
         this.currPlayer = playersList.get(0);
         this.allDeck = allDeck;
         this.rangeDeck = rangeDeck;
         this.round = 1;
         this.selectedCards = selectedCards;
+        this.finishTurn = finishTurn;
     }
     public ArrayList<Player> getPlayersList() {
         return playersList;
@@ -73,5 +75,11 @@ public class GameState {
     }
     public void setSelectedCards(ArrayList<Card> selectedCards) {
         this.selectedCards = selectedCards;
+    }
+    public boolean isFinishTurn() {
+        return finishTurn;
+    }
+    public void setFinishTurn(boolean finishTurn) {
+        this.finishTurn = finishTurn;
     }
 }

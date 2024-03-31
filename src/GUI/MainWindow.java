@@ -40,20 +40,15 @@ public class MainWindow{
         buttonPanel.setBackground(background);
         buttonPanel.setLayout(new GridBagLayout());
 
-        // Create a start button
-        // JButton startButton = new Button("Start");
-
-        // Set image as "start" button
+        // Create a start button and set image as "start" 
         ImageIcon startIcon = new ImageIcon("images/start.png");
         Image startIconImage = startIcon.getImage();
         Image scaledImage = startIconImage.getScaledInstance(200, 100, java.awt.Image.SCALE_SMOOTH);
         startIcon = new ImageIcon(scaledImage);
-        JLabel startButton2 = new JLabel(startIcon);
-        // startButton2.setBorder(BorderFactory.createEmptyBorder());
+        JLabel startButton = new JLabel(startIcon);
         ButtonListener buttonListener = new ButtonListener(frame);
-        // startButton.addMouseListener(buttonListener);
-        startButton2.addMouseListener(buttonListener);
-        buttonPanel.add(startButton2);
+        startButton.addMouseListener(buttonListener);
+        buttonPanel.add(startButton);
 
         // Add the button panel to the main panel
         mainPanel.add(buttonPanel, null);

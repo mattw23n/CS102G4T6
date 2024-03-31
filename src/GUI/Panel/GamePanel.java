@@ -2,6 +2,7 @@ package GUI.Panel;
 
 import java.awt.CardLayout;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JPanel;
@@ -10,6 +11,7 @@ import components.Card;
 import components.Deck;
 import components.Hand;
 import components.Player;
+import components.PlayerComparator;
 import components.PlayerHand;
 import components.Rank;
 import components.Suit;
@@ -80,6 +82,7 @@ public class GamePanel extends JPanel {
     }
     public void updateScoresPanel() {
         displayScoresPanel.refreshScoreboard();
+        displayScoresPanel.setFilepath(gameState);
     }
     public void doRound() {
         ArrayList<Player> players = gameState.getPlayersList();
@@ -210,8 +213,9 @@ public class GamePanel extends JPanel {
             dealRange(rangeDeck, p.getHand());
         }
         int roundCount = 1;
+        boolean finishTurn = false;
         ArrayList<Card> selectedCards = new ArrayList<>();
-        this.gameState = new GameState(playersList, allDeck, rangeDeck, roundCount, selectedCards);
+        this.gameState = new GameState(playersList, allDeck, rangeDeck, roundCount, selectedCards, finishTurn);
     }
     public static Deck initializeNumbers(){
         //initializing deck of 52

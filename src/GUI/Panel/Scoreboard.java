@@ -30,8 +30,7 @@ public class Scoreboard extends JPanel {
         // Create the table using the model
         scoreTable = new JTable(model);
         scoreTable.setFont(new Font("Segoe UI", Font.BOLD, 24));
-        // scoreTable.setBackground(new Color(27, 109, 50));
-        scoreTable.setRowHeight(24); // Set row height to 40 pixels
+        scoreTable.setRowHeight(26); // Set row height to 40 pixels
         scoreTable.getColumnModel().getColumn(0).setPreferredWidth(150); // Set column 0 width to 200 pixels
 
         scoreTable.setEnabled(false); // Disable editing table cells
