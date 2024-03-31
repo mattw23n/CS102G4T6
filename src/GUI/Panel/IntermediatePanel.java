@@ -44,10 +44,6 @@ public class IntermediatePanel extends JPanel {
         GridBagLayout gridBagLayoutGrid = new GridBagLayout();
         GridBagConstraints gridConstraints = new GridBagConstraints();
 
-        // Create components for RoundOnePanel
-        // JLabel titleLabel = new JLabel("Round One");
-        // titleLabel.setHorizontalAlignment(SwingConstants.LEFT);
-        // add(titleLabel, BorderLayout.NORTH);
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(gridBagLayoutGrid);
         contentPanel.setBackground(background);
@@ -63,8 +59,6 @@ public class IntermediatePanel extends JPanel {
         contentPanel.add(descriptionLabel, gridConstraints);
 
         
-
-        // mainPanel.add(scoreBoard);
         mainPanel.add(contentPanel);
         
         // Set image as "next" button

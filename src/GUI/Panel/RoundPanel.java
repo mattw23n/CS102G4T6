@@ -82,7 +82,6 @@ public class RoundPanel extends JPanel{
         JButton nextButton = new JButton(nextIcon);
         nextButton.setBorder(null);
 
-        // gridConstraints.weightx = 0.5;
         gridConstraints.gridx = 0;
         gridConstraints.gridy = 3;
         contentPanel.add(nextButton, gridConstraints);
@@ -105,7 +104,7 @@ public class RoundPanel extends JPanel{
                         gamePanel.updateTurnPanel();
                         gamePanel.switchToPanel("Turn");
                         gameState.setSelectedCards(selection);
-                        // return; // Exit the actionPerformed method after switching panels
+                        // Exit the actionPerformed method after switching panels
                     }
                 }         
             repaint();

@@ -20,7 +20,6 @@ public final class DeckUtils {
 
     //Initializes a deck of only number cards
     public static Deck initializeNumbers(){
-        //initializing deck of 52
         final int suits = 4;
         Deck d1 = new Deck();
         Rank.setKingHigh();
@@ -40,7 +39,6 @@ public final class DeckUtils {
 
     //Initializes a deck of 52
     public static Deck initializeWhole(){
-        //initializing deck of 52
         final int suits = 4;
         Deck d1 = new Deck();
         Rank.setKingHigh();
@@ -69,8 +67,6 @@ public final class DeckUtils {
     //Deals a card from a deck of 52
     public static Card dealCard(Deck deck, Hand hand){
         hand.addCard(deck.dealCard());
-        Card newest = hand.getCard(hand.getNumberOfCards() - 1);
-        // System.out.println("\nYOU GOT " + newest);
-        return newest;
+        return hand.getCard(hand.getNumberOfCards() - 1);
     }    
 }

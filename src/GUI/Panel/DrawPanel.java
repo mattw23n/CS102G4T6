@@ -17,6 +17,7 @@ import components.Card;
 import components.Deck;
 import components.Hand;
 import components.Player;
+import components.Rank;
 import utilities.DeckUtils;
 import utilities.PanelUtils;
 import utilities.Utils;
@@ -173,19 +174,19 @@ public class DrawPanel extends JPanel {
                                 gameState.getCurrPlayer().setWildCardCount(wildCardCount);
 
                                 // get queen extend lower by 2 but max 1
-                                if ("q".equals(Utils.getCardValue(dealtCard))) {
+                                if (Rank.QUEEN.getSymbol().equals(Utils.getCardValue(dealtCard))) {
                                     Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
                                     setLowerBoundLabel();
                                     setLowerBoundValueLabel();
                                 }
                                 // get king extend upper by 2 but max 10
-                                if ("k".equals(Utils.getCardValue(dealtCard))) {
+                                if (Rank.KING.getSymbol().equals(Utils.getCardValue(dealtCard))) {
                                     Utils.processWildCard(gameState.getCurrPlayer(), dealtCard);
                                     setUpperBoundLabel();
                                     setUpperBoundValueLabel();
                                 }
                                 // if jack swap cards
-                                if ("j".equals(Utils.getCardValue(dealtCard))) {
+                                if (Rank.JACK.getSymbol().equals(Utils.getCardValue(dealtCard))) {
                                     Card newDealtCard = DeckUtils.dealCard(boundDeck, currHand);
                                     newest = currHand.getCard(currHand.getNumberOfCards() - 1);
                                     currHand.removeCard(newest);

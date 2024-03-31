@@ -21,7 +21,7 @@ public final class Utils {
     //Get card value as string, ace is 1
     public static String getCardValue(Card card){
         String result = "";
-        if (card.getRank().getSymbol().equals("a")) {
+        if (Rank.ACE.getSymbol().equals(card.getRank().getSymbol())) {
             result += 1;
         } else {
             result += card.getRank().getSymbol();
@@ -32,12 +32,14 @@ public final class Utils {
     //Wild card check
     public static boolean isWildCard(Card card){
 
-        return "q".equals(getCardValue(card)) || "k".equals(getCardValue(card)) || "j".equals(getCardValue(card));
+        return Rank.QUEEN.getSymbol().equals(getCardValue(card)) 
+            || Rank.KING.getSymbol().equals(getCardValue(card)) 
+            || Rank.JACK.getSymbol().equals(getCardValue(card));
     }
 
     //Get card value as int, ace is 1
     public static int getCardValueInt(Card card){
-        if ("a".equals(getCardValue(card))) {
+        if (Rank.ACE.getSymbol().equals(getCardValue(card))) {
             return 1;
         } else {
             return Integer.parseInt(getCardValue(card));
@@ -97,24 +99,22 @@ public final class Utils {
     public static void processWildCard(Player p, Card card) {
         System.out.println(p.getPlayerID() + card.toString());
         // If queen, extend lower bound
-        if ("q".equals(getCardValue(card))) {
+        if (Rank.QUEEN.getSymbol().equals(getCardValue(card))) {
             int lower = p.getLower();
             lower -= 2;
             if (lower < 1) {
                 lower = 1;
             }
             p.setLower(lower);
-            // System.out.println(p.getLower());
 
         // If king, extend upper bound
-        } else if ("k".equals(getCardValue(card))) {
+        } else if (Rank.KING.getSymbol().equals(getCardValue(card))) {
             int upper = p.getUpper();
             upper += 2;
             if (upper > 10) {
                 upper = 10;
             }
             p.setUpper(upper);
-            // System.out.println(p.getUpper());
         }
     }
 
@@ -123,13 +123,12 @@ public final class Utils {
 
         // Swaps the selected bound card for a new bound card
         int swappedCard = getCardValueInt(swapped);
-        // System.out.println("Swapped Card:" + swappedCard );
+
         int upperBound = p.getUpper();
         int lowerBound = p.getLower();
-        // System.out.println("INT Upper: " + upperBound + " Lower: " + lowerBound);
+
         Card originalUpper = p.getOriginalUpper();
         Card originalLower = p.getOriginalLower();
-        // System.out.println("CARD Upper: " + originalUpper.toString() + " Lower: " + originalLower.toString());
         //Adjust upper and lower bound accordingly
         if(cardToSwap.isSameAs(originalUpper)){
             if(swappedCard < lowerBound){
@@ -159,86 +158,6 @@ public final class Utils {
                 p.setLower(swappedCard);
             }
         }
-        // System.out.println("---AFTER SWAPPING---");
-        // System.out.println("Swapped Card:" + swappedCard );
-        // System.out.println("INT Upper: " + upperBound + " Lower: " + lowerBound);
-        // System.out.println("CARD Upper: " + originalUpper.toString() + " Lower: " + originalLower.toString());
-        // System.out.println("---AFTER SWAPPING---");
-        // System.out.println("upper " + upperBound + " lower " + lowerBound);
     }
 
-    //Process wild cards and regular cards
-    public static void pointsProcessing(Player p, Deck allDeck, Deck rangeDeck){
-        Hand hand = p.getHand();
-        Card newest = hand.getCard(hand.getNumberOfCards() - 1);
-        hand.removeCard(newest);
-        Scanner scan = new Scanner(System.in);
-
-        //calculate points
-        boolean isNonWild = false;
-
-        do {
-            if(isWildCard(newest)){
-                // System.out.println(newest);
-                p.setWildCardCount(p.getWildcardCount() + 1);
-
-                //check if wildcard count >= 3
-                if (p.getWildcardCount() >= 3) { 
-                    int currPoints = p.getPoints(); 
-                    p.setPoints(currPoints - 1); 
-                }
-                
-                //if jack
-                if("j".equals(getCardValue(newest))){
-
-                    //get toSwap
-                    System.out.print("Choose range card to swap:");
-                    String input2 = scan.nextLine();
-                    Card cardToSwap = stringToCard(input2);
-
-                    //get swapped
-                    DeckUtils.dealCard(rangeDeck, hand);
-                    Card swapped = hand.getCard(hand.getNumberOfCards() - 1);
-                    hand.removeCard(swapped);
-
-                    //swap cards
-                    processJack(p, cardToSwap, swapped);
-                    
-                }else{
-                    processWildCard(p, newest);
-                    
-                }
-                
-                //remove the last card from the player's deck
-                // hand.removeCard(newest);
-                DeckUtils.dealCard(allDeck, hand);
-
-            //not a wildcard
-            }else{
-                hand.removeCard(newest);
-                int updatedPoints = calculatePoints(p, newest);
-                p.setPoints(updatedPoints);
-                
-                isNonWild = true;
-
-                break;
-            }
-
-            newest = hand.getCard(hand.getNumberOfCards() - 1);
-            hand.removeCard(newest);
-            
-        } while (isWildCard(newest));
-
-        if(!isNonWild){
-            System.out.println("upper" + p.getUpper() + "lower" + p.getLower());
-
-            int updatedPoints = calculatePoints(p, newest);
-            p.setPoints(updatedPoints);
-            
-            //remove the last card from the player's deck
-            // hand.removeCard(newest);
-        }
-    }
-
-    
 }
