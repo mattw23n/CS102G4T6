@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 
 import components.Card;
 import components.Player;
@@ -33,6 +34,7 @@ public class TurnPanel extends JPanel {
     private JPanel selectedCardsPanel;
     private ArrayList<Card> selectedCards;
     private JLabel descriptionLabel;
+    private JLabel betLabel;
 
     public TurnPanel(GameState gameState) {
         this.gameState = gameState;
@@ -86,24 +88,17 @@ public class TurnPanel extends JPanel {
 
         System.out.println("selected = " + selectedCards.toString());
 
-        // draw card from deck and add to hand
-        // Hand playerHand = currPlayer.getHand();
-        // Deck.dealCard(allDeck, hand);
-        //     dealCard(allDeck, hand);
-        //     Card newest = hand.getCard(hand.getNumberOfCards() - 1);
-        //     System.out.println("\nYOU GOT " + newest);
-
-
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 3;
         selectedCardsPanel.setVisible(true);
         contentPanel.add(selectedCardsPanel, GridConstraints);
 
         // Betting label
-        JLabel betLabel = new JLabel("Make your bet");
-        betLabel.setFont(new Font("Segoe UI", Font.PLAIN, 30));
+        betLabel = new JLabel(" ");
+        betLabel.setFont(new Font("Segoe UI", Font.PLAIN, 24));
         betLabel.setBackground(background);
         betLabel.setForeground(textColor);
+        betLabel.setHorizontalAlignment(SwingConstants.CENTER);
         GridConstraints.gridx = 0;
         GridConstraints.gridy = 4;
         contentPanel.add(betLabel, GridConstraints);
@@ -113,18 +108,12 @@ public class TurnPanel extends JPanel {
         betPanel.setBackground(background);
 
         // Betting field
-        // try {
-            // MaskFormatter mask = new MaskFormatter("#");
-            // mask.setPlaceholderCharacter('_');
-            // JFormattedTextField betField = new JFormattedTextField(mask);
         JTextField betField = new JTextField(5);
         betField.setFont(new Font("Segoe UI", Font.PLAIN, 16));
         betField.setBackground(Color.WHITE);
         betField.setBorder(null);
         betPanel.add(betField);
-        // } catch (ParseException e) {
-        //     e.printStackTrace();
-        // }
+
 
         // Place Bet button
         ImageIcon betIcon = new ImageIcon("images/bet.png");
@@ -137,7 +126,7 @@ public class TurnPanel extends JPanel {
         betButton.setActionCommand("bet");
 
         GridConstraints.gridx = 0;
-        GridConstraints.gridy = 5;
+        GridConstraints.gridy = 6;
         contentPanel.add(betPanel, GridConstraints);
 
         // add listener to bet button
@@ -152,6 +141,11 @@ public class TurnPanel extends JPanel {
                     } else {
                         try {
                             int bet = Integer.parseInt(input);
+                            if (bet <= 0){
+                                throw new NumberFormatException();
+                            } else if (bet >= gameState.getCurrPlayer().getPoints()){
+                                throw new NumberFormatException();
+                            }
                             gameState.getCurrPlayer().setBet(bet);
                             betButton.setEnabled(true);
                             betField.setText(null);
@@ -166,7 +160,8 @@ public class TurnPanel extends JPanel {
                                 gamePanel.switchToPanel("Draw");
                             } 
                         } catch (NumberFormatException e) {
-                            e.printStackTrace();
+                            // e.printStackTrace();
+                            JOptionPane.showMessageDialog(mainPanel, "Enter a valid bet", "Error", JOptionPane.ERROR_MESSAGE);
                         }
                     } 
                 } 
@@ -177,6 +172,10 @@ public class TurnPanel extends JPanel {
     }
     public void setDescriptionLabel(GameState gameState) {
         this.descriptionLabel.setText("Player " + gameState.getCurrPlayer().getPlayerID() + "'s Turn");
+    }
+    public void setBetLabel(GameState gameState){
+        Player currPlayer = gameState.getCurrPlayer();
+        this.betLabel.setText(String.format("<html>The minimum bet is 1 and the maximum bet is %d<div style='text-align: center;'>Enter your bet:</div></html>", currPlayer.getPoints() - 1));
     }
     public void setSelectedCardsPanel (GameState gameState){
         selectedCardsPanel.removeAll();
