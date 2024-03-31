@@ -1,0 +1,72 @@
+package GUI.Panel;
+/*
+ * Scoreboard.java
+ * 
+ * Scoreboard displays the current score tally among all players
+ * It is refreshed on each panel according to subsequent point changes.
+ * 
+ */
+
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.util.ArrayList;
+
+import javax.swing.JPanel;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+public class Scoreboard extends JPanel {
+
+    private final JTable scoreTable;
+    private final String[] playerNames = {"Player 1", "Player 2", "Player 3", "Player 4"};
+    private int[] playerScores;
+
+    public Scoreboard() {
+        // Default scores set to 5 for each player
+        playerScores = new int[]{5, 5, 5, 5};
+
+        // Create the table model with player names and initial scores
+        DefaultTableModel model = new DefaultTableModel(new Object[][]{
+                {playerNames[0], playerScores[0]},
+                {playerNames[1], playerScores[1]},
+                {playerNames[2], playerScores[2]},
+                {playerNames[3], playerScores[3]}
+        }, new String[]{"Player", "Score"});
+
+        // Create the table using the model
+        scoreTable = new JTable(model);
+        scoreTable.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        scoreTable.setRowHeight(26); // Set row height to 40 pixels
+        scoreTable.getColumnModel().getColumn(0).setPreferredWidth(150); // Set column 0 width to 200 pixels
+
+        scoreTable.setEnabled(false); // Disable editing table cells
+        setLayout(new FlowLayout(FlowLayout.RIGHT));
+
+        add(scoreTable);
+    }
+
+    public int getScore (int playerIndex){
+        return playerScores[playerIndex];
+    }
+
+    public void updateScore(int playerIndex, int newScore) {
+        playerScores[playerIndex-1] = newScore;
+        ((DefaultTableModel) scoreTable.getModel()).setValueAt(newScore, playerIndex-1, 1);
+    }
+
+    // public void refreshScoreboard() {
+    //     scoreBoard.updateScore(1, gameState.getPlayersList().get(0).getPoints());
+    //     scoreBoard.updateScore(2, gameState.getPlayersList().get(1).getPoints());
+    //     scoreBoard.updateScore(3, gameState.getPlayersList().get(2).getPoints());
+    //     scoreBoard.updateScore(4, gameState.getPlayersList().get(3).getPoints());
+    //     scoreBoard.repaint();
+    //     scoreBoard.revalidate();
+    // }
+    // public void printScoreboardToConsole() {
+    //     System.out.println("Scoreboard:");
+    //     for (int i = 0; i < playerNames.length; i++) {
+    //         System.out.println(playerNames[i] + ": " + playerScores[i]);
+    //     }
+    // }
+}

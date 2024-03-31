@@ -1,4 +1,11 @@
-package GUI;
+package GUI.Listener;
+/*
+ * MouseListener.java
+ * 
+ * MouseListener handles Mouse-related events
+ * 
+ */
+
 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;

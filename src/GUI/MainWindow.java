@@ -1,6 +1,15 @@
 package GUI;
+/*
+ * MainWindow.java
+ * 
+ * MainWindow displays the title, start button for the game
+ * 
+ */
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Image;
 
 import javax.swing.ImageIcon;
 // import javax.swing.JButton;
@@ -10,9 +19,9 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 public class MainWindow{
+    private final JFrame frame;
 
-    public static void showWindow() {
-
+    public MainWindow(){
         // Colours Used (Can change later)
         Color background = new Color(98, 171, 55);
         Color textColor = new Color(244, 250, 255);
@@ -61,6 +70,9 @@ public class MainWindow{
 
         // Set frame size and make it visible
         frame.setSize(800, 600); // Adjust size as needed
+    }
+    
+    public void showWindow() {
         frame.setVisible(true);
                 
     }

@@ -1,4 +1,12 @@
-package GUI;
+package GUI.Listener;
+/*
+ * NextListener.java
+ * 
+ * NextListener handles relative-next events
+ * 
+ */
+
+import GUI.Panel.GamePanel;
 
 public class NextListener implements MouseListener{
     @Override
