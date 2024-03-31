@@ -27,9 +27,12 @@ public final class DeckUtils {
         List s = Suit.VALUES;
 
         //adding cards to deck
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < r.size(); j++){
-                d1.addCard(new Card((Suit)s.get(i), (Rank)r.get(j), null));
+        for(Object s2 : s){
+            Suit tempSuit = (Suit) s2;
+            for(Object r2 : r){
+                Rank tempRank = (Rank) r2;
+                Card tempCard = new Card(tempSuit, tempRank, null);
+                d1.addCard(tempCard);
             }
         }
         
@@ -45,10 +48,12 @@ public final class DeckUtils {
         List r = Rank.VALUES;
         List s = Suit.VALUES;
 
-        //adding cards to deck
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < r.size(); j++){
-                d1.addCard(new Card((Suit)s.get(i), (Rank)r.get(j), null));
+        for(Object s2 : s){
+            Suit tempSuit = (Suit) s2;
+            for(Object r2 : r){
+                Rank tempRank = (Rank) r2;
+                Card tempCard = new Card(tempSuit, tempRank, null);
+                d1.addCard(tempCard);
             }
         }
         

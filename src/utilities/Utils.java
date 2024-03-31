@@ -47,10 +47,12 @@ public final class Utils {
         List s = Suit.VALUES;
 
         //adding cards to deck
-        for(int i = 0; i < 4; i++){
-            for(int j = 0; j < r.size(); j++){
-                Card temp = new Card((Suit)s.get(i), (Rank)r.get(j), null);
-                map.put(temp.toString(), temp);
+        for(Object s2 : s){
+            Suit tempSuit = (Suit) s2;
+            for(Object r2 : r){
+                Rank tempRank = (Rank) r2;
+                Card tempCard = new Card(tempSuit, tempRank, null);
+                map.put(tempCard.toString(), tempCard);
             }
         }
         
@@ -95,22 +97,24 @@ public final class Utils {
 
     //Set upper or lower based on wildcard
     public static void processWildCard(Player p, Card card) {
+        final int maxBound = 10;
+        final int minBound = 1;
 
-        // If queen, extend lower bound
+        // If queen, extend lower bound by 2
         if ("q".equals(getCardValue(card))) {
             int lower = p.getLower();
             lower -= 2;
-            if (lower < 1) {
-                lower = 1;
+            if (lower < minBound) {
+                lower = minBound;
             }
             p.setLower(lower);
 
-        // If king, extend upper bound
+        // If king, extend upper bound by 2
         } else if ("k".equals(getCardValue(card))) {
             int upper = p.getUpper();
             upper += 2;
-            if (upper > 10) {
-                upper = 10;
+            if (upper > maxBound) {
+                upper = maxBound;
             }
             p.setUpper(upper);
 

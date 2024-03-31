@@ -107,6 +107,10 @@ public class Application {
     }
 
     public static void main(String[] args) {
+        final int rounds = 3;
+        final int startingPoints = 5;
+        final int numOfCards = 6;
+
         //initializing deck of only range cards
         Deck rangeDeck = DeckUtils.initializeNumbers();
 
@@ -114,10 +118,10 @@ public class Application {
         Deck allDeck = DeckUtils.initializeWhole();
 
         // //initialize players
-        Player p1 = new Player(1, 5, new PlayerHand());
-        Player p2 = new Player(2, 5, new PlayerHand());
-        Player p3 = new Player(3, 5, new PlayerHand());
-        Player p4 = new Player(4, 5, new PlayerHand());
+        Player p1 = new Player(1, startingPoints, new PlayerHand());
+        Player p2 = new Player(2, startingPoints, new PlayerHand());
+        Player p3 = new Player(3, startingPoints, new PlayerHand());
+        Player p4 = new Player(4, startingPoints, new PlayerHand());
 
         ArrayList<Player> players = new ArrayList<>();
         players.add(p1);
@@ -127,11 +131,11 @@ public class Application {
 
         //initialize each players hand
         for(Player p : players){
-            DeckUtils.dealRange(rangeDeck, p.getHand(), 6);
+            DeckUtils.dealRange(rangeDeck, p.getHand(), numOfCards);
         }
         
         //run game 3 times
-        for(int i = 0 ; i < 3; i++){
+        for(int i = 0 ; i < rounds; i++){
             boolean endEarly = doRound(players, rangeDeck, allDeck, i + 1);
 
             //end early check
